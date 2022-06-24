@@ -6,14 +6,77 @@ import { Pokemon } from '../../models/pokemon.model';
   styleUrls: ['./pokemon-list.component.scss']
 })
 export class PokemonListComponent implements OnInit {
-  pokemon: Pokemon[] = [
+  pokemonList: Pokemon[] = [
     {
-      id: 132,
+      id: 1,
       sprites: {
         front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
       },
       name: 'Ditto'
-    }
+    },
+    {
+      id: 2,
+      sprites: {
+        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+      },
+      name: 'Ditto'
+    },
+    {
+      id: 3,
+      sprites: {
+        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+      },
+      name: 'Ditto'
+    },
+    {
+      id: 4,
+      sprites: {
+        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+      },
+      name: 'Ditto'
+    },
+    {
+      id: 5,
+      sprites: {
+        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+      },
+      name: 'Ditto'
+    },
+    {
+      id: 6,
+      sprites: {
+        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+      },
+      name: 'Ditto'
+    },
+    {
+      id: 7,
+      sprites: {
+        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+      },
+      name: 'Ditto'
+    },
+    {
+      id: 8,
+      sprites: {
+        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+      },
+      name: 'Ditto'
+    },
+    {
+      id: 9,
+      sprites: {
+        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+      },
+      name: 'Ditto'
+    },
+    {
+      id: 10,
+      sprites: {
+        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+      },
+      name: 'Ditto'
+    },
   ];
 
   constructor() { }

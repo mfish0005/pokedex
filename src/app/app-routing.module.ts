@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
+import { BookComponent } from './components/book/book.component';
+import { PokemonListComponent } from './components/pokemon-list/pokemon-list.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: BookComponent },
+  { path: 'pokemon-list', component: PokemonListComponent },
   { path: '**', redirectTo: '' }
 ];
 
