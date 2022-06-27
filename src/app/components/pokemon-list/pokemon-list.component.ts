@@ -8,56 +8,7 @@ import { Pokemon } from '../../models/pokemon.model';
 export class PokemonListComponent implements OnInit {
   pokemonList: Pokemon[] = [
     {
-      id: 1,
-      sprites: {
-        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
-      },
-      name: 'Ditto'
-    },
-    {
-      id: 2,
-      sprites: {
-        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
-      },
-      name: 'Ditto'
-    },
-    {
-      id: 3,
-      sprites: {
-        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
-      },
-      name: 'Ditto'
-    },
-    {
-      id: 4,
-      sprites: {
-        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
-      },
-      name: 'Ditto'
-    },
-    {
-      id: 5,
-      sprites: {
-        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
-      },
-      name: 'Ditto'
-    },
-    {
-      id: 6,
-      sprites: {
-        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
-      },
-      name: 'Ditto'
-    },
-    {
-      id: 7,
-      sprites: {
-        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
-      },
-      name: 'Ditto'
-    },
-    {
-      id: 8,
+      id: 10,
       sprites: {
         front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
       },
@@ -71,17 +22,87 @@ export class PokemonListComponent implements OnInit {
       name: 'Ditto'
     },
     {
-      id: 10,
+      id: 8,
       sprites: {
         front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
       },
       name: 'Ditto'
     },
+    {
+      id: 7,
+      sprites: {
+        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+      },
+      name: 'Ditto'
+    },
+    {
+      id: 6,
+      sprites: {
+        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+      },
+      name: 'Ditto'
+    },
+    {
+      id: 5,
+      sprites: {
+        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+      },
+      name: 'Ditto'
+    },
+    {
+      id: 4,
+      sprites: {
+        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+      },
+      name: 'Ditto'
+    },
+    {
+      id: 3,
+      sprites: {
+        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+      },
+      name: 'Ditto'
+    },
+    {
+      id: 2,
+      sprites: {
+        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+      },
+      name: 'Ditto'
+    },
+    {
+      id: 1,
+      sprites: {
+        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+      },
+      name: 'Ditto'
+    },
+
+    {
+      id: 12,
+      sprites: {
+        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+      },
+      name: 'Ditto'
+    },
+
+    {
+      id: 11,
+      sprites: {
+        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+      },
+      name: 'Ditto'
+    },
+
+    
   ];
 
   constructor() { }
 
   ngOnInit(): void {
+    
+    this.pokemonList.sort((a, b) => a.id - b.id);
+    console.log(this.pokemonList)
   }
 
 }

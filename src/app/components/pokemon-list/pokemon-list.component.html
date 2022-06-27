@@ -1,7 +1,11 @@
-<p>This is the pokemon list component</p>
+<p>POKEDEX</p>
 
-<div *ngFor="let pokemon of pokemonList">
+<div class="column">
+
+<div *ngFor="let pokemon of pokemonList" class="row">
+    <h1>{{pokemon.name}}</h1>
     <img [src]="pokemon.sprites.front_default">
-    Pokedex #: {{pokemon.id}}
-    <h2>Pokemon Name: {{pokemon.name}}</h2>
+    <h2>Pokedex #: {{pokemon.id}}</h2>
+    <h3>invisible space! U won't see me!!</h3>
+</div>
 </div>
