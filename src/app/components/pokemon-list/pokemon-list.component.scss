@@ -1,12 +1,62 @@
 p {
     color: blueviolet;
-}
-
-pokemon.name {
-    color: purple;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-size:500%;
+    font-weight: bolder;
     
 }
 
-pokemon.sprites {
-    position: relative;
+div {
+    color: purple;
+    position: center;
+    
 }
+
+img {
+    border: 10px ridge #4b21ad;
+    position: sticky;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+}
+
+h1 {
+    line-height: 0;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-size:42px;
+    font-weight: bolder;
+    color: rgb(245, 17, 17);
+
+}
+
+h2 {
+    line-height: 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: large;
+    font-weight: bold;
+    color: rgb(245, 17, 17);
+    text-align: center;
+}
+
+h3 {
+    line-height: 5;
+    visibility: hidden;
+    text-align: center;
+}
+
+ .row {
+    float: left;
+  width: 30%;
+  padding: 5px;
+} 
+
+
+
+
+
+
+
+
