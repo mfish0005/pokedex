@@ -4,8 +4,10 @@
 
 <div *ngFor="let pokemon of pokemonList" class="row">
     <h1>{{pokemon.name}}</h1>
-    <img [src]="pokemon.sprites.front_default">
+    <img [src]="pokemon.sprites.front_default" [routerLink]="['/pokemon-detail'] "class="pokemonPic">
     <h2>Pokedex #: {{pokemon.id}}</h2>
     <h3>invisible space! U won't see me!!</h3>
 </div>
 </div>
+
+
