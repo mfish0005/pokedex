@@ -8,10 +8,16 @@ import { Pokemon } from '../../models/pokemon.model';
 })
 export class PokemonListComponent implements OnInit {
   pokemonList: Pokemon[] = [];
-
+  
   constructor(private pokemonService: PokemonService) { }
 
   ngOnInit(): void {    
-    this.pokemonList = this.pokemonService.getPokemon();    
+    this.pokemonList = this.pokemonService.getPokemonList();    
+  }
+
+  pokemonClicked(id: number) {    
+    this.pokemonService.setPokemonId(id);
   }
 }
+
+
