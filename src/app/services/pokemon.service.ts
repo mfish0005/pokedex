@@ -1,15 +1,25 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Pokemon } from '../models/pokemon.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PokemonService {
+export class PokemonService {    
+  pokemonId: number = 0;
 
   constructor(private http: HttpClient) { }
 
-  getPokemon(): Pokemon[] {
+  setPokemonId(id: number): void {
+    this.pokemonId = id;    
+  }
+
+  getPokemonId(): number {
+    return this.pokemonId;
+  }
+
+  getPokemonList(): Pokemon[] {
     // Create an array to hold the GET urls
     let pokemonUrls: string[] = [];
 
@@ -41,4 +51,15 @@ export class PokemonService {
     return pokemonList;
     // Return the array as an observable
   }
+
+  // Gets a single pokemon
+  // @parameter: id: The pokedex number of the pokemon you want to get
+  // @returns: An observable containing a Pokemon object
+  getPokemonById(id: number): Observable<Pokemon> {    
+    const url = 'https://pokeapi.co/api/v2/pokemon/' + id;
+
+    // Make a GET request using the url to get the pokemon
+    return this.http.get<Pokemon>(url);
+  }
 }
+
