@@ -20,7 +20,7 @@ export type IconName =
 @Component({
   selector: 'app-icon',
   imports: [NgSwitch, NgSwitchCase],
-  template: './icon.component.html',
+  templateUrl: './icon.component.html',
   styleUrl: './icon.component.scss'
 })
 export class IconComponent {

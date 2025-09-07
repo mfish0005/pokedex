@@ -1,5 +1,4 @@
 @import '../../../../styles/pokemon-theme.scss';
-@import '../../../../../projects/fish-ui/src/styles/fish-styles/all.scss';
 
 .pokemon-list-container {
   max-width: 1200px;
@@ -32,6 +31,19 @@
   opacity: 0.9;
 }
 
+.search-section {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  text-align: center;
+
+  fish-search {
+    max-width: 800px;
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+  }
+}
+
 .load-more-container {
   padding: 3rem 0 2rem;
   background: linear-gradient(135deg, rgba($white, 0.8) 0%, rgba($gray-lightest, 0.5) 100%);
@@ -44,16 +56,25 @@
   .pokemon-list-container {
     padding: 1rem 0.75rem;
   }
-  
+
+  .search-section {
+    padding: 0.5rem;
+    margin-bottom: 1.5rem;
+
+    fish-search {
+      max-width: 100%;
+    }
+  }
+
   .pokemon-header {
     padding: 1.5rem;
     margin-bottom: 2rem;
   }
-  
+
   .title {
     font-size: 1.75rem !important;
   }
-  
+
   .subtitle {
     font-size: 1rem !important;
   }

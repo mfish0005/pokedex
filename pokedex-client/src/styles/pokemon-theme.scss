@@ -37,10 +37,6 @@ $gray-dark: #616161;
 $gray-darker: #424242;
 $gray-darkest: #212121;
 
-// True black for Pokemon theme
-$black: #000000;
-$white: #ffffff;
-
 // Additional colors for device styling
 $device-dark: #2c2c2c;
 $device-darker: #1a1a1a;
@@ -68,7 +64,7 @@ $control-green-dark: #00aa00;
 $metal-dark: #666666;
 $metal-darker: #333333;
 
-// Typography - Pixel art font sizes
+// Typography
 $size-1: 3rem;    // Large titles
 $size-2: 2.5rem;  // Section titles
 $size-3: 2rem;    // Card titles
@@ -82,3 +78,6 @@ $weight-normal: 400;
 $weight-semibold: 600;
 $weight-bold: 700;
 $weight-light: 300;
+
+// Import last to override the defaults
+@import '../../projects/fish-ui/src/styles/fish-styles/all.scss';

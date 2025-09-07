@@ -1,13 +1,31 @@
-<div class="pokemon-list-container">  
+<div class="pokemon-list-container">
+  @if (!loading() && !error()) {
+    <div class="search-section">
+      <fish-search
+        placeholder="Search Pokémon by name..."
+        (search)="onSearch($event)"
+        (clear)="onSearchClear()">
+      </fish-search>
+    </div>
+  }
+
   @if (loading()) {
-    <app-loading-state 
+    <app-loading-state
       message="Loading Pokémon..."
       size="large"
       variant="primary">
     </app-loading-state>
   }
-  
-  @if (!loading() && !error() && pokemon().length > 0) {
+
+  @if (isSearching()) {
+    <app-loading-state
+      message="Searching Pokémon..."
+      size="medium"
+      variant="primary">
+    </app-loading-state>
+  }
+
+  @if (!loading() && !isSearching() && !error() && pokemon().length > 0) {
     <app-pokemon-grid
       [pokemon]="pokemon()"
       (pokemonSelect)="onPokemonSelect($event)">
