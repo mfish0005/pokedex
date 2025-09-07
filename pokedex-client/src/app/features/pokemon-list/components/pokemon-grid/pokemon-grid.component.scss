@@ -1,0 +1,30 @@
+@import '../../../../../styles/pokemon-theme.scss';
+@import '../../../../../../projects/fish-ui/src/styles/fish-styles/all.scss';
+
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+@media (max-width: 768px) {
+  .pokemon-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pokemon-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .pokemon-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}

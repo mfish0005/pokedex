@@ -1,0 +1,19 @@
+@import '../../../../../styles/pokemon-theme.scss';
+@import '../../../../../../projects/fish-ui/src/styles/fish-styles/all.scss';
+
+.info-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid $gray-lightest;
+}
+
+.info-label {
+  color: $gray-dark;
+}

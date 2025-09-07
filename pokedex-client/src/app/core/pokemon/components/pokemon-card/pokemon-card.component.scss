@@ -1,0 +1,62 @@
+@import '../../../../../styles/pokemon-theme.scss';
+@import '../../../../../../projects/fish-ui/src/styles/fish-styles/all.scss';
+
+.pokemon-card {
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border-radius: 0;
+  overflow: hidden;
+  background: $white;
+}
+
+.pokemon-card:hover {
+  transform: translateY(-4px) translateX(-2px);
+  box-shadow: 6px 6px 0px $black;
+}
+
+.pokemon-image {
+  width: 7rem;
+  height: 7rem;
+  object-fit: contain;
+  padding: 0.5rem;
+  background-size: 8px 8px;
+  background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+  border-radius: 0;  
+  margin: 1rem auto;
+  display: block;
+  transition: transform 0.2s ease;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.pokemon-card:hover .pokemon-image {
+  transform: scale(1.05);
+}
+
+.pokemon-name {
+  color: $text;
+  font-size: $size-6;
+  text-align: center;
+  margin: 0.5rem 0;
+  line-height: 1.4;
+}
+
+.type-badge {
+  margin: 0 0.125rem 0.25rem 0;
+  border-radius: 0;  
+  padding: 0.25rem 0.5rem;
+  font-size: $size-7;
+  font-weight: $weight-normal;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.pokemon-number {
+  text-align: right;
+  margin-bottom: 0.5rem;
+  color: $text;
+  font-weight: $weight-normal;
+  font-size: $size-7;
+  font-family: $family-primary;
+}

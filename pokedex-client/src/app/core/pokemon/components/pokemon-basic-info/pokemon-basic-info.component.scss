@@ -1,0 +1,73 @@
+@import '../../../../../styles/pokemon-theme.scss';
+@import '../../../../../../projects/fish-ui/src/styles/fish-styles/all.scss';
+
+.pokemon-basic-info {
+  text-align: center;
+  font-family: $family-primary;
+}
+
+.pokemon-number {
+  color: $gray-dark;
+  font-weight: $weight-semibold;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.pokemon-name {
+  color: $text;
+  font-weight: $weight-bold;
+  margin-bottom: 1.5rem;
+  text-transform: capitalize;
+}
+
+.pokemon-image-large {
+  width: 12.5rem;
+  height: 12.5rem;
+  object-fit: contain;
+  margin: 1rem auto;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  transition: transform 0.3s ease;
+}
+
+.pokemon-image-large:hover {
+  transform: scale(1.05);
+}
+
+.types-section {
+  margin-top: 1.5rem;
+}
+
+.types-label {
+  color: $gray-dark;
+  font-weight: $weight-semibold;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.75rem;
+}
+
+.type-badge {
+  margin: 0 0.5rem 0.5rem 0;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: $weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;  
+  transition: transform 0.2s ease;
+}
+
+.type-badge:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .pokemon-image-large {
+    width: 10rem;
+    height: 10rem;
+  }
+  
+  .pokemon-name {
+    font-size: 1.5rem;
+  }
+}

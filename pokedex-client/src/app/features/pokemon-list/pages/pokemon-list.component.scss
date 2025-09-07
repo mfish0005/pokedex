@@ -1,0 +1,60 @@
+@import '../../../../styles/pokemon-theme.scss';
+@import '../../../../../projects/fish-ui/src/styles/fish-styles/all.scss';
+
+.pokemon-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-family: $family-primary;
+}
+
+.pokemon-header {
+  margin-bottom: 3rem;
+  background: linear-gradient(135deg, rgba($white, 0.9) 0%, rgba($gray-lightest, 0.7) 100%);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba($primary, 0.1);
+}
+
+.title {
+  margin-bottom: 0.75rem;
+  background: linear-gradient(135deg, $primary 0%, $blue 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+}
+
+.subtitle {
+  color: $gray-dark;
+  font-weight: $weight-normal;
+  opacity: 0.9;
+}
+
+.load-more-container {
+  padding: 3rem 0 2rem;
+  background: linear-gradient(135deg, rgba($white, 0.8) 0%, rgba($gray-lightest, 0.5) 100%);
+  border-radius: 12px;
+  margin-top: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+  .pokemon-list-container {
+    padding: 1rem 0.75rem;
+  }
+  
+  .pokemon-header {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .title {
+    font-size: 1.75rem !important;
+  }
+  
+  .subtitle {
+    font-size: 1rem !important;
+  }
+}

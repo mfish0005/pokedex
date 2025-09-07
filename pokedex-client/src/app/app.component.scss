@@ -1,0 +1,170 @@
+@import '../styles/pokemon-theme.scss';
+@import '../../projects/fish-ui/src/styles/fish-styles/all';
+
+body {
+  margin: 0;
+  font-family: $family-primary;
+}
+
+.app-container {
+  min-height: 100vh;
+  background: $red; // Pokemon red background
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  display: flex;
+  flex-direction: column;
+}
+
+.pokedex-container {
+  flex: 1;
+  padding: 2rem;
+  background: $red; // Pokemon red background
+  background-attachment: fixed;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.pokedex-header {
+  .title {
+    color: $white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .subtitle {
+    color: rgba($white, 0.9);
+  }
+}
+
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pokemon-card {
+  position: relative;
+  background: $white;
+  border-radius: 0;
+  border: 3px solid $gray-darkest;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  box-shadow: 4px 4px 0px $black;
+  
+  &:hover {
+    transform: translateY(-4px) translateX(-2px);
+    box-shadow: 6px 6px 0px $black;
+  }
+}
+
+.pokemon-number {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: $yellow;
+  padding: 0.25rem 0.5rem;
+  border: 2px solid $gray-darkest;
+  font-size: $size-7;
+  font-family: $family-primary;
+  color: $gray-darkest;
+  box-shadow: 2px 2px 0px $black;
+}
+
+.pokemon-image-container {  
+  background-size: 8px 8px;
+  background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+  padding: 1rem;
+  margin: 0.5rem 0;  
+  margin: 0.5rem;
+}
+
+.pokemon-image {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  transition: transform 0.2s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.pokemon-name {
+  color: $text;
+  font-size: $size-6;
+  text-align: center;
+  margin: 0.5rem 0;
+  line-height: 1.4;
+}
+
+.pokemon-types {
+  display: flex;
+  gap: 0.25rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0 0.5rem 0.5rem;
+}
+
+.type-badge {
+  font-size: $size-7;
+  font-weight: $weight-normal;
+  padding: 0.25rem 0.5rem;
+  border: 2px solid $gray-darkest;
+  border-radius: 0;
+  box-shadow: 2px 2px 0px $black;
+  text-transform: uppercase;
+  
+  &:hover {
+    transform: translateY(-1px) translateX(-1px);
+    box-shadow: 3px 3px 0px $black;
+  }
+}
+
+.loading-container {
+  color: $white;
+}
+
+.error-container {
+  background: rgba($white, 0.9);
+  padding: 2rem;
+  border-radius: 1rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.load-more-container {
+  margin-top: 3rem;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .pokedex-container {
+    padding: 1rem;
+  }
+  
+  .pokemon-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+  
+  .pokemon-image {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pokemon-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .pokedex-header .title {
+    font-size: 2rem;
+  }
+}

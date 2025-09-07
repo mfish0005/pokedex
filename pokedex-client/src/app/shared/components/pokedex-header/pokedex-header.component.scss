@@ -1,0 +1,214 @@
+@import '../../../../styles/pokemon-theme.scss';
+@import '../../../../../projects/fish-ui/src/styles/fish-styles/all.scss';
+
+.pokedex-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+  background: $red;
+  position: relative;
+  overflow: hidden;
+}
+
+.pokedex-device {
+  position: relative;
+  background: linear-gradient(145deg, $device-dark 0%, $device-darker 50%, $device-darkest 100%);
+  border: 4px solid $gray-darkest;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1);
+  max-width: 400px;
+  width: 100%;
+  transform: perspective(1000px) rotateX(5deg);
+}
+
+.pokedex-screen {
+  background: linear-gradient(135deg, $screen-dark 0%, $screen-darker 100%);
+  border: 3px solid $gray-darkest;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  box-shadow:
+    inset 0 4px 8px rgba(0, 0, 0, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.screen-content {
+  text-align: center;
+  position: relative;
+}
+
+.pokedex-title {
+  font-family: $family-primary;
+  font-size: $size-2;
+  color: $yellow;
+  text-shadow:
+    2px 2px 0px $black,
+    0 0 10px rgba(255, 215, 0, 0.5);
+  margin: 0 0 1rem 0;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0;
+  text-rendering: optimizeLegibility;
+}
+
+.pokeball-container {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.pokeball {
+  width: 60px;
+  height: 60px;
+  position: relative;
+  animation: float 3s ease-in-out infinite;
+  background: linear-gradient(to bottom, $pokeball-red 0%, $pokeball-red-dark 50%, $pokeball-white 50%, $pokeball-white-light 100%);
+  border-radius: 50%;
+  border: 2px solid $black;
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.pokeball::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: $black;
+  z-index: 2;
+}
+
+.pokeball::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, $white 0%, $gray-light 100%);
+  border: 2px solid $black;
+  border-radius: 50%;
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 3;
+}
+
+.pokedex-subtitle {
+  font-family: $family-primary;
+  font-size: $size-7;
+  color: $green-light;
+  margin: 0;
+  text-shadow: 1px 1px 0px $black;
+  letter-spacing: 1px;
+}
+
+.pokedex-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.control-button {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid $black;
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.5);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.red-button {
+  background: linear-gradient(135deg, $control-red 0%, $control-red-dark 100%);
+  animation-delay: 0s;
+}
+
+.yellow-button {
+  background: linear-gradient(135deg, $control-yellow 0%, $control-yellow-dark 100%);
+  animation-delay: 0.5s;
+}
+
+.green-button {
+  background: linear-gradient(135deg, $control-green 0%, $control-green-dark 100%);
+  animation-delay: 1s;
+}
+
+.pokedex-antenna {
+  position: absolute;
+  top: -20px;
+  right: 20px;
+  width: 4px;
+  height: 30px;
+}
+
+.antenna-base {
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(135deg, $metal-dark 0%, $metal-darker 100%);
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.antenna-tip {
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(135deg, $control-yellow 0%, $control-yellow-dark 100%);
+  border-radius: 50%;
+  margin: 2px auto 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@media (max-width: 768px) {
+  .pokedex-header {
+    padding: 1rem 0.5rem;
+  }
+  
+  .pokedex-device {
+    padding: 1.5rem;
+    max-width: 300px;
+  }
+  
+  .pokedex-title {
+    font-size: $size-3;
+  }
+  
+  .pokeball {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .pokeball-button {
+    width: 14px;
+    height: 14px;
+  }
+}

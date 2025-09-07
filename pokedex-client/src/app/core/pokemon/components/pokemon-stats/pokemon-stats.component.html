@@ -1,0 +1,20 @@
+<div class="pokemon-stats">
+  <div class="stats-grid">
+    @for (stat of pokemon().stats; track stat.stat.name) {
+      <div class="stat-item">
+        <div class="stat-name is-size-6 has-text-weight-semibold has-text-gray-dark">
+          {{ formatStatName(stat.stat.name) }}
+        </div>
+        <div class="stat-value is-size-5 has-text-weight-bold has-text-primary">
+          {{ stat.base_stat }}
+        </div>
+        <div class="stat-bar">
+          <div 
+            class="stat-bar-fill" 
+            [style.width.%]="getStatPercentage(stat.base_stat)">
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

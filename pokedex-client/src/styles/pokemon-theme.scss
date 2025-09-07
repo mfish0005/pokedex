@@ -1,0 +1,84 @@
+// Pokemon Red as primary color
+$red: #e3350d;
+$red-light: #ff6b4a;
+$red-dark: #c02a0a;
+
+// Pokemon Blue as secondary/info
+$blue: #4a90e2;
+$blue-light: #7bb3f0;
+$blue-dark: #2e5aa8;
+
+// Pokemon Yellow for warning/success
+$yellow: #ffd700;
+$yellow-light: #ffed4e;
+$yellow-dark: #e6c200;
+
+// Pokemon Green for success
+$green: #4caf50;
+$green-light: #81c784;
+$green-dark: #388e3c;
+
+// Pokemon Purple for special types
+$purple: #9c27b0;
+$purple-light: #ba68c8;
+$purple-dark: #7b1fa2;
+
+// Pokemon Orange for warning
+$orange: #ff9800;
+$orange-light: #ffb74d;
+$orange-dark: #f57c00;
+
+// Gray scale for Pokemon theme
+$gray-lightest: #f5f5f5;
+$gray-lighter: #e0e0e0;
+$gray-light: #bdbdbd;
+$gray: #9e9e9e;
+$gray-dark: #616161;
+$gray-darker: #424242;
+$gray-darkest: #212121;
+
+// True black for Pokemon theme
+$black: #000000;
+$white: #ffffff;
+
+// Additional colors for device styling
+$device-dark: #2c2c2c;
+$device-darker: #1a1a1a;
+$device-darkest: #0f0f0f;
+
+// Screen colors
+$screen-dark: #1a3d1a;
+$screen-darker: #0d2d0d;
+
+// Pokeball colors
+$pokeball-red: #ff3333;
+$pokeball-red-dark: #cc0000;
+$pokeball-white: #ffffff;
+$pokeball-white-light: #f0f0f0;
+
+// Control button colors
+$control-red: #ff4444;
+$control-red-dark: #cc0000;
+$control-yellow: #ffdd44;
+$control-yellow-dark: #ffaa00;
+$control-green: #44ff44;
+$control-green-dark: #00aa00;
+
+// Device materials
+$metal-dark: #666666;
+$metal-darker: #333333;
+
+// Typography - Pixel art font sizes
+$size-1: 3rem;    // Large titles
+$size-2: 2.5rem;  // Section titles
+$size-3: 2rem;    // Card titles
+$size-4: 1.5rem;  // Pokemon names
+$size-5: 1.25rem; // Subheadings
+$size-6: 1rem;    // Body text
+$size-7: 0.75rem; // Small text
+
+// Font weights for pixel art
+$weight-normal: 400;
+$weight-semibold: 600;
+$weight-bold: 700;
+$weight-light: 300;

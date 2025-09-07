@@ -1,0 +1,8 @@
+<div class="pokemon-grid">
+  @for (poke of pokemon(); track poke.id) {
+    <app-pokemon-card 
+      [pokemon]="poke"
+      (cardClick)="onPokemonSelect($event)">
+    </app-pokemon-card>
+  }
+</div>

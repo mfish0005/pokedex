@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import './styles/pokemon-theme.scss';
+@import '../projects/fish-ui/src/styles/fish-styles/all.scss';
+
+// CSS Reset to remove default browser margins and padding
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  font-family: $family-primary;
+  box-sizing: border-box;
+}

@@ -1,0 +1,26 @@
+<div class="pokemon-list-container">  
+  @if (loading()) {
+    <app-loading-state 
+      message="Loading Pokémon..."
+      size="large"
+      variant="primary">
+    </app-loading-state>
+  }
+  
+  @if (!loading() && !error() && pokemon().length > 0) {
+    <app-pokemon-grid
+      [pokemon]="pokemon()"
+      (pokemonSelect)="onPokemonSelect($event)">
+    </app-pokemon-grid>
+    
+    @if (loadingMore()) {
+      <div class="loading-more-container has-text-centered has-margin-top-4">
+        <app-loading-state
+          message="Loading Pokémon..."
+          size="medium"
+          variant="primary">
+        </app-loading-state>
+      </div>
+    }
+  }
+</div>

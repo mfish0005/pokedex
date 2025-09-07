@@ -1,0 +1,63 @@
+<div class="pokemon-detail-container">
+
+  @if (pokemon()) {
+    <div class="pokemon-navigation">
+      @if (previousPokemon()) {
+        <button 
+          (click)="navigateToPrevious()"
+          class="nav-button prev-button"
+          [disabled]="loading()">
+          <span class="nav-number">#{{ previousPokemon()!.id.toString().padStart(4, '0') }}</span>
+          <span class="nav-name">{{ previousPokemon()!.name }}</span>
+        </button>
+      }
+      
+      @if (nextPokemon()) {
+        <button 
+          (click)="navigateToNext()"
+          class="nav-button next-button"
+          [disabled]="loading()">
+          <span class="nav-number">#{{ nextPokemon()!.id.toString().padStart(4, '0') }}</span>
+          <span class="nav-name">{{ nextPokemon()!.name }}</span>
+        </button>
+      }
+    </div>
+  }
+
+  @if (loading()) {
+    <app-loading-state 
+      message="Loading Pokémon details..."
+      size="large"
+      variant="primary">
+    </app-loading-state>
+  }
+
+  @if (!loading() && pokemon()) {
+    <div class="pokemon-detail-grid">      
+      <div class="detail-section">
+        <h2 class="section-title is-size-3">Basic Information</h2>
+        <app-pokemon-basic-info [pokemon]="pokemon()!"></app-pokemon-basic-info>
+      </div>
+
+      <div class="detail-section">
+        <h2 class="section-title is-size-3">Battle Stats</h2>
+        <app-pokemon-stats [pokemon]="pokemon()!"></app-pokemon-stats>
+      </div>
+
+      <div class="detail-section" style="grid-column: 1 / -1;">
+        <h2 class="section-title is-size-3">Physical Details</h2>
+        <app-pokemon-info [pokemon]="pokemon()!"></app-pokemon-info>
+      </div>
+    </div>
+  }
+  
+  <div class="explore-more-container">
+    <fish-button
+      variant="success"
+      (onClick)="goBack()"
+      class="explore-more-button">
+      <app-icon name="arrow-left" [size]="16"></app-icon>
+      Explore More Pokémon
+    </fish-button>
+  </div>
+</div>
