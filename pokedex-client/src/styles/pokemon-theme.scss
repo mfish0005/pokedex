@@ -1,34 +1,28 @@
-// Pokemon Red as primary color
+// Colors
 $red: #e3350d;
 $red-light: #ff6b4a;
 $red-dark: #c02a0a;
 
-// Pokemon Blue as secondary/info
 $blue: #4a90e2;
 $blue-light: #7bb3f0;
 $blue-dark: #2e5aa8;
 
-// Pokemon Yellow for warning/success
 $yellow: #ffd700;
 $yellow-light: #ffed4e;
 $yellow-dark: #e6c200;
 
-// Pokemon Green for success
 $green: #4caf50;
 $green-light: #81c784;
 $green-dark: #388e3c;
 
-// Pokemon Purple for special types
 $purple: #9c27b0;
 $purple-light: #ba68c8;
 $purple-dark: #7b1fa2;
 
-// Pokemon Orange for warning
 $orange: #ff9800;
 $orange-light: #ffb74d;
 $orange-dark: #f57c00;
 
-// Gray scale for Pokemon theme
 $gray-lightest: #f5f5f5;
 $gray-lighter: #e0e0e0;
 $gray-light: #bdbdbd;
@@ -37,22 +31,18 @@ $gray-dark: #616161;
 $gray-darker: #424242;
 $gray-darkest: #212121;
 
-// Additional colors for device styling
 $device-dark: #2c2c2c;
 $device-darker: #1a1a1a;
 $device-darkest: #0f0f0f;
 
-// Screen colors
 $screen-dark: #1a3d1a;
 $screen-darker: #0d2d0d;
 
-// Pokeball colors
 $pokeball-red: #ff3333;
 $pokeball-red-dark: #cc0000;
 $pokeball-white: #ffffff;
 $pokeball-white-light: #f0f0f0;
 
-// Control button colors
 $control-red: #ff4444;
 $control-red-dark: #cc0000;
 $control-yellow: #ffdd44;
@@ -60,9 +50,65 @@ $control-yellow-dark: #ffaa00;
 $control-green: #44ff44;
 $control-green-dark: #00aa00;
 
-// Device materials
 $metal-dark: #666666;
 $metal-darker: #333333;
+
+
+$colorMap: (
+  "white": ($white),
+  "black": ($black),
+  "red": ($red),
+  "blue": ($blue),
+  "yellow": ($yellow),
+  "green": ($green),
+  "purple": ($purple),
+  "orange": ($orange),
+  "gray": ($gray),
+  "device-dark": ($device-dark),
+  "screen-dark": ($screen-dark),
+  "pokeball-red": ($pokeball-red),
+  "pokeball-white": ($pokeball-white),
+  "control-red": ($control-red),
+  "control-yellow": ($control-yellow),
+  "control-green": ($control-green),
+  "metal-dark": ($metal-dark),
+  "primary": ($primary),
+  "secondary": ($secondary),
+  "success": ($success),
+  "warning": ($warning),
+  "danger": ($danger),
+  "info": ($info)
+);
+
+$shadeMap: (
+  "red-light": $red-light,
+  "red-dark": $red-dark,
+  "blue-light": $blue-light,
+  "blue-dark": $blue-dark,
+  "yellow-light": $yellow-light,
+  "yellow-dark": $yellow-dark,
+  "green-light": $green-light,
+  "green-dark": $green-dark,
+  "purple-light": $purple-light,
+  "purple-dark": $purple-dark,
+  "orange-light": $orange-light,
+  "orange-dark": $orange-dark,
+  "gray-lightest": $gray-lightest,
+  "gray-lighter": $gray-lighter,
+  "gray-light": $gray-light,
+  "gray-dark": $gray-dark,
+  "gray-darker": $gray-darker,
+  "gray-darkest": $gray-darkest,
+  "device-darker": $device-darker,
+  "device-darkest": $device-darkest,
+  "screen-darker": $screen-darker,
+  "pokeball-red-dark": $pokeball-red-dark,
+  "pokeball-white-light": $pokeball-white-light,
+  "control-red-dark": $control-red-dark,
+  "control-yellow-dark": $control-yellow-dark,
+  "control-green-dark": $control-green-dark,
+  "metal-darker": $metal-darker
+);
 
 // Typography
 $size-1: 3rem;    // Large titles
@@ -73,11 +119,10 @@ $size-5: 1.25rem; // Subheadings
 $size-6: 1rem;    // Body text
 $size-7: 0.75rem; // Small text
 
-// Font weights for pixel art
 $weight-normal: 400;
 $weight-semibold: 600;
 $weight-bold: 700;
 $weight-light: 300;
 
-// Import last to override the defaults
+// Import library last to override the defaults
 @import '../../projects/fish-ui/src/styles/fish-styles/all.scss';

@@ -7,6 +7,12 @@
     "paths": {
       "fish-ui": [
         "./dist/fish-ui"
+      ],
+      "@fish-ui/*": [
+        "./projects/fish-ui/src/lib/*"
+      ],
+      "@fish-ui/components": [
+        "./projects/fish-ui/src/public-api"
       ]
     },
     "noImplicitOverride": true,
@@ -40,6 +46,9 @@
     },
     {
       "path": "./projects/fish-ui/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/aquarium/tsconfig.app.json"
     }
   ]
 }
