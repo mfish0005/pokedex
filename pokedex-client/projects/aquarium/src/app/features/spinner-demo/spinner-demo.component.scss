@@ -11,13 +11,13 @@
   h1 {
     font-size: 2.5rem;
     margin: 0 0 1rem 0;
-    color: $gray-800;
+    color: $gray-darkest;
     font-weight: 300;
   }
 
   p {
     font-size: 1.125rem;
-    color: $gray-600;
+    color: $gray-darker;
     margin: 0;
     line-height: 1.6;
   }
@@ -29,12 +29,12 @@
   h2 {
     font-size: 1.75rem;
     margin: 0 0 0.75rem 0;
-    color: $gray-800;
+    color: $gray-darkest;
     font-weight: 400;
   }
 
   > p {
-    color: $gray-600;
+    color: $gray-darker;
     margin: 0 0 2rem 0;
     line-height: 1.6;
   }
@@ -57,7 +57,7 @@
   gap: 1rem;
   padding: 2rem;
   background: $white;
-  border: 1px solid $gray-200;
+  border: 1px solid $gray-light;
   border-radius: 12px;
   transition: box-shadow 0.2s ease;
 
@@ -74,19 +74,19 @@
   }
 
   code {
-    background: $gray-100;
+    background: $gray-lighter;
     padding: 0.5rem 0.75rem;
     border-radius: 6px;
     font-size: 0.875rem;
-    color: $gray-700;
-    font-family: $family-monospace;
+    color: $gray-darker;
+    font-family: $family-secondary;
     text-align: center;
     margin-top: auto;
   }
 }
 
 .dark-bg {
-  background: $gray-800;
+  background: $gray-darkest;
   padding: 2rem;
   border-radius: 8px;
   display: flex;
@@ -118,7 +118,7 @@
 
   p {
     margin: 1rem 0 0 0;
-    color: $gray-600;
+    color: $gray-darker;
     font-size: 0.875rem;
   }
 }
@@ -127,7 +127,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  color: $gray-700;
+  color: $gray-darker;
 
   span {
     font-size: 0.875rem;
@@ -138,15 +138,15 @@
   width: 100%;
 
   .card-placeholder {
-    border: 1px solid $gray-200;
+    border: 1px solid $gray-light;
     border-radius: 8px;
     padding: 2rem;
     text-align: center;
-    background: $gray-50;
+    background: $gray-lightest;
 
     .placeholder-text {
       margin-top: 1rem;
-      color: $gray-500;
+      color: $gray;
       font-size: 0.875rem;
     }
   }
@@ -154,7 +154,7 @@
 
 .full-page-demo {
   position: relative;
-  border: 1px solid $gray-200;
+  border: 1px solid $gray-light;
   border-radius: 12px;
   overflow: hidden;
   height: 300px;
@@ -189,11 +189,11 @@
 
     h3 {
       margin: 0 0 1rem 0;
-      color: $gray-800;
+      color: $gray-darkest;
     }
 
     > p {
-      color: $gray-600;
+      color: $gray-darker;
       margin: 0 0 1.5rem 0;
       font-size: 0.875rem;
     }
@@ -205,7 +205,7 @@
 
       .block {
         height: 60px;
-        background: $gray-100;
+        background: $gray-lighter;
         border-radius: 4px;
       }
     }
@@ -217,23 +217,23 @@
 
   h3 {
     margin: 0 0 0.75rem 0;
-    color: $gray-800;
+    color: $gray-darkest;
     font-size: 1.125rem;
     font-weight: 500;
   }
 
   pre {
-    background: $gray-100;
-    border: 1px solid $gray-200;
+    background: $gray-lighter;
+    border: 1px solid $gray-light;
     border-radius: 8px;
     padding: 1.5rem;
     margin: 0;
     overflow-x: auto;
 
     code {
-      font-family: $family-monospace;
+      font-family: $family-secondary;
       font-size: 0.875rem;
-      color: $gray-800;
+      color: $gray-darkest;
       line-height: 1.5;
     }
   }
@@ -241,7 +241,7 @@
 
 .properties-table {
   background: $white;
-  border: 1px solid $gray-200;
+  border: 1px solid $gray-light;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -251,38 +251,38 @@
   grid-template-columns: 1fr 1fr 1fr 2fr;
   gap: 1rem;
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid $gray-200;
+  border-bottom: 1px solid $gray-light;
 
   &:last-child {
     border-bottom: none;
   }
 
   &.header {
-    background: $gray-100;
+    background: $gray-lighter;
     font-weight: 600;
-    color: $gray-800;
+    color: $gray-darkest;
   }
 
   .property-name {
-    font-family: $family-monospace;
+    font-family: $family-secondary;
     font-size: 0.875rem;
     color: $deep-blue;
   }
 
   .property-type {
-    font-family: $family-monospace;
+    font-family: $family-secondary;
     font-size: 0.875rem;
     color: $sea-green;
   }
 
   .property-default {
-    font-family: $family-monospace;
+    font-family: $family-secondary;
     font-size: 0.875rem;
     color: $coral;
   }
 
   .property-description {
-    color: $gray-600;
+    color: $gray-darker;
     font-size: 0.875rem;
     line-height: 1.5;
   }

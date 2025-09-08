@@ -12,13 +12,13 @@
   h1 {
     font-size: 2.5rem;
     margin: 0 0 1rem 0;
-    color: $gray-800;
+    color: $gray-darkest;
     font-weight: 300;
   }
   
   p {
     font-size: 1.125rem;
-    color: $gray-600;
+    color: $gray-darker;
     margin: 0;
     line-height: 1.6;
   }
@@ -30,12 +30,12 @@
   h2 {
     font-size: 1.75rem;
     margin: 0 0 0.75rem 0;
-    color: $gray-800;
+    color: $gray-darkest;
     font-weight: 400;
   }
   
   > p {
-    color: $gray-600;
+    color: $gray-darker;
     margin: 0 0 2rem 0;
     line-height: 1.6;
   }
@@ -65,22 +65,22 @@
   }
   
   code {
-    background: $gray-100;
+    background: $gray-lighter;
     padding: 0.5rem 0.75rem;
     border-radius: 6px;
     font-size: 0.875rem;
-    color: $gray-700;
-    font-family: $family-monospace;
+    color: $gray-darker;
+    font-family: $family-secondary;
     text-align: center;
   }
 }
 
 .padding-demo {
-  background: $gray-100;
+  background: $gray-lighter;
   border-radius: 4px;
   text-align: center;
   font-size: 0.875rem;
-  color: $gray-700;
+  color: $gray-darker;
   min-height: 60px;
   display: flex;
   align-items: center;
@@ -95,14 +95,14 @@
   
   h3 {
     margin: 0;
-    color: $gray-800;
+    color: $gray-darkest;
   }
   
   .avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: $gray-200;
+    background: $gray-light;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -133,11 +133,11 @@
     }
     
     &.secondary {
-      background: $gray-100;
-      color: $gray-700;
+      background: $gray-lighter;
+      color: $gray-darker;
       
       &:hover {
-        background: $gray-200;
+        background: $gray-light;
       }
     }
   }
@@ -155,7 +155,7 @@
   
   .stat-label {
     font-size: 0.875rem;
-    color: $gray-600;
+    color: $gray-darker;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
@@ -163,12 +163,12 @@
 
 .image-placeholder {
   height: 120px;
-  background: $gray-100;
+  background: $gray-lighter;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
-  color: $gray-400;
+  color: $gray-dark;
 }
 
 .card-content {
@@ -176,13 +176,13 @@
   
   h4 {
     margin: 0 0 0.5rem 0;
-    color: $gray-800;
+    color: $gray-darkest;
     font-size: 1.125rem;
   }
   
   p {
     margin: 0;
-    color: $gray-600;
+    color: $gray-darker;
     font-size: 0.875rem;
     line-height: 1.5;
   }
@@ -193,23 +193,23 @@
   
   h3 {
     margin: 0 0 0.75rem 0;
-    color: $gray-800;
+    color: $gray-darkest;
     font-size: 1.125rem;
     font-weight: 500;
   }
   
   pre {
-    background: $gray-100;
-    border: 1px solid $gray-200;
+    background: $gray-lighter;
+    border: 1px solid $gray-light;
     border-radius: 8px;
     padding: 1.5rem;
     margin: 0;
     overflow-x: auto;
     
     code {
-      font-family: $family-monospace;
+      font-family: $family-secondary;
       font-size: 0.875rem;
-      color: $gray-800;
+      color: $gray-darkest;
       line-height: 1.5;
     }
   }
@@ -217,7 +217,7 @@
 
 .properties-table {
   background: $white;
-  border: 1px solid $gray-200;
+  border: 1px solid $gray-light;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -227,38 +227,38 @@
   grid-template-columns: 1fr 1fr 1fr 2fr;
   gap: 1rem;
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid $gray-200;
+  border-bottom: 1px solid $gray-light;
   
   &:last-child {
     border-bottom: none;
   }
   
   &.header {
-    background: $gray-100;
+    background: $gray-lighter;
     font-weight: 600;
-    color: $gray-800;
+    color: $gray-darkest;
   }
   
   .property-name {
-    font-family: $family-monospace;
+    font-family: $family-secondary;
     font-size: 0.875rem;
     color: $deep-blue;
   }
   
   .property-type {
-    font-family: $family-monospace;
+    font-family: $family-secondary;
     font-size: 0.875rem;
     color: $sea-green;
   }
   
   .property-default {
-    font-family: $family-monospace;
+    font-family: $family-secondary;
     font-size: 0.875rem;
     color: $coral;
   }
   
   .property-description {
-    color: $gray-600;
+    color: $gray-darker;
     font-size: 0.875rem;
     line-height: 1.5;
   }
@@ -311,6 +311,79 @@
         margin-right: 0.5rem;
         min-width: 80px;
       }
+    }
+  }
+}
+
+// Card demo specific styles
+.card-header {
+  border-bottom: 1px solid $gray-light;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  
+  h4 {
+    margin: 0;
+    color: $gray-darkest;
+  }
+}
+
+.card-content {
+  margin-bottom: 1rem;
+}
+
+.card-actions {
+  padding-top: 1rem;
+  border-top: 1px solid $gray-light;
+}
+
+.card-body {
+  padding: 1rem;
+  
+  h4 {
+    margin: 0 0 0.5rem 0;
+    color: $gray-darkest;
+  }
+  
+  p {
+    margin: 0;
+    color: $gray-darker;
+  }
+}
+
+.card-image {
+  height: 120px;
+  background: linear-gradient(135deg, $aqua-blue, $sea-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  .demo-image {
+    font-size: 3rem;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  }
+}
+
+.card-stats {
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
+  
+  .stat {
+    text-align: center;
+    flex: 1;
+    
+    .stat-number {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: $primary;
+      margin-bottom: 0.25rem;
+    }
+    
+    .stat-label {
+      font-size: 0.75rem;
+      color: $gray-darker;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
   }
 }

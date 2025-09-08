@@ -17,7 +17,6 @@ Example of derived variables include:
 ### Usage
 
 Set a color or background color using a literal color variable.
-**NOTE: It's best to use our helper classes instead(.has-text-primary, .has-text-danger, etc.).  See `src/docs/helpers/colors.md`**
 
 ```scss
 .warningLabel {
@@ -40,10 +39,7 @@ Set a color or background color using a literal color variable.
 | text      | gray-darker | #455a64 |
 
 ## Color & Shade Maps
-We have a $colors map and a $shades map.  These are used to build our color helper classes and developers need not worry about these.
-
-## Theme Maps
-These Sass maps hold our color themes that are used to allow switching themes.  Developers need not worry about these.
+We have a $colors map and a $shades map.  These are used to build our color helper classes.
 
 ## - Typography -
 
@@ -54,4 +50,4 @@ Derived font families.
 Our primary font family.  Use this variable in case we switch to a different font later.
 
 ### $sizes: $size-1, $size-2, $size-3, $size-4, $size-5, $size-6, $size-7, $size-8, $size-9;
-This defines our custom sizes so we can do .is-size-8 and .is-size-9 etc. Developers need not worry about these
+This defines our custom sizes and are used to generate helper classes like .is-size-8 and .is-size-9 etc.

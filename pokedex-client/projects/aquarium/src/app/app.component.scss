@@ -52,7 +52,7 @@
 .aquarium-nav {
   grid-area: nav;
   background: $white;
-  border-right: 1px solid $gray-200;
+  border-right: 1px solid $gray-light;
   padding: 2rem 0;
   overflow-y: auto;
   
@@ -66,21 +66,21 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      color: $gray-600;
+      color: $gray-darker;
     }
     
     a {
       display: block;
       padding: 0.75rem 1rem;
       margin: 0.25rem 0;
-      color: $gray-800;
+      color: $gray-darkest;
       text-decoration: none;
       border-radius: 8px;
       transition: all 0.2s ease;
       border-left: 3px solid transparent;
       
       &:hover {
-        background: $gray-100;
+        background: $gray-lighter;
         transform: translateX(2px);
       }
       
@@ -113,7 +113,7 @@
   
   .aquarium-nav {
     border-right: none;
-    border-bottom: 1px solid $gray-200;
+    border-bottom: 1px solid $gray-light;
     padding: 1rem 0;
     
     .nav-section {

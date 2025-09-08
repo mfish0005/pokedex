@@ -27,33 +27,11 @@
     - [default-text](./docs/helpers/typography.md#default-text)
 
   - [Display](./docs/helpers/display.md)
-    - [is-block](./docs/helpers/display.md#is-block)
-    - [is-flex](./docs/helpers/display.md#is-flex)
-    - [is-inline](./docs/helpers/display.md#is-inline)
-    - [is-inline-block](./docs/helpers/display.md#is-inline-block)
-    - [is-inline-flex](./docs/helpers/display.md#is-inline-flex)
-    - [is-hidden](./docs/helpers/display.md#is-hidden)
     - [is-invisible](./docs/helpers/display.md#is-invisible)
     - [is-visible](./docs/helpers/display.md#is-visible)
     - [is-sr-only](./docs/helpers/display.md#is-sr-only)
 
-  - [General](./docs/helpers/general.md)
-    - [Float](./docs/helpers/general.md#Float)
-    - [is-pulled-left](./docs/helpers/general.md#is-pulled-left)
-    - [is-pulled-right](./docs/helpers/general.md#is-pulled-right)
-    - [is-clearfix](./docs/helpers/general.md#is-clearfix)
-    - [is-100vh]('./docs/helpers/general.md#is-100vh)
-
-  - [Overflow](./docs/helpers/general.md#Overflow)
-    - [is-clipped](./docs/helpers/general.md#is-clipped)
-    - [is-not-clipped](./docs/helpers/general.md#is-not-clipped)
-
-  - [Misc](./docs/helpers/general.md#Misc)
-    - [is-radiusless](./docs/helpers/general.md#is-radiusless)
-    - [is-shadowless](./docs/helpers/general.md#is-shadowless)
-
-  - [Positioning](./docs/helpers/positioning.md)
-    - [is-relative](./docs/helpers/positioning.md#is-relative)
+  - [Positioning](./docs/helpers/positioning.md)    
     - [push-right](./docs/helpers/positioning.md#push-right)
     - [push-left](./docs/helpers/positioning.md#push-left)
     - [is-flex-centered](./docs/helpers/positioning.md#is-flex-centered)
@@ -63,12 +41,6 @@
     - [is-paddingless](./docs/helpers/spacing.md#is-paddingless)
     - [has-margin-{side}-{x}](./docs/helpers/spacing.md#has-margin-{side}-{x})
     - [has-padding-{side}-{x}](./docs/helpers/spacing.md#has-padding-{side}-{x})
-
-- [Mixins](./docs/mixins.md)
-  - [truncate-text-by-width](./docs/mixins.md#truncate-text-by-width)
-
-- [Placeholders](./docs/placeholders.md)
-  - [flex-center](./docs/placeholders.md#flex-center)
 
 - [Variables](./docs/variables)
   - [Initial Variables](./docs/variables/initial.md)
@@ -82,10 +54,3 @@
     - [Colors](./docs/variables/derived.md#colors)
     - [Typography](./docs/variables/derived.md#typography)
 
-- [Theming](./docs/theming.md)
-  - [Overview](./docs/theming.md#overview)
-  - [Basic Usage](./docs/theming.md#basic-usage)
-  - [Override Variables](./docs/theming.md#override-variables)
-  - [Custom Color Palettes](./docs/theming.md#custom-color-palettes)
-  - [Typography Customization](./docs/theming.md#typography-customization)
-  - [Dark Theme Example](./docs/theming.md#dark-theme-example)

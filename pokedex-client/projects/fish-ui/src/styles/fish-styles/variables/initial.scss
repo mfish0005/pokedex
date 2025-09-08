@@ -1,9 +1,9 @@
 /*
 Initial(aka literal) variables are declared here.  They are then derived from in the _derived.scss file.
-For example, we declare $green in here.  Then in the _derived.scss file we can do $primary = $green;
+This allows easy switching of themes later if desired
 */
 
-// Colors - All variables are configurable with !default
+// Colors
 $white: #fff !default;
 $black: #000 !default;
 
@@ -39,7 +39,7 @@ $purple-light: #ce93d8 !default;
 $purple: #7b1fa2 !default;
 $purple-dark: #4a0072 !default;
 
-// Typography - All configurable with !default
+// Typography
 $size-1: 2.5rem !default;
 $size-2: 2rem !default;
 $size-3: 1.75rem !default;
@@ -54,3 +54,4 @@ $weight-normal: 500 !default;
 $weight-light: 400 !default;
 
 $family-monospace: 'Press Start 2P', monospace !default;
+$family-sans-serif: 'Open Sans', 'Helvetica Neue', sans-serif !default;

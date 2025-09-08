@@ -28,7 +28,7 @@
 
   .hero-description {
     font-size: 1.25rem;
-    color: $gray-600;
+    color: $gray-darker;
     margin: 0 0 2rem 0;
     line-height: 1.6;
   }
@@ -49,7 +49,7 @@
   justify-content: center;
   align-items: center;
   height: 200px;
-  background: linear-gradient(135deg, var(--aqua-blue)10, var(--sea-green)10);
+  background: linear-gradient(135deg, $aqua-blue 10%, $sea-green 10%);
   border-radius: 20px;
   position: relative;
   overflow: hidden;
@@ -105,7 +105,7 @@
     text-align: center;
     font-size: 2.5rem;
     margin: 0 0 3rem 0;
-    color: $gray-800;
+    color: $gray-darkest;
     font-weight: 300;
   }
 }
@@ -136,14 +136,14 @@
   
   h3 {
     margin: 0 0 1rem 0;
-    color: $gray-800;
+    color: $gray-darkest;
     font-size: 1.25rem;
     font-weight: 500;
   }
   
   p {
     margin: 0;
-    color: $gray-600;
+    color: $gray-darker;
     line-height: 1.6;
   }
 }
@@ -155,7 +155,7 @@
     text-align: center;
     font-size: 2.5rem;
     margin: 0 0 3rem 0;
-    color: $gray-800;
+    color: $gray-darkest;
     font-weight: 300;
   }
 }
@@ -188,21 +188,21 @@
   .step-content {
     h3 {
       margin: 0 0 0.75rem 0;
-      color: $gray-800;
+      color: $gray-darkest;
       font-size: 1.125rem;
       font-weight: 500;
     }
     
     .code-block {
-      background: var(--gray-100);
-      border: 1px solid var(--gray-200);
+      background: $gray-lighter;
+      border: 1px solid $gray-light;
       border-radius: 8px;
       padding: 1rem;
       
       code {
         font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
         font-size: 0.875rem;
-        color: $gray-800;
+        color: $gray-darkest;
       }
     }
   }
@@ -214,13 +214,13 @@
   h2 {
     font-size: 2.5rem;
     margin: 0 0 1rem 0;
-    color: $gray-800;
+    color: $gray-darkest;
     font-weight: 300;
   }
   
   p {
     font-size: 1.125rem;
-    color: $gray-600;
+    color: $gray-darker;
     margin: 0 0 3rem 0;
   }
 }
@@ -240,14 +240,14 @@
   gap: 0.75rem;
   padding: 2rem 1rem;
   background: $white;
-  border: 2px solid var(--gray-200);
+  border: 2px solid $gray-light;
   border-radius: 12px;
   text-decoration: none;
-  color: var(--gray-800);
+  color: $gray-darkest;
   transition: all 0.2s ease;
   
   &:hover {
-    border-color: var(--aqua-blue);
+    border-color: $aqua-blue;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 188, 212, 0.15);
   }

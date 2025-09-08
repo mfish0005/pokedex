@@ -54,7 +54,8 @@ $shadeMap: (
 ) !default;
 
 // Typography - Configurable with !default
-$family-primary: $family-monospace;
+$family-primary: $family-monospace !default;
+$family-secondary: $family-monospace !default;
 
 // This defines our custom sizes so we can do .is-size-1 and .is-size-7 etc.
 $sizes: $size-1, $size-2, $size-3, $size-4, $size-5, $size-6, $size-7 !default;

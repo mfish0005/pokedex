@@ -1,16 +1,6 @@
 # Positioning Helpers
 Classes that help with positioning live in `/src/helpers/positioning.scss`
 
-## .is-relative
-Applies  `position: relative`  to the element.
-
-### Usage:
-```html
-<div class="is-relative">
-  This div is positioned relatively
-</div>
-```
-
 ## .push-right
 Pushes a **flex** element to the right.
 

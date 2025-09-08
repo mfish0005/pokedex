@@ -67,7 +67,7 @@
     font-weight: 600;
     color: $gray-darker;
 
-    span {
+    .code-label {
       background: $primary;
       color: white;
       padding: 0.25rem 0.5rem;
@@ -94,109 +94,66 @@
   }
 }
 
-.theme-overview {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5rem;
+.highlight-box {
+  background: linear-gradient(135deg, $primary, darken($primary, 10%));
+  color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: 500;
+  box-shadow: 0 4px 16px rgba($primary, 0.2);
 
-  .theme-item {
-    background: $white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    border: 1px solid $gray-light;
-    transition: all 0.2s ease;
-
-    &:hover {
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-      transform: translateY(-2px);
-    }
-
-    h4 {
-      margin: 0 0 0.5rem 0;
-      color: $gray-darkest;
-      font-size: 1.125rem;
-      font-weight: 500;
-    }
-
-    p {
-      margin: 0 0 1rem 0;
-      color: $gray-darker;
-      font-size: 0.875rem;
-      line-height: 1.4;
-    }
-
-    .theme-link {
-      color: $primary;
-      text-decoration: none;
-      font-size: 0.875rem;
-      font-weight: 500;
-      transition: color 0.2s ease;
-
-      &:hover {
-        color: darken($primary, 10%);
-        text-decoration: underline;
-      }
-    }
+  strong {
+    font-size: 1.25rem;
+    font-weight: 700;
   }
 }
 
-.components-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5rem;
+.variables-table {
+  margin: 1rem 0;
 
-  .component-item {
-    background: $white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    border: 1px solid $gray-light;
-    text-align: center;
-    transition: all 0.2s ease;
+  .variable-row {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid $gray-lighter;
 
-    &:hover {
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-      transform: translateY(-2px);
+    &:last-child {
+      border-bottom: none;
     }
 
-    .component-icon {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    h4 {
-      margin: 0 0 0.5rem 0;
-      color: $gray-darkest;
-      font-size: 1rem;
+    code {
+      background: $gray-lighter;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
       font-weight: 600;
+      color: $primary;
+      margin-right: 1rem;
+      flex-shrink: 0;
+      min-width: fit-content;
     }
 
-    p {
-      margin: 0 0 1rem 0;
+    span {
       color: $gray-darker;
       font-size: 0.875rem;
       line-height: 1.4;
     }
 
-    .component-link {
-      color: $primary;
-      text-decoration: none;
-      font-size: 0.875rem;
-      font-weight: 500;
-      transition: color 0.2s ease;
-
-      &:hover {
-        color: darken($primary, 10%);
-        text-decoration: underline;
-      }
+    &:hover {
+      background: $gray-lightest;
+      border-radius: 4px;
+      margin: 0 -0.5rem;
+      padding: 0.75rem 0.5rem;
     }
   }
 }
 
 .next-steps {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
   margin-top: 1.5rem;
 
@@ -259,22 +216,90 @@
     font-size: 1.5rem;
   }
 
-  .theme-overview,
-  .components-grid,
-  .next-steps {
-    grid-template-columns: 1fr;
+  .variables-table .variable-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+
+    code {
+      margin-right: 0;
+      margin-bottom: 0.25rem;
+    }
   }
 
   .code-block pre {
     padding: 1rem;
     font-size: 0.8rem;
   }
+
+  .highlight-box {
+    padding: 1rem;
+    font-size: 1rem;
+
+    strong {
+      font-size: 1.125rem;
+    }
+  }
+
+  .next-steps {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 480px) {
-  .theme-overview .theme-item,
-  .components-grid .component-item,
+  .code-block .code-header {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .code-block pre {
+    padding: 0.75rem;
+  }
+
   .next-steps .step {
     padding: 1rem;
+  }
+}
+
+.demo-section {
+  margin-bottom: 2rem;
+
+  h4 {
+    margin: 0 0 1rem 0;
+    color: $gray-darkest;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  .demo-examples {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    p, h1, h2, h3, small {
+      margin: 0;
+    }
+
+    h1, h2, h3 {
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+.demo-box {
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  border: 1px solid $gray-light;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+  .demo-section .demo-examples {
+    gap: 0.5rem;
+  }
+
+  .demo-box {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
   }
 }

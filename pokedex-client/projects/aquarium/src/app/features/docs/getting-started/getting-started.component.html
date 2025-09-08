@@ -5,25 +5,6 @@
     </header>
   
     <section class="docs-section">
-      <h2>📦 Installation</h2>
-      <p>Install Fish UI using npm or yarn:</p>
-  
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-label">npm</span>
-        </div>
-        <pre><code>npm install fish-ui</code></pre>
-      </div>
-  
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-label">yarn</span>
-        </div>
-        <pre><code>yarn add fish-ui</code></pre>
-      </div>
-    </section>
-  
-    <section class="docs-section">
       <h2>⚙️ Setup</h2>
       <p>After installation, you need to configure Fish UI in your Angular application.</p>
   
@@ -37,46 +18,18 @@
         <pre><code>@import '~fish-ui/styles/fish-styles/all.scss';</code></pre>
       </div>
   
-      <h3>2. Configure Angular Module</h3>
-      <p>Import Fish UI components in your app module:</p>
+      <h3>2. Import Components</h3>
+      <p>Fish UI provides standalone components that can be imported directly where needed. This approach works for both module-based and standalone Angular applications:</p>
   
       <div class="code-block">
         <div class="code-header">
-          <span class="code-label">src/app/app.module.ts</span>
-        </div>
-        <pre><code>import {{ '{' }} BrowserModule {{ '}' }} from '@angular/platform-browser';
-  import {{ '{' }} NgModule {{ '}' }} from '@angular/core';
-  import {{ '{' }} AppComponent {{ '}' }} from './app.component';
-  
-  // Import Fish UI
-  import {{ '{' }} FishUiModule {{ '}' }} from 'fish-ui';
-  
-  @NgModule({{ '{' }}
-    declarations: [
-      AppComponent
-    ],
-    imports: [
-      BrowserModule,
-      FishUiModule  // Add Fish UI module
-    ],
-    providers: [],
-    bootstrap: [AppComponent]
-  {{ '}' }})
-  export class AppModule {{ '{' }} {{ '}' }}</code></pre>
-      </div>
-  
-      <h3>3. Standalone Components (Angular 14+)</h3>
-      <p>For standalone components, import Fish UI components directly:</p>
-  
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-label">src/app/app.component.ts</span>
+          <span class="code-label">Standalone Component Example</span>
         </div>
         <pre><code>import {{ '{' }} Component {{ '}' }} from '@angular/core';
   import {{ '{' }} CommonModule {{ '}' }} from '@angular/common';
   import {{ '{' }} RouterOutlet {{ '}' }} from '@angular/router';
   
-  // Import Fish UI components
+  // Import Fish UI components individually
   import {{ '{' }} ButtonComponent, CardComponent {{ '}' }} from 'fish-ui';
   
   @Component({{ '{' }}
@@ -85,7 +38,7 @@
     imports: [
       CommonModule,
       RouterOutlet,
-      ButtonComponent,  // Import individual components
+      ButtonComponent,  // Add components to imports
       CardComponent
     ],
     templateUrl: './app.component.html',
@@ -94,6 +47,32 @@
   export class AppComponent {{ '{' }}
     title = 'my-app';
   {{ '}' }}</code></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">Module-based Example</span>
+        </div>
+        <pre><code>import {{ '{' }} NgModule {{ '}' }} from '@angular/core';
+  import {{ '{' }} BrowserModule {{ '}' }} from '@angular/platform-browser';
+  import {{ '{' }} AppComponent {{ '}' }} from './app.component';
+  
+  // Import Fish UI components individually
+  import {{ '{' }} ButtonComponent, CardComponent {{ '}' }} from 'fish-ui';
+  
+  @NgModule({{ '{' }}
+    declarations: [
+      AppComponent
+    ],
+    imports: [
+      BrowserModule,
+      ButtonComponent,  // Add components to imports
+      CardComponent
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
+  {{ '}' }})
+  export class AppModule {{ '{' }} {{ '}' }}</code></pre>
       </div>
     </section>
   
