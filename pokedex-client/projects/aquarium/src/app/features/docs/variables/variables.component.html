@@ -9,7 +9,7 @@
 
     <div class="concept-grid">
       <div class="concept-item">
-        <div class="concept-icon">🎨</div>
+        <div class="concept-icon"><fish-icon name="settings" size="large"></fish-icon></div>
         <h3>Initial Variables</h3>
         <p>Literal values that serve as the foundation. These are the raw colors, sizes, and other basic values.</p>
         <div class="code-block">
@@ -20,7 +20,7 @@ $weight-bold: 700;</code></pre>
       </div>
 
       <div class="concept-item">
-        <div class="concept-icon">🔗</div>
+        <div class="concept-icon"><fish-icon name="link" size="large"></fish-icon></div>
         <h3>Derived Variables</h3>
         <p>Variables that inherit from initial variables for better modularity and theming.</p>
         <div class="code-block">
@@ -30,7 +30,7 @@ $family-primary: $family-sans-serif;</code></pre>
       </div>
 
       <div class="concept-item">
-        <div class="concept-icon">🎯</div>
+        <div class="concept-icon"><fish-icon name="target" size="large"></fish-icon></div>
         <h3>Best Practice</h3>
         <p>Always use derived variables when possible. This allows changing themes with minimal code changes.</p>
         <div class="highlight-box">
@@ -46,7 +46,7 @@ $family-primary: $family-sans-serif;</code></pre>
 
     <div class="hierarchy-diagram">
       <div class="hierarchy-level">
-        <h4>🎨 Initial Variables</h4>
+        <h4><fish-icon name="settings" size="small"></fish-icon> Initial Variables</h4>
         <p>Literal values that don't change often</p>
         <div class="code-example">
           <code>$green: #50a000</code><br>
@@ -58,7 +58,7 @@ $family-primary: $family-sans-serif;</code></pre>
       <div class="hierarchy-arrow">↓</div>
 
       <div class="hierarchy-level">
-        <h4>🔗 Derived Variables</h4>
+        <h4><fish-icon name="link" size="small"></fish-icon> Derived Variables</h4>
         <p>Derive from initial variables for modularity</p>
         <div class="code-example">
           <code>$primary: $green</code><br>
@@ -69,7 +69,7 @@ $family-primary: $family-sans-serif;</code></pre>
       <div class="hierarchy-arrow">↓</div>
 
       <div class="hierarchy-level">
-        <h4>🎯 Component Usage</h4>
+        <h4><fish-icon name="target" size="small"></fish-icon> Component Usage</h4>
         <p>Use derived variables in components</p>
         <div class="code-example">
           <code>color: $primary</code><br>
@@ -303,7 +303,7 @@ $family-primary: $family-sans-serif;</code></pre>
     <h2>Next Steps</h2>
     <div class="next-steps">
       <article class="step">
-        <h4>🎨 Theming</h4>
+        <h4><fish-icon name="settings" size="small"></fish-icon> Theming</h4>
         <p>Learn how to override variables for custom themes</p>
         <a routerLink="/docs/theming" class="step-link" aria-label="Learn about theming">View Theming →</a>
       </article>

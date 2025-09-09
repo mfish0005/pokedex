@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { SpinnerComponent } from '../../../../../projects/fish-ui/src/public-api';
+import { SpinnerComponent } from '@fish-ui/components';
 
 @Component({
   selector: 'app-loading-state',

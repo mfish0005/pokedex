@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { IconComponent } from '@fish-ui/components';
 
 @Component({
   selector: 'app-helpers',
   standalone: true,
-  imports: [],
+  imports: [IconComponent],
   templateUrl: './helpers.component.html',
   styleUrl: './helpers.component.scss'
 })

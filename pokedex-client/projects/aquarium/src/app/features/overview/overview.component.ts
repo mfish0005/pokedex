@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { IconComponent } from '@fish-ui/components';
 
 @Component({
   selector: 'app-overview',
-  imports: [],
+  imports: [IconComponent],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'
 })

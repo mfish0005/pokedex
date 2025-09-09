@@ -1,6 +1,6 @@
 import { Component, signal, inject } from '@angular/core';
 import { RouterOutlet, Router } from '@angular/router';
-import { PokedexHeaderComponent } from './shared/components/pokedex-header/pokedex-header.component';
+import { PokedexHeaderComponent } from './features/pokemon-list/components/pokedex-header/pokedex-header.component';
 
 @Component({
   selector: 'app-root',

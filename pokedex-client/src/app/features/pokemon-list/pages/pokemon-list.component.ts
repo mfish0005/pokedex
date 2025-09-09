@@ -2,7 +2,7 @@ import { Component, OnInit, signal, inject, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
-import { LoadingStateComponent } from '../../../shared/components/loading-state/loading-state.component';
+import { LoadingStateComponent } from '../../../core/pokemon/components/loading-state/loading-state.component';
 import { PokemonGridComponent } from '../components/pokemon-grid/pokemon-grid.component';
 import { PokemonService } from '../../../core/pokemon/services/pokemon.service';
 import { Pokemon, PokemonListItem } from '../../../core/pokemon/models/pokemon.model';

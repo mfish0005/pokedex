@@ -2,9 +2,8 @@ import { Component, signal, inject, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { CardComponent, ButtonComponent } from '../../../../../projects/fish-ui/src/public-api';
-import { LoadingStateComponent } from '../../../shared/components/loading-state/loading-state.component';
-import { IconComponent } from '../../../shared/components/icon/icon.component';
+import { CardComponent, ButtonComponent, IconComponent } from '@fish-ui/components';
+import { LoadingStateComponent } from '../../../core/pokemon/components/loading-state/loading-state.component';
 import { PokemonBasicInfoComponent } from '../../../core/pokemon/components/pokemon-basic-info/pokemon-basic-info.component';
 import { PokemonStatsComponent } from '../../../core/pokemon/components/pokemon-stats/pokemon-stats.component';
 import { PokemonInfoComponent } from '../../../core/pokemon/components/pokemon-info/pokemon-info.component';

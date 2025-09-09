@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { CardComponent, ButtonComponent } from '@fish-ui/components';
+import { CardComponent, ButtonComponent, IconComponent } from '@fish-ui/components';
 
 @Component({
   selector: 'app-card-demo',
-  imports: [CardComponent, ButtonComponent],
+  imports: [CardComponent, ButtonComponent, IconComponent],
   templateUrl: './card-demo.component.html',
   styleUrl: './card-demo.component.scss'
 })

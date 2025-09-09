@@ -38,6 +38,10 @@ export const routes: Routes = [
         path: 'search',
         loadComponent: () => import('./features/search-demo/search-demo.component').then(m => m.SearchDemoComponent)
       },
+      {
+        path: 'icon',
+        loadComponent: () => import('./features/icon-demo/icon-demo.component').then(m => m.IconDemoComponent)
+      },
     ]
   },
   {
