@@ -66,10 +66,20 @@ export class PokemonDetailComponent implements OnInit, OnDestroy {
     }
     
     const nextId = this.pokemonService.getNextPokemonId(currentId);
-    this.pokemonService.getPokemonBasicInfo(nextId).subscribe({
-      next: (pokemonInfo) => this.nextPokemon.set(pokemonInfo),
-      error: () => this.nextPokemon.set(null)
-    });
+        
+    if (currentId <= 151 || this.shouldCheckForNextPokemon(currentId)) {
+      this.pokemonService.getPokemonBasicInfo(nextId).subscribe({
+        next: (pokemonInfo) => this.nextPokemon.set(pokemonInfo),
+        error: () => this.nextPokemon.set(null)
+      });
+    } else {      
+      this.nextPokemon.set(null);
+    }
+  }
+
+  private shouldCheckForNextPokemon(currentId: number): boolean {         
+    const maxReasonableGap = 10;
+    return currentId < 151 + maxReasonableGap;
   }
 
   goBack() {
@@ -88,5 +98,21 @@ export class PokemonDetailComponent implements OnInit, OnDestroy {
     if (nextPokemon) {
       this.router.navigate(['/pokemon', nextPokemon.id]);
     }
+  }
+
+  editPokemon() {
+    const currentPokemon = this.pokemon();
+    if (currentPokemon) {
+      this.router.navigate(['/pokemon', currentPokemon.id, 'edit']);
+    }
+  }
+
+  capitalizeName(name: string): string {
+    return this.pokemonService.capitalizeName(name);
+  }
+
+  hasHiddenAbility(): boolean {
+    const currentPokemon = this.pokemon();
+    return currentPokemon ? currentPokemon.abilities.some(ability => ability.isHidden) : false;
   }
 }

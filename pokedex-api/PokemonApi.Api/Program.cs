@@ -17,6 +17,9 @@ builder.Services.AddDbContext<PokemonDbContext>(options =>
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
+builder.Services.AddScoped<ITypeRepository, TypeRepository>();
+builder.Services.AddScoped<IStatRepository, StatRepository>();
+builder.Services.AddScoped<IAbilityRepository, AbilityRepository>();
 
 builder.Services.AddScoped<IPokemonService, PokemonService>();
 

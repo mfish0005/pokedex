@@ -11,11 +11,17 @@ public class UnitOfWork : IUnitOfWork
     private IDbContextTransaction? _transaction;
     
     public IPokemonRepository Pokemon { get; }
+    public ITypeRepository Types { get; }
+    public IStatRepository Stats { get; }
+    public IAbilityRepository Abilities { get; }
 
     public UnitOfWork(PokemonDbContext context)
     {
         _context = context;
         Pokemon = new PokemonRepository(_context);
+        Types = new TypeRepository(_context);
+        Stats = new StatRepository(_context);
+        Abilities = new AbilityRepository(_context);
     }
 
     public async Task<int> SaveChangesAsync()

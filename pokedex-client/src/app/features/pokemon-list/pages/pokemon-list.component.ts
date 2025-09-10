@@ -22,7 +22,7 @@ export class PokemonListComponent implements OnInit {
   private pokemonService = inject(PokemonService);
   private router = inject(Router);
 
-  protected readonly title = signal('Pokédex');
+  protected readonly title = signal('Pokedex');
   protected readonly pokemon = signal<PokemonListItem[]>([]);
   protected readonly loading = signal(true);
   protected readonly loadingMore = signal(false);
@@ -47,9 +47,9 @@ export class PokemonListComponent implements OnInit {
         this.hasMorePages.set(response.page < response.totalPages);
       },
       error: (err: any) => {
-        console.error('Error loading Pokémon list:', err);
+        console.error('Error loading Pokemon list:', err);
         if (this.loading()) {
-          this.error.set('Failed to load Pokémon list');
+          this.error.set('Failed to load Pokemon list');
           this.loading.set(false);
         }
       }
@@ -70,7 +70,7 @@ export class PokemonListComponent implements OnInit {
         this.loadingMore.set(false);
       },
       error: (err: any) => {
-        console.error('Error loading more Pokémon:', err);
+        console.error('Error loading more Pokemon:', err);
         this.loadingMore.set(false);
       }
     });
@@ -114,17 +114,7 @@ export class PokemonListComponent implements OnInit {
     
     this.pokemonService.searchPartialPokemon(query.trim(), 20).subscribe({
       next: (results) => {        
-        const listItems: PokemonListItem[] = results.map(p => ({
-          id: p.id,
-          name: p.name,
-          imageUrl: p.imageUrl,
-          types: p.types.map(t => ({
-            id: t.type.id,
-            name: t.type.name,
-            color: t.type.color
-          }))
-        }));
-        this.pokemon.set(listItems);
+        this.pokemon.set(results);
         this.isSearching.set(false);
       },
       error: (err) => {

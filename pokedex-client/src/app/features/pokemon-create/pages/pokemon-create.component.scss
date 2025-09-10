@@ -1,0 +1,237 @@
+@import '../../../../styles/pokemon-theme.scss';
+
+.pokemon-create-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  
+  @media (min-width: 768px) {
+    padding: 2rem;
+  }
+}
+
+.pokemon-create-header {
+  margin-bottom: 2rem;
+  text-align: center;
+
+  h1 {
+    font-size: $size-2;
+    margin: 0 0 0.5rem 0;
+    color: $gray-darkest;
+    font-weight: $weight-light;
+  }
+
+  p {
+    font-size: $size-5;
+    color: $gray-dark;
+    margin: 0;
+  }
+}
+
+.error-message {
+  background-color: rgba($danger, 0.1);
+  color: $danger;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba($danger, 0.3);
+}
+
+.pokemon-form {
+  background: $white;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px -5px rgba($black, 0.1), 0 4px 10px -3px rgba($black, 0.05); // Enhanced shadow
+  padding: 1.5rem;
+  
+  @media (min-width: 768px) {
+    padding: 2.5rem;
+  }
+}
+
+.form-section {
+  margin-bottom: 2.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  h2 {
+    font-size: $size-4;
+    margin: 0 0 1.5rem 0;
+    color: $gray-darkest;
+    font-weight: $weight-semibold;
+    border-bottom: 2px solid $gray-lightest;
+    padding-bottom: 0.5rem;
+  }
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 1.5rem;
+  align-items: end;
+  margin-bottom: 1.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    
+    .remove-button {
+      justify-self: start;
+    }
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-size: $size-7;
+    font-weight: $weight-semibold;
+    color: $gray-darker;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+
+  &.checkbox-field {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+
+    label {
+      font-size: $size-7;
+      font-weight: $weight-normal;
+      margin: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    input[type="checkbox"] {
+      margin: 0;
+    }
+  }
+}
+
+.form-array {
+  border: 1px solid $gray-lighter;
+  border-radius: 4px;
+  padding: 1rem;
+  background-color: $gray-lightest;
+}
+
+.array-item {
+  padding: 1rem;
+  border: 1px solid $gray-lighter;
+  border-radius: 4px;
+  background: $white;
+  margin-bottom: 1rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.add-button {
+  background-color: $success;
+  color: $white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: $size-7;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: $green-dark;
+  }
+
+  &:disabled {
+    background-color: $gray;
+    cursor: not-allowed;
+  }
+}
+
+.remove-button {
+  background-color: $danger;
+  color: $white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: $size-7;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  height: fit-content;
+
+  &:hover {
+    background-color: $red-dark;
+  }
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid $gray-lighter;
+}
+
+.cancel-button {
+  background-color: transparent;
+  color: $secondary;
+  border: 1px solid $gray-light;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: $size-6;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: $gray-lightest;
+    border-color: $gray;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.submit-button {
+  background-color: $info;
+  color: $white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: $size-6;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover:not(:disabled) {
+    background-color: $blue-dark;
+  }
+
+  &:disabled {
+    background-color: $gray;
+    cursor: not-allowed;
+  }
+}

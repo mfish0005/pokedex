@@ -161,4 +161,179 @@ public class PokemonService : IPokemonService
                 }).ToList()
         };
     }
+
+    public async Task<PokemonDto> CreatePokemonAsync(CreatePokemonDto createDto)
+    {        
+        var maxId = await _unitOfWork.Pokemon.GetQueryable()
+            .AnyAsync() 
+            ? await _unitOfWork.Pokemon.GetQueryable().MaxAsync(p => p.Id)
+            : 0;
+        var nextId = maxId + 1;
+
+        var pokemon = new Data.Entities.Pokemon
+        {
+            Id = nextId,
+            Name = createDto.Name,
+            Height = createDto.Height,
+            Weight = createDto.Weight,
+            BaseExperience = createDto.BaseExperience,
+            ImageUrl = createDto.ImageUrl,
+            PokemonTypes = new List<Data.Entities.PokemonType>(),
+            PokemonStats = new List<Data.Entities.PokemonStat>(),
+            PokemonAbilities = new List<Data.Entities.PokemonAbility>()
+        };
+        
+        foreach (var typeDto in createDto.Types)
+        {
+            var type = await _unitOfWork.Types.GetByNameAsync(typeDto.Name) 
+                ?? new Data.Entities.Type { Name = typeDto.Name, Color = typeDto.Color };
+            
+            if (type.Id == 0)
+            {
+                await _unitOfWork.Types.AddAsync(type);
+            }
+
+            pokemon.PokemonTypes.Add(new Data.Entities.PokemonType
+            {
+                Pokemon = pokemon,
+                Type = type
+            });
+        }
+
+        foreach (var statDto in createDto.Stats)
+        {
+            var stat = await _unitOfWork.Stats.GetByNameAsync(statDto.Name)
+                ?? new Data.Entities.Stat { Name = statDto.Name, DisplayName = statDto.DisplayName };
+            
+            if (stat.Id == 0)
+            {
+                await _unitOfWork.Stats.AddAsync(stat);
+            }
+
+            pokemon.PokemonStats.Add(new Data.Entities.PokemonStat
+            {
+                Pokemon = pokemon,
+                Stat = stat,
+                BaseStat = statDto.BaseStat
+            });
+        }
+
+        foreach (var abilityDto in createDto.Abilities)
+        {
+            var ability = await _unitOfWork.Abilities.GetByNameAsync(abilityDto.Name)
+                ?? new Data.Entities.Ability { Name = abilityDto.Name };
+            
+            if (ability.Id == 0)
+            {
+                await _unitOfWork.Abilities.AddAsync(ability);
+            }
+
+            pokemon.PokemonAbilities.Add(new Data.Entities.PokemonAbility
+            {
+                Pokemon = pokemon,
+                Ability = ability,
+                IsHidden = abilityDto.IsHidden
+            });
+        }
+
+        await _unitOfWork.Pokemon.AddAsync(pokemon);
+        await _unitOfWork.SaveChangesAsync();
+
+        var createdPokemon = await _unitOfWork.Pokemon.GetQueryable()
+            .Include(p => p.PokemonTypes).ThenInclude(pt => pt.Type)
+            .Include(p => p.PokemonStats).ThenInclude(ps => ps.Stat)
+            .Include(p => p.PokemonAbilities).ThenInclude(pa => pa.Ability)
+            .FirstAsync(p => p.Id == pokemon.Id);
+
+        return MapToDto(createdPokemon);
+    }
+
+    public async Task<PokemonDto?> UpdatePokemonAsync(int id, UpdatePokemonDto updateDto)
+    {
+        var pokemon = await _unitOfWork.Pokemon.GetQueryable()
+            .Include(p => p.PokemonTypes).ThenInclude(pt => pt.Type)
+            .Include(p => p.PokemonStats).ThenInclude(ps => ps.Stat)
+            .Include(p => p.PokemonAbilities).ThenInclude(pa => pa.Ability)
+            .FirstOrDefaultAsync(p => p.Id == id);
+
+        if (pokemon == null)
+            return null;
+
+        pokemon.Name = updateDto.Name;
+        pokemon.Height = updateDto.Height;
+        pokemon.Weight = updateDto.Weight;
+        pokemon.BaseExperience = updateDto.BaseExperience;
+        pokemon.ImageUrl = updateDto.ImageUrl;
+
+        pokemon.PokemonTypes.Clear();
+        pokemon.PokemonStats.Clear();
+        pokemon.PokemonAbilities.Clear();
+
+        foreach (var typeDto in updateDto.Types)
+        {
+            var type = await _unitOfWork.Types.GetByNameAsync(typeDto.Name) 
+                ?? new Data.Entities.Type { Name = typeDto.Name, Color = typeDto.Color };
+            
+            if (type.Id == 0)
+            {
+                await _unitOfWork.Types.AddAsync(type);
+            }
+
+            pokemon.PokemonTypes.Add(new Data.Entities.PokemonType
+            {
+                Pokemon = pokemon,
+                Type = type
+            });
+        }
+
+        foreach (var statDto in updateDto.Stats)
+        {
+            var stat = await _unitOfWork.Stats.GetByNameAsync(statDto.Name)
+                ?? new Data.Entities.Stat { Name = statDto.Name, DisplayName = statDto.DisplayName };
+            
+            if (stat.Id == 0)
+            {
+                await _unitOfWork.Stats.AddAsync(stat);
+            }
+
+            pokemon.PokemonStats.Add(new Data.Entities.PokemonStat
+            {
+                Pokemon = pokemon,
+                Stat = stat,
+                BaseStat = statDto.BaseStat
+            });
+        }
+
+        foreach (var abilityDto in updateDto.Abilities)
+        {
+            var ability = await _unitOfWork.Abilities.GetByNameAsync(abilityDto.Name)
+                ?? new Data.Entities.Ability { Name = abilityDto.Name };
+            
+            if (ability.Id == 0)
+            {
+                await _unitOfWork.Abilities.AddAsync(ability);
+            }
+
+            pokemon.PokemonAbilities.Add(new Data.Entities.PokemonAbility
+            {
+                Pokemon = pokemon,
+                Ability = ability,
+                IsHidden = abilityDto.IsHidden
+            });
+        }
+
+        await _unitOfWork.SaveChangesAsync();
+        return MapToDto(pokemon);
+    }
+
+    public async Task<bool> DeletePokemonAsync(int id)
+    {
+        var pokemon = await _unitOfWork.Pokemon.GetByIdAsync(id);
+        if (pokemon == null)
+            return false;
+
+        await _unitOfWork.Pokemon.DeleteAsync(pokemon);
+        await _unitOfWork.SaveChangesAsync();
+        return true;
+    }
 }

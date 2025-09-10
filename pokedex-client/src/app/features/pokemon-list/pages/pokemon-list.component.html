@@ -2,7 +2,7 @@
   @if (!loading() && !error()) {
     <div class="search-section">
       <fish-search
-        placeholder="Search Pokémon by name..."
+        placeholder="Search Pokemon by name..."
         (search)="onSearch($event)"
         (clear)="onSearchClear()">
       </fish-search>
@@ -11,7 +11,7 @@
 
   @if (loading()) {
     <app-loading-state
-      message="Loading Pokémon..."
+      message="Loading Pokemon..."
       size="large"
       variant="primary">
     </app-loading-state>
@@ -19,7 +19,7 @@
 
   @if (isSearching()) {
     <app-loading-state
-      message="Searching Pokémon..."
+      message="Searching Pokemon..."
       size="medium"
       variant="primary">
     </app-loading-state>
@@ -34,7 +34,7 @@
     @if (loadingMore()) {
       <div class="loading-more-container has-text-centered has-margin-top-4">
         <app-loading-state
-          message="Loading Pokémon..."
+          message="Loading Pokemon..."
           size="medium"
           variant="primary">
         </app-loading-state>

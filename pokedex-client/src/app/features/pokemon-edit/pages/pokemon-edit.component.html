@@ -1,0 +1,222 @@
+<div class="pokemon-edit-container">
+  @if (isLoadingData()) {
+    <div class="loading-state">
+      <h2>Loading Pokemon data...</h2>
+    </div>
+  } @else {
+    <div class="pokemon-edit-header">
+        <h1 class="has-text-warning">Edit {{ pokemon()?.name ? capitalizeName(pokemon()!.name) : 'Pokemon' }}</h1>
+      <p class="has-text-white">Update the details of this Pokemon.</p>
+    </div>
+
+    @if (error()) {
+      <div class="error-message">
+        {{ error() }}
+      </div>
+    }
+
+    <form [formGroup]="pokemonForm" (ngSubmit)="onSubmit()" class="pokemon-form">
+      <div class="form-section">
+        <h2>Basic Information</h2>
+        
+        <div class="form-row">
+          <div class="form-field">
+            <label for="name">Name *</label>
+            <fish-input
+              id="name"
+              formControlName="name"
+              placeholder="e.g. Pikachu"
+              [variant]="pokemonForm.get('name')?.invalid && pokemonForm.get('name')?.touched ? 'danger' : 'default'">
+            </fish-input>
+          </div>
+
+          <div class="form-field">
+            <label for="imageUrl">Image URL</label>
+            <fish-input
+              id="imageUrl"
+              formControlName="imageUrl"
+              placeholder="https://..."
+              [variant]="pokemonForm.get('imageUrl')?.invalid && pokemonForm.get('imageUrl')?.touched ? 'danger' : 'default'">
+            </fish-input>
+          </div>
+
+          <div class="form-field">
+            <label for="baseExperience">Base Experience *</label>
+            <fish-input
+              id="baseExperience"
+              type="number"
+              formControlName="baseExperience"
+              placeholder="100"
+              [variant]="pokemonForm.get('baseExperience')?.invalid && pokemonForm.get('baseExperience')?.touched ? 'danger' : 'default'">
+            </fish-input>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label for="height">Height *</label>
+            <fish-input
+              id="height"
+              type="number"
+              formControlName="height"
+              placeholder="10"
+              [variant]="pokemonForm.get('height')?.invalid && pokemonForm.get('height')?.touched ? 'danger' : 'default'">
+            </fish-input>
+          </div>
+
+          <div class="form-field">
+            <label for="weight">Weight *</label>
+            <fish-input
+              id="weight"
+              type="number"
+              formControlName="weight"
+              placeholder="100"
+              [variant]="pokemonForm.get('weight')?.invalid && pokemonForm.get('weight')?.touched ? 'danger' : 'default'">
+            </fish-input>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Types</h2>
+          <button type="button" (click)="addType()" class="add-button">Add Type</button>
+        </div>
+
+        <div formArrayName="types" class="form-array">
+          @for (typeControl of types.controls; track $index) {
+            <div [formGroupName]="$index" class="array-item">
+              <div class="form-row">
+                <div class="form-field">
+                  <label>Type *</label>
+                  <fish-select
+                    [options]="typeOptions"
+                    formControlName="name"
+                    placeholder="Select type"
+                    (selectionChange)="onTypeSelect($index, $event.toString())">
+                  </fish-select>
+                </div>
+                
+                <div class="form-field">
+                  <label>Color *</label>
+                  <fish-input
+                    formControlName="color"
+                    placeholder="#A8A878"
+                    [variant]="typeControl.get('color')?.invalid && typeControl.get('color')?.touched ? 'danger' : 'default'">
+                  </fish-input>
+                </div>
+
+                @if (types.length > 1) {
+                  <button type="button" (click)="removeType($index)" class="remove-button">Remove</button>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Stats</h2>
+          <button type="button" (click)="addStat()" class="add-button">Add Stat</button>
+        </div>
+
+        <div formArrayName="stats" class="form-array">
+          @for (statControl of stats.controls; track $index) {
+            <div [formGroupName]="$index" class="array-item">
+              <div class="form-row">
+                <div class="form-field">
+                  <label>Stat *</label>
+                  <fish-select
+                    [options]="statOptions"
+                    formControlName="name"
+                    placeholder="Select stat"
+                    (selectionChange)="onStatSelect($index, $event.toString())">
+                  </fish-select>
+                </div>
+                
+                <div class="form-field">
+                  <label>Display Name *</label>
+                  <fish-input
+                    formControlName="displayName"
+                    placeholder="HP"
+                    [variant]="statControl.get('displayName')?.invalid && statControl.get('displayName')?.touched ? 'danger' : 'default'">
+                  </fish-input>
+                </div>
+
+                <div class="form-field">
+                  <label>Base Value *</label>
+                  <fish-input
+                    type="number"
+                    formControlName="baseStat"
+                    placeholder="100"
+                    [variant]="statControl.get('baseStat')?.invalid && statControl.get('baseStat')?.touched ? 'danger' : 'default'">
+                  </fish-input>
+                </div>
+
+                @if (stats.length > 1) {
+                  <button type="button" (click)="removeStat($index)" class="remove-button">Remove</button>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Abilities</h2>
+          <button type="button" (click)="addAbility()" class="add-button">Add Ability</button>
+        </div>
+
+        <div formArrayName="abilities" class="form-array">
+          @for (abilityControl of abilities.controls; track $index) {
+            <div [formGroupName]="$index" class="array-item">
+              <div class="form-row">
+                <div class="form-field">
+                  <label>Ability Name *</label>
+                  <fish-input
+                    formControlName="name"
+                    placeholder="Overgrow"
+                    [variant]="abilityControl.get('name')?.invalid && abilityControl.get('name')?.touched ? 'danger' : 'default'">
+                  </fish-input>
+                </div>
+
+                <div class="form-field checkbox-field">
+                  <label>
+                    <input type="checkbox" formControlName="isHidden">
+                    Hidden Ability
+                  </label>
+                </div>
+
+                @if (abilities.length > 1) {
+                  <button type="button" (click)="removeAbility($index)" class="remove-button">Remove</button>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" (click)="onCancel()" class="cancel-button" [disabled]="isLoading()">
+          Cancel
+        </button>
+        <button type="button" (click)="onDelete()" class="delete-button" [disabled]="isLoading()">
+          @if (isLoading()) {
+            Deleting...
+          } @else {
+            Delete Pokemon
+          }
+        </button>
+        <button type="submit" class="submit-button" [disabled]="pokemonForm.invalid || isLoading()">
+          @if (isLoading()) {
+            Updating...
+          } @else {
+            Update Pokemon
+          }
+        </button>
+      </div>
+    </form>
+  }
+</div>

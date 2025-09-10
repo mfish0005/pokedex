@@ -12,7 +12,24 @@
             <div class="pokeball-bottom"></div>
           </div>
         </div>
-        <p class="pokedex-subtitle">Pokémon Database</p>
+        <p class="pokedex-subtitle">Pokemon Database</p>
+        
+        <div class="navigation-buttons">
+          @if (!isOnPokemonListPage()) {
+            <fish-button 
+              [routerLink]="['/']" 
+              variant="secondary" 
+              size="small">
+              View All
+            </fish-button>
+          }
+          <fish-button 
+            [routerLink]="['/pokemon/create']" 
+            variant="primary" 
+            size="small">
+            Create Pokemon
+          </fish-button>
+        </div>
       </div>
     </div>
     

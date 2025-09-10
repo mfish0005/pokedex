@@ -19,7 +19,7 @@
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.3),
     inset 0 2px 4px rgba(255, 255, 255, 0.1);
-  max-width: 400px;
+  max-width: 1000px;
   width: 100%;
   transform: perspective(1000px) rotateX(5deg);
 }
@@ -108,9 +108,20 @@
   font-family: $family-primary;
   font-size: $size-7;
   color: $green-light;
-  margin: 0;
+  margin: 0 0 1rem 0;
   text-shadow: 1px 1px 0px $black;
   letter-spacing: 1px;
+}
+
+.navigation-buttons {
+  display: flex;
+  gap: $spacing-2;
+  justify-content: center;
+  margin-top: $spacing-3;
+  
+  fish-button {
+    min-width: 100px;
+  }
 }
 
 .pokedex-controls {
@@ -194,7 +205,7 @@
   
   .pokedex-device {
     padding: 1.5rem;
-    max-width: 300px;
+    max-width: 90%;
   }
   
   .pokedex-title {

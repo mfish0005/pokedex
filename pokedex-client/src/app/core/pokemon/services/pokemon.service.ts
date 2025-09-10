@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { Pokemon, PokemonListResponse, POKEMON_TYPE_COLORS } from '../models/pokemon.model';
+import { Pokemon, PokemonListResponse, POKEMON_TYPE_COLORS, CreatePokemonRequest, UpdatePokemonRequest, PokemonListItem } from '../models/pokemon.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +18,9 @@ export class PokemonService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Get a list of Pokémon with pagination
+   * Get a list of Pokemon with pagination
    * 
-   * @param pageSize - The number of Pokémon to return per page
+   * @param pageSize - The number of Pokemon to return per page
    * @param page - The page number (1-based)
    * @param search - Optional search term to filter by name
    * @returns An Observable of PokemonListResponse
@@ -35,9 +35,9 @@ export class PokemonService {
   }
 
   /**
-   * Get detailed information for a specific Pokémon
+   * Get detailed information for a specific Pokemon
    * 
-   * @param id - The ID of the Pokémon
+   * @param id - The ID of the Pokemon
    * @returns An Observable of Pokemon
    */
   getPokemon(id: number): Observable<Pokemon> {
@@ -45,10 +45,10 @@ export class PokemonService {
   }
 
   /**
-   * Format Pokémon number with leading zeros
+   * Format Pokemon number with leading zeros
    * 
-   * @param id - The ID of the Pokémon
-   * @returns A string with the formatted Pokémon number
+   * @param id - The ID of the Pokemon
+   * @returns A string with the formatted Pokemon number
    */
   formatPokemonNumber(id: number): string {
     return `#${id.toString().padStart(4, '0')}`;
@@ -77,8 +77,8 @@ export class PokemonService {
   /**
    * Get the previous ID of a Pokemon
    * 
-   * @param currentId - The current ID of the Pokémon
-   * @returns The previous ID of the Pokémon
+   * @param currentId - The current ID of the Pokemon
+   * @returns The previous ID of the Pokemon
    */
   getPreviousPokemonId(currentId: number): number {
     return currentId <= 1 ? 1 : currentId - 1;
@@ -87,8 +87,8 @@ export class PokemonService {
   /**
    * Get the next ID of a Pokemon
    * 
-   * @param currentId - The current ID of the Pokémon
-   * @returns The next ID of the Pokémon
+   * @param currentId - The current ID of the Pokemon
+   * @returns The next ID of the Pokemon
    */
   getNextPokemonId(currentId: number): number {
     return currentId + 1;
@@ -121,15 +121,24 @@ export class PokemonService {
    * @param limit - Maximum number of results to return
    * @returns An Observable of Pokemon array
    */
-  searchPartialPokemon(query: string, limit: number = 10): Observable<Pokemon[]> {
+  searchPartialPokemon(query: string, limit: number = 10): Observable<PokemonListItem[]> {
     if (!query || query.trim() === '') {
       return of([]);
     }
 
     const searchQuery = query.trim().toLowerCase();
     
-    return this.http.get<Pokemon[]>(`${this.baseUrl}/pokemon/search?search=${encodeURIComponent(searchQuery)}`, { headers: this.noCacheHeaders }).pipe(
-      map(results => results.slice(0, limit)),
+    return this.http.get<any[]>(`${this.baseUrl}/pokemon/search?search=${encodeURIComponent(searchQuery)}`, { headers: this.noCacheHeaders }).pipe(
+      map(results => results.slice(0, limit).map(p => ({
+        id: p.id,
+        name: p.name,
+        imageUrl: p.imageUrl,
+        types: p.types.map((t: any) => ({
+          id: t.id,
+          name: t.name,
+          color: t.color
+        }))
+      }))),
       catchError(() => of([]))
     );
   }
@@ -137,7 +146,7 @@ export class PokemonService {
   /**
    * Get basic info for a specific Pokemon for navigation
    *
-   * @param id - The ID of the Pokémon
+   * @param id - The ID of the Pokemon
    * @returns An Observable of { id: number; name: string } | null
    */
   getPokemonBasicInfo(id: number): Observable<{ id: number; name: string } | null> {
@@ -148,5 +157,36 @@ export class PokemonService {
       })),
       catchError(() => of(null))
     );
+  }
+
+  /**
+   * Create a new Pokemon
+   * 
+   * @param createData - The Pokemon data to create
+   * @returns An Observable of the created Pokemon
+   */
+  createPokemon(createData: CreatePokemonRequest): Observable<Pokemon> {
+    return this.http.post<Pokemon>(`${this.baseUrl}/pokemon`, createData, { headers: this.noCacheHeaders });
+  }
+
+  /**
+   * Update an existing Pokemon
+   * 
+   * @param id - The ID of the Pokemon to update
+   * @param updateData - The updated Pokemon data
+   * @returns An Observable of the updated Pokemon
+   */
+  updatePokemon(id: number, updateData: UpdatePokemonRequest): Observable<Pokemon> {
+    return this.http.put<Pokemon>(`${this.baseUrl}/pokemon/${id}`, updateData, { headers: this.noCacheHeaders });
+  }
+
+  /**
+   * Delete a Pokemon
+   * 
+   * @param id - The ID of the Pokemon to delete
+   * @returns An Observable of void
+   */
+  deletePokemon(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/pokemon/${id}`, { headers: this.noCacheHeaders });
   }
 } 

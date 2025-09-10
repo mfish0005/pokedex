@@ -26,7 +26,7 @@
 
   @if (loading()) {
     <app-loading-state 
-      message="Loading Pokémon details..."
+      message="Loading Pokemon details..."
       size="large"
       variant="primary">
     </app-loading-state>
@@ -40,13 +40,53 @@
       </div>
 
       <div class="detail-section">
-        <h2 class="section-title is-size-3">Battle Stats</h2>
-        <app-pokemon-stats [pokemon]="pokemon()!"></app-pokemon-stats>
+        <h2 class="section-title is-size-3">Abilities</h2>
+        <div class="abilities-list">
+          @for (ability of pokemon()!.abilities; track ability.ability.name) {
+            <div class="ability-item" [class.hidden-ability]="ability.isHidden">
+              <div class="ability-content">
+                <div class="ability-name">{{ capitalizeName(ability.ability.name) }}</div>
+                <div class="ability-type">
+                  @if (ability.isHidden) {
+                    <span class="ability-label hidden-label">Hidden Ability</span>
+                  } @else {
+                    <span class="ability-label normal-label">Normal Ability</span>
+                  }
+                </div>
+              </div>
+              @if (ability.isHidden) {
+                <div class="hidden-tag">Hidden</div>
+              }
+            </div>
+          }
+          
+          <!-- Add some spacing/info if there are only 1-2 abilities -->
+          @if (pokemon()!.abilities.length < 3) {
+            <div class="ability-info">
+              <div class="info-text">
+                <strong>{{ pokemon()!.abilities.length }}</strong> 
+                {{ pokemon()!.abilities.length === 1 ? 'Ability' : 'Abilities' }} Available
+              </div>
+              <div class="info-subtext">
+                @if (hasHiddenAbility()) {
+                  Includes hidden ability
+                } @else {
+                  No hidden abilities
+                }
+              </div>
+            </div>
+          }
+        </div>
       </div>
 
-      <div class="detail-section" style="grid-column: 1 / -1;">
+      <div class="detail-section">
         <h2 class="section-title is-size-3">Physical Details</h2>
         <app-pokemon-info [pokemon]="pokemon()!"></app-pokemon-info>
+      </div>
+
+      <div class="detail-section">
+        <h2 class="section-title is-size-3">Battle Stats</h2>
+        <app-pokemon-stats [pokemon]="pokemon()!"></app-pokemon-stats>
       </div>
     </div>
   }
@@ -57,7 +97,17 @@
       (onClick)="goBack()"
       class="explore-more-button">
       <fish-icon name="arrow-left" [size]="16"></fish-icon>
-      Explore More Pokémon
+      Explore More Pokemon
     </fish-button>
+    
+    @if (pokemon()) {
+      <fish-button
+        variant="primary"
+        (onClick)="editPokemon()"
+        class="edit-button">
+        <fish-icon name="edit" [size]="16"></fish-icon>
+        Edit Pokemon
+      </fish-button>
+    }
   </div>
 </div>
