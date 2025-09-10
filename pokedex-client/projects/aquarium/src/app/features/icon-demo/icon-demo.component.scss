@@ -9,14 +9,14 @@
   margin-bottom: 3rem;
   
   h1 {
-    font-size: 2.5rem;
+    font-size: $size-2;
     margin: 0 0 1rem 0;
     color: $gray-darkest;
     font-weight: 300;
   }
   
   p {
-    font-size: 1.125rem;
+    font-size: $size-5;
     color: $gray-darker;
     margin: 0;
     line-height: 1.6;
@@ -27,7 +27,7 @@
   margin-bottom: 3rem;
   
   h2 {
-    font-size: 1.75rem;
+    font-size: $size-3;
     margin: 0 0 0.75rem 0;
     color: $gray-darkest;
     font-weight: 400;
@@ -40,7 +40,6 @@
   }
 }
 
-// Interactive Demo
 .interactive-demo {
   display: flex;
   gap: 2rem;
@@ -83,7 +82,7 @@
       padding: 0.5rem;
       border: 1px solid $gray-light;
       border-radius: 4px;
-      font-size: 0.875rem;
+      font-size: $size-7;
       
       &:focus {
         outline: none;
@@ -96,14 +95,13 @@
     }
     
     span {
-      font-size: 0.875rem;
+      font-size: $size-7;
       color: $gray-darker;
       font-family: $family-secondary;
     }
   }
 }
 
-// Icon Grid
 .icon-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -130,14 +128,13 @@
   
   code {
     font-family: $family-secondary;
-    font-size: 0.75rem;
+    font-size: $size-7;
     color: $gray-darker;
     text-align: center;
     word-break: break-word;
   }
 }
 
-// Size Demo
 .size-demo {
   display: flex;
   align-items: center;
@@ -153,13 +150,12 @@
   
   code {
     font-family: $family-secondary;
-    font-size: 0.875rem;
+    font-size: $size-7;
     color: $gray-darker;
     text-align: center;
   }
 }
 
-// Color Demo
 .color-demo {
   display: flex;
   align-items: center;
@@ -179,18 +175,17 @@
   
   code {
     font-family: $family-secondary;
-    font-size: 0.875rem;
+    font-size: $size-7;
     color: $gray-darker;
     text-align: center;
   }
 }
 
-// Code Examples
 .code-example {
   margin-bottom: 2rem;
   
   h3 {
-    font-size: 1.125rem;
+    font-size: $size-5;
     margin: 0 0 0.75rem 0;
     color: $gray-darkest;
     font-weight: 500;
@@ -206,13 +201,12 @@
     
     code {
       font-family: $family-secondary;
-      font-size: 0.875rem;
+      font-size: $size-7;
       line-height: 1.5;
     }
   }
 }
 
-// Properties Table
 .properties-table {
   background: white;
   border: 1px solid $gray-light;
@@ -240,24 +234,24 @@
   
   .property-name {
     font-family: $family-secondary;
-    font-size: 0.875rem;
+    font-size: $size-7;
     color: $deep-blue;
   }
   
   .property-type {
     font-family: $family-secondary;
-    font-size: 0.875rem;
+    font-size: $size-7;
     color: $sea-green;
   }
   
   .property-default {
     font-family: $family-secondary;
-    font-size: 0.875rem;
+    font-size: $size-7;
     color: $coral;
   }
   
   .property-description {
-    font-size: 0.875rem;
+    font-size: $size-7;
     color: $gray-darker;
   }
 }

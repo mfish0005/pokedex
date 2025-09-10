@@ -6,6 +6,20 @@
   }
 }
 
+@mixin fish-input-base {
+  box-sizing: border-box;
+  margin: 0;
+  vertical-align: middle;
+  
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  
+  &:focus {
+    outline: none;
+  }
+}
+
 @mixin truncate-text-by-width($width: 100%) {
   max-width: $width;
   white-space: nowrap;

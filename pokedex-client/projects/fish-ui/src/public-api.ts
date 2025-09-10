@@ -8,3 +8,5 @@ export * from './lib/card/card.component';
 export * from './lib/badge/badge.component';
 export * from './lib/search/search.component';
 export * from './lib/icon/icon.component';
+export * from './lib/input/input.component';
+export * from './lib/textarea/textarea.component';

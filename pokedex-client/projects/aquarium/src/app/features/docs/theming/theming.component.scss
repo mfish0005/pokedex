@@ -11,14 +11,14 @@
   text-align: center;
 
   h1 {
-    font-size: 2.5rem;
+    font-size: $size-2;
     margin: 0 0 1rem 0;
     color: $gray-darkest;
     font-weight: 300;
   }
 
   p {
-    font-size: 1.25rem;
+    font-size: $size-5;
     color: $gray-darker;
     margin: 0;
     line-height: 1.6;
@@ -29,7 +29,7 @@
   margin-bottom: 3rem;
 
   h2 {
-    font-size: 1.75rem;
+    font-size: $size-3;
     margin: 0 0 1rem 0;
     color: $gray-darkest;
     font-weight: 400;
@@ -38,7 +38,7 @@
   }
 
   h3 {
-    font-size: 1.25rem;
+    font-size: $size-5;
     margin: 2rem 0 1rem 0;
     color: $gray-darkest;
     font-weight: 500;
@@ -48,7 +48,7 @@
     color: $gray-darker;
     margin: 0 0 1.5rem 0;
     line-height: 1.6;
-    font-size: 1rem;
+    font-size: $size-6;
   }
 }
 
@@ -63,7 +63,7 @@
     background: $gray-lighter;
     padding: 0.75rem 1rem;
     border-bottom: 1px solid $gray-light;
-    font-size: 0.875rem;
+    font-size: $size-7;
     font-weight: 600;
     color: $gray-darker;
 
@@ -72,7 +72,7 @@
       color: white;
       padding: 0.25rem 0.5rem;
       border-radius: 4px;
-      font-size: 0.75rem;
+      font-size: $size-7;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.025em;
@@ -87,7 +87,7 @@
 
     code {
       font-family: $family-secondary;
-      font-size: 0.875rem;
+      font-size: $size-7;
       color: $gray-darkest;
       line-height: 1.5;
     }
@@ -106,7 +106,7 @@
   box-shadow: 0 4px 16px rgba($primary, 0.2);
 
   strong {
-    font-size: 1.25rem;
+    font-size: $size-5;
     font-weight: 700;
   }
 }
@@ -128,7 +128,7 @@
       background: $gray-lighter;
       padding: 0.25rem 0.5rem;
       border-radius: 4px;
-      font-size: 0.875rem;
+      font-size: $size-7;
       font-weight: 600;
       color: $primary;
       margin-right: 1rem;
@@ -138,7 +138,7 @@
 
     span {
       color: $gray-darker;
-      font-size: 0.875rem;
+      font-size: $size-7;
       line-height: 1.4;
     }
 
@@ -173,14 +173,14 @@
     h4 {
       margin: 0 0 0.5rem 0;
       color: $gray-darkest;
-      font-size: 1rem;
+      font-size: $size-6;
       font-weight: 600;
     }
 
     p {
       margin: 0 0 1rem 0;
       color: $gray-darker;
-      font-size: 0.875rem;
+      font-size: $size-7;
       line-height: 1.4;
     }
 
@@ -191,7 +191,7 @@
       padding: 0.5rem 1rem;
       border-radius: 4px;
       text-decoration: none;
-      font-size: 0.875rem;
+      font-size: $size-7;
       font-weight: 500;
       transition: all 0.2s ease;
 
@@ -209,7 +209,7 @@
   }
 
   .docs-header h1 {
-    font-size: 2rem;
+    font-size: $size-4;
   }
 
   .docs-section h2 {
@@ -229,12 +229,12 @@
 
   .code-block pre {
     padding: 1rem;
-    font-size: 0.8rem;
+    font-size: $size-7;
   }
 
   .highlight-box {
     padding: 1rem;
-    font-size: 1rem;
+    font-size: $size-6;
 
     strong {
       font-size: 1.125rem;
@@ -300,6 +300,6 @@
 
   .demo-box {
     padding: 0.5rem 0.75rem;
-    font-size: 0.8rem;
+    font-size: $size-7;
   }
 }

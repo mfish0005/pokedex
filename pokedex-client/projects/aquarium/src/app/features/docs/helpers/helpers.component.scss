@@ -11,13 +11,13 @@
   margin-bottom: 3rem;
 
   h1 {
-    font-size: 2.5rem;
+    font-size: $size-2;
     margin: 0 0 1rem 0;
     color: $gray-darkest;
   }
 
   p {
-    font-size: 1.125rem;
+    font-size: $size-5;
     color: $gray-darker;
     margin: 0;
   }
@@ -27,7 +27,7 @@
   margin-bottom: 4rem;
 
   h2 {
-    font-size: 2rem;
+    font-size: $size-4;
     margin: 0 0 1rem 0;
     color: $gray-darkest;
     border-bottom: 2px solid $gray-lighter;
@@ -35,7 +35,7 @@
   }
 
   > p {
-    font-size: 1rem;
+    font-size: $size-6;
     color: $gray-darker;
     margin: 0 0 2rem 0;
   }
@@ -45,7 +45,7 @@
   margin-bottom: 3rem;
 
   h3 {
-    font-size: 1.25rem;
+    font-size: $size-5;
     margin: 0 0 1rem 0;
     color: $gray-darkest;
     font-weight: 600;
@@ -147,7 +147,7 @@
     border-bottom: 1px solid $gray-light;
 
     .code-label {
-      font-size: 0.875rem;
+      font-size: $size-7;
       font-weight: 600;
       color: $gray-darker;
       font-family: $family-secondary;
@@ -161,7 +161,7 @@
     overflow-x: auto;
 
     code {
-      font-size: 0.875rem;
+      font-size: $size-7;
       line-height: 1.5;
       color: $gray-darkest;
     }
@@ -175,7 +175,7 @@
 
   .docs-header {
     h1 {
-      font-size: 2rem;
+      font-size: $size-4;
     }
   }
 
@@ -185,22 +185,22 @@
 
   .demo-box {
     padding: 0.5rem 0.75rem;
-    font-size: 0.8rem;
+    font-size: $size-7;
   }
 
   .code-block pre {
     padding: 0.75rem;
-    font-size: 0.8rem;
+    font-size: $size-7;
   }
 }
 
 @media (max-width: 480px) {
   .docs-section h2 {
-    font-size: 1.5rem;
+    font-size: $size-4;
   }
 
   .helper-category h3 {
-    font-size: 1.125rem;
+    font-size: $size-5;
   }
 
   .demo-container {

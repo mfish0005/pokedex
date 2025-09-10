@@ -9,14 +9,14 @@
   margin-bottom: 3rem;
   
   h1 {
-    font-size: 2.5rem;
+    font-size: $size-2;
     margin: 0 0 1rem 0;
     color: $gray-darkest;
     font-weight: 300;
   }
   
   p {
-    font-size: 1.125rem;
+    font-size: $size-5;
     color: $gray-darker;
     margin: 0;
     line-height: 1.6;
@@ -27,7 +27,7 @@
   margin-bottom: 3rem;
   
   h2 {
-    font-size: 1.75rem;
+    font-size: $size-3;
     margin: 0 0 0.75rem 0;
     color: $gray-darkest;
     font-weight: 400;
@@ -57,7 +57,7 @@
     background: $gray-lighter;
     padding: 0.5rem 0.75rem;
     border-radius: 6px;
-    font-size: 0.875rem;
+    font-size: $size-7;
     color: $gray-darker;
     font-family: $family-secondary;
     text-align: center;
@@ -70,7 +70,7 @@
   h3 {
     margin: 0 0 0.75rem 0;
     color: $gray-darkest;
-    font-size: 1.125rem;
+    font-size: $size-5;
     font-weight: 500;
   }
   
@@ -84,7 +84,7 @@
     
     code {
       font-family: $family-secondary;
-      font-size: 0.875rem;
+      font-size: $size-7;
       color: $gray-darkest;
       line-height: 1.5;
     }
@@ -117,25 +117,25 @@
   
   .property-name {
     font-family: $family-secondary;
-    font-size: 0.875rem;
+    font-size: $size-7;
     color: $deep-blue;
   }
   
   .property-type {
     font-family: $family-secondary;
-    font-size: 0.875rem;
+    font-size: $size-7;
     color: $sea-green;
   }
   
   .property-default {
     font-family: $family-secondary;
-    font-size: 0.875rem;
+    font-size: $size-7;
     color: $coral;
   }
   
   .property-description {
     color: $gray-darker;
-    font-size: 0.875rem;
+    font-size: $size-7;
     line-height: 1.5;
   }
 }
@@ -153,11 +153,11 @@
     grid-template-columns: 100px 80px 80px 1fr;
     gap: 0.5rem;
     padding: 0.75rem 1rem;
-    font-size: 0.8rem;
+    font-size: $size-7;
   }
   
   .demo-header h1 {
-    font-size: 2rem;
+    font-size: $size-4;
   }
 }
 

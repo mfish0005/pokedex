@@ -32,8 +32,7 @@ export class ButtonComponent {
     classes.push('is-inline-flex', 'is-flex-centered');
         
     classes.push('has-text-weight-normal');
-    
-    // Size-specific classes
+        
     switch (this.size) {
       case 'small':
         classes.push('is-size-7');

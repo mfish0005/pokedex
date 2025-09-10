@@ -42,6 +42,14 @@ export const routes: Routes = [
         path: 'icon',
         loadComponent: () => import('./features/icon-demo/icon-demo.component').then(m => m.IconDemoComponent)
       },
+      {
+        path: 'input',
+        loadComponent: () => import('./features/input-demo/input-demo.component').then(m => m.InputDemoComponent)
+      },
+      {
+        path: 'textarea',
+        loadComponent: () => import('./features/textarea-demo/textarea-demo.component').then(m => m.TextareaDemoComponent)
+      },
     ]
   },
   {
