@@ -1,6 +1,5 @@
 import { Component, OnInit, signal, inject, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-import { forkJoin } from 'rxjs';
 
 import { LoadingStateComponent } from '../../../core/pokemon/components/loading-state/loading-state.component';
 import { PokemonGridComponent } from '../components/pokemon-grid/pokemon-grid.component';
@@ -24,48 +23,28 @@ export class PokemonListComponent implements OnInit {
   private router = inject(Router);
 
   protected readonly title = signal('Pokédex');
-  protected readonly pokemon = signal<Pokemon[]>([]);
+  protected readonly pokemon = signal<PokemonListItem[]>([]);
   protected readonly loading = signal(true);
   protected readonly loadingMore = signal(false);
   protected readonly error = signal<string | null>(null);
-  protected readonly currentOffset = signal(0);
+  protected readonly currentPage = signal(1);
   protected readonly searchQuery = signal('');
   protected readonly isSearching = signal(false);
-  protected readonly searchResults = signal<Pokemon[]>([]);
-  protected readonly allPokemon = signal<Pokemon[]>([]);
+  protected readonly hasMorePages = signal(true);
+  protected readonly isInSearchMode = signal(false);
   private readonly pageSize = 12;
 
   ngOnInit() {        
     this.loadInitialPokemon();
   }  
 
-  loadInitialPokemon() {
-    // Get the names of the initial pokemon
-    this.pokemonService.getPokemonList(this.pageSize, 0).subscribe({
-      next: (response) => {        
-        // Create requests for each pokemon's name
-        const requests = response.results.map((pokemon: PokemonListItem) =>
-          this.pokemonService.getPokemon(pokemon.name)
-        );
-        // Join the requests together to get detailed info for each pokemon
-        forkJoin(requests).subscribe({
-          next: (pokemonDetails: Pokemon[]) => {
-            // Update the pokemon signal with the detailed info
-            if (this.loading()) {
-              this.pokemon.set(pokemonDetails);
-              this.allPokemon.set(pokemonDetails);
-              this.loading.set(false);
-              this.currentOffset.set(this.pageSize);
-            }
-          },
-          error: (err: any) => {
-            console.error('Error loading Pokémon details:', err);
-            if (this.loading()) {
-              this.error.set('Failed to load Pokémon details');
-              this.loading.set(false);
-            }
-          }
-        });
+  loadInitialPokemon() {    
+    this.pokemonService.getPokemonList(this.pageSize, 1).subscribe({
+      next: (response) => {                
+        this.pokemon.set(response.results);
+        this.loading.set(false);
+        this.currentPage.set(2);
+        this.hasMorePages.set(response.page < response.totalPages);
       },
       error: (err: any) => {
         console.error('Error loading Pokémon list:', err);
@@ -78,34 +57,17 @@ export class PokemonListComponent implements OnInit {
   }
 
   loadMorePokemon() {    
-    if (this.loadingMore()) return;
+    if (this.loadingMore() || !this.hasMorePages()) return;
         
     this.loadingMore.set(true);
-  
-    // Get the names of more pokemon starting from current offset
-    this.pokemonService.getPokemonList(this.pageSize, this.currentOffset()).subscribe({
-      next: (response) => {
-        // Create requests for each pokemon's name
-        const requests = response.results.map((pokemon: PokemonListItem) => 
-          this.pokemonService.getPokemon(pokemon.name)
-        );
-        
-        // Join the requests together to get detailed info for each pokemon
-        forkJoin(requests).subscribe({
-          next: (pokemonDetails: Pokemon[]) => {
-            // Add the new pokemon to the existing list
-            this.pokemon.update(current => [...current, ...pokemonDetails]);
-            this.allPokemon.update(current => [...current, ...pokemonDetails]);
-            
-            // Update the offset for the next batch
-            this.currentOffset.update(current => current + this.pageSize);
-            this.loadingMore.set(false);
-          },
-          error: (err: any) => {
-            console.error('Error loading more Pokémon:', err);
-            this.loadingMore.set(false);
-          }
-        });
+      
+    this.pokemonService.getPokemonList(this.pageSize, this.currentPage()).subscribe({
+      next: (response) => {        
+        this.pokemon.update(current => [...current, ...response.results]);
+                
+        this.currentPage.update(current => current + 1);
+        this.hasMorePages.set(response.page < response.totalPages);
+        this.loadingMore.set(false);
       },
       error: (err: any) => {
         console.error('Error loading more Pokémon:', err);
@@ -114,13 +76,13 @@ export class PokemonListComponent implements OnInit {
     });
   }
 
-  onPokemonSelect(pokemon: Pokemon) {
+  onPokemonSelect(pokemon: PokemonListItem) {
     this.router.navigate(['/pokemon', pokemon.id]);
   }
 
   @HostListener('window:scroll', ['$event'])
   onScroll(event: Event) {
-    if (this.loading() || this.loadingMore() || this.error() || this.isSearching()) {
+    if (this.loading() || this.loadingMore() || this.error() || this.isSearching() || this.isInSearchMode() || !this.hasMorePages()) {
       return;
     }
 
@@ -139,55 +101,30 @@ export class PokemonListComponent implements OnInit {
   onSearch(query: string) {
     this.searchQuery.set(query);
 
-    if (!query.trim()) {
-      // If search is empty, show all pokemon
-      this.pokemon.set(this.allPokemon());
-      this.searchResults.set([]);
+    if (!query.trim()) {      
+      this.isInSearchMode.set(false);
       this.isSearching.set(false);
+      this.loadInitialPokemon();
       return;
     }
 
     this.isSearching.set(true);
+    this.isInSearchMode.set(true);
     this.error.set(null);
-
-    // Try exact search
-    this.pokemonService.getPokemonByName(query.trim()).subscribe({
-      next: (result) => {
-        if (result) {
-          // Found exact match
-          this.searchResults.set([result]);
-          this.pokemon.set([result]);
-          this.isSearching.set(false);
-        } else {
-          // No exact match, try partial search
-          this.performPartialSearch(query.trim());
-        }
-      },
-      error: () => {
-        // Exact search failed, try partial search
-        this.performPartialSearch(query.trim());
-      }
-    });
-  }
-
-  private performPartialSearch(query: string) {
-    // Search through all loaded pokemon first (faster)
-    const localResults = this.allPokemon().filter(pokemon =>
-      pokemon.name.toLowerCase().includes(query.toLowerCase())
-    );
-
-    if (localResults.length > 0) {
-      this.searchResults.set(localResults);
-      this.pokemon.set(localResults);
-      this.isSearching.set(false);
-      return;
-    }
-
-    // If no local results, try API search
-    this.pokemonService.searchPartialPokemon(query, 20).subscribe({
-      next: (results) => {
-        this.searchResults.set(results);
-        this.pokemon.set(results);
+    
+    this.pokemonService.searchPartialPokemon(query.trim(), 20).subscribe({
+      next: (results) => {        
+        const listItems: PokemonListItem[] = results.map(p => ({
+          id: p.id,
+          name: p.name,
+          imageUrl: p.imageUrl,
+          types: p.types.map(t => ({
+            id: t.type.id,
+            name: t.type.name,
+            color: t.type.color
+          }))
+        }));
+        this.pokemon.set(listItems);
         this.isSearching.set(false);
       },
       error: (err) => {
@@ -198,11 +135,12 @@ export class PokemonListComponent implements OnInit {
     });
   }
 
+
   onSearchClear() {
     this.searchQuery.set('');
-    this.searchResults.set([]);
-    this.pokemon.set(this.allPokemon());
+    this.isInSearchMode.set(false);
     this.isSearching.set(false);
     this.error.set(null);
+    this.loadInitialPokemon();
   }
 }

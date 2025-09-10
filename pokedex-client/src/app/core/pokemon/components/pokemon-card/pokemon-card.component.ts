@@ -1,6 +1,6 @@
 import { Component, input, output, inject } from '@angular/core';
 import { CardComponent, BadgeComponent } from '../../../../../../projects/fish-ui/src/public-api';
-import { Pokemon } from '../../models/pokemon.model';
+import { PokemonListItem } from '../../models/pokemon.model';
 import { PokemonService } from '../../services/pokemon.service';
 
 @Component({
@@ -12,9 +12,9 @@ import { PokemonService } from '../../services/pokemon.service';
 export class PokemonCardComponent {
   private pokemonService = inject(PokemonService);
   
-  pokemon = input.required<Pokemon>();
+  pokemon = input.required<PokemonListItem>();
   
-  cardClick = output<Pokemon>();
+  cardClick = output<PokemonListItem>();
   
   onCardClick() {
     this.cardClick.emit(this.pokemon());

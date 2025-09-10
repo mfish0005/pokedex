@@ -3,42 +3,61 @@ export interface Pokemon {
   name: string;
   height: number;
   weight: number;
-  sprites: {
-    front_default: string;
-    front_shiny?: string;
-  };
+  baseExperience: number;
+  order: number;
+  imageUrl: string;
+  shinyImageUrl: string;
   types: PokemonType[];
   stats: PokemonStat[];
-  base_experience: number;
+  abilities: PokemonAbility[];
 }
 
 export interface PokemonType {
   slot: number;
   type: {
+    id: number;
     name: string;
-    url: string;
+    color: string;
   };
 }
 
 export interface PokemonStat {
-  base_stat: number;
+  baseStat: number;
   effort: number;
   stat: {
+    id: number;
     name: string;
-    url: string;
+    displayName: string;
+  };
+}
+
+export interface PokemonAbility {
+  isHidden: boolean;
+  slot: number;
+  ability: {
+    id: number;
+    name: string;
+    description: string | null;
   };
 }
 
 export interface PokemonListResponse {
   count: number;
-  next: string | null;
-  previous: string | null;
+  page: number;
+  pageSize: number;
+  totalPages: number;
   results: PokemonListItem[];
 }
 
 export interface PokemonListItem {
+  id: number;
   name: string;
-  url: string;
+  imageUrl: string;
+  types: {
+    id: number;
+    name: string;
+    color: string;
+  }[];
 }
 
 export const POKEMON_TYPE_COLORS: Record<string, string> = {

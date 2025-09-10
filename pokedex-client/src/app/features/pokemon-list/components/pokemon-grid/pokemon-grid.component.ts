@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { PokemonCardComponent } from '../../../../core/pokemon/components/pokemon-card/pokemon-card.component';
-import { Pokemon } from '../../../../core/pokemon/models/pokemon.model';
+import { PokemonListItem } from '../../../../core/pokemon/models/pokemon.model';
 
 @Component({
   selector: 'app-pokemon-grid',
@@ -9,11 +9,11 @@ import { Pokemon } from '../../../../core/pokemon/models/pokemon.model';
   styleUrl: './pokemon-grid.component.scss'
 })
 export class PokemonGridComponent {
-  pokemon = input.required<Pokemon[]>();
+  pokemon = input.required<PokemonListItem[]>();
   
-  pokemonSelect = output<Pokemon>();
+  pokemonSelect = output<PokemonListItem>();
   
-  onPokemonSelect(pokemon: Pokemon) {
+  onPokemonSelect(pokemon: PokemonListItem) {
     this.pokemonSelect.emit(pokemon);
   }
 }

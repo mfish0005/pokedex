@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of, forkJoin } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Pokemon, PokemonListResponse, POKEMON_TYPE_COLORS } from '../models/pokemon.model';
 
@@ -8,7 +8,7 @@ import { Pokemon, PokemonListResponse, POKEMON_TYPE_COLORS } from '../models/pok
   providedIn: 'root'
 })
 export class PokemonService {
-  private readonly baseUrl = 'https://pokeapi.co/api/v2';
+  private readonly baseUrl = 'https://localhost:44373/api';
   private readonly noCacheHeaders = new HttpHeaders({
     'Cache-Control': 'no-cache, no-store, must-revalidate',
     'Pragma': 'no-cache',
@@ -20,25 +20,28 @@ export class PokemonService {
   /**
    * Get a list of Pokémon with pagination
    * 
-   * @param limit - The number of Pokémon to return
-   * @param offset - The offset from the first Pokémon to return
+   * @param pageSize - The number of Pokémon to return per page
+   * @param page - The page number (1-based)
+   * @param search - Optional search term to filter by name
    * @returns An Observable of PokemonListResponse
    */
-  getPokemonList(limit: number = 12, offset: number = 0): Observable<PokemonListResponse> {
-    return this.http.get<PokemonListResponse>(
-      `${this.baseUrl}/pokemon?limit=${limit}&offset=${offset}`,
-      { headers: this.noCacheHeaders }
-    );
+  getPokemonList(pageSize: number = 12, page: number = 1, search?: string): Observable<PokemonListResponse> {
+    let url = `${this.baseUrl}/pokemon?page=${page}&pageSize=${pageSize}`;
+    if (search && search.trim()) {
+      url += `&search=${encodeURIComponent(search.trim())}`;
+    }
+    
+    return this.http.get<PokemonListResponse>(url, { headers: this.noCacheHeaders });
   }
 
   /**
    * Get detailed information for a specific Pokémon
    * 
-   * @param nameOrId - The name or ID of the Pokémon
+   * @param id - The ID of the Pokémon
    * @returns An Observable of Pokemon
    */
-  getPokemon(nameOrId: string | number): Observable<Pokemon> {
-    return this.http.get<Pokemon>(`${this.baseUrl}/pokemon/${nameOrId}`, { headers: this.noCacheHeaders });
+  getPokemon(id: number): Observable<Pokemon> {
+    return this.http.get<Pokemon>(`${this.baseUrl}/pokemon/${id}`, { headers: this.noCacheHeaders });
   }
 
   /**
@@ -102,9 +105,12 @@ export class PokemonService {
       return of(null);
     }
 
-    const formattedName = name.trim().toLowerCase();
-
-    return this.getPokemon(formattedName);
+    const searchTerm = name.trim().toLowerCase();
+    
+    return this.http.get<Pokemon[]>(`${this.baseUrl}/pokemon/search?search=${encodeURIComponent(searchTerm)}`, { headers: this.noCacheHeaders }).pipe(
+      map(results => results.length > 0 ? results[0] : null),
+      catchError(() => of(null))
+    );
   }
 
   /**
@@ -121,26 +127,10 @@ export class PokemonService {
     }
 
     const searchQuery = query.trim().toLowerCase();
-
-    // For partial matching, we'll need to search through the full list
-    // This is a simplified approach - in a real app, you might want to cache the full list
-    return this.getPokemonList(1000, 0).pipe(
-      map(response => {
-        const filtered = response.results.filter(pokemon =>
-          pokemon.name.toLowerCase().includes(searchQuery)
-        ).slice(0, limit);
-
-        // Get detailed info for each matching Pokemon
-        const detailRequests = filtered.map(pokemon =>
-          this.http.get<Pokemon>(pokemon.url, { headers: this.noCacheHeaders })
-        );
-
-        return detailRequests.length > 0 ? detailRequests : [of(null as any)];
-      }),
-      // Switch to forkJoin to get all results
-      map(requests => requests.length > 0 ? forkJoin(requests) : of([])),
-      // Flatten the result
-      map(result => Array.isArray(result) ? result.filter(p => p !== null) : [])
+    
+    return this.http.get<Pokemon[]>(`${this.baseUrl}/pokemon/search?search=${encodeURIComponent(searchQuery)}`, { headers: this.noCacheHeaders }).pipe(
+      map(results => results.slice(0, limit)),
+      catchError(() => of([]))
     );
   }
 
