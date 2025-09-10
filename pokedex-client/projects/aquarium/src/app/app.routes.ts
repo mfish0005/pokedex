@@ -50,6 +50,10 @@ export const routes: Routes = [
         path: 'textarea',
         loadComponent: () => import('./features/textarea-demo/textarea-demo.component').then(m => m.TextareaDemoComponent)
       },
+      {
+        path: 'select',
+        loadComponent: () => import('./features/select-demo/select-demo.component').then(m => m.SelectDemoComponent)
+      },
     ]
   },
   {

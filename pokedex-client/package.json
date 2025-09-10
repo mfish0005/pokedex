@@ -6,7 +6,13 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "serve-pokedex": "ng serve pokedex",
+    "serve-aquarium": "ng serve aquarium --port 4201",
+    "build-pokedex": "ng build pokedex",
+    "build-aquarium": "ng build aquarium",
+    "build-fish-ui": "ng build fish-ui",
+    "build-all": "npm run build-fish-ui && npm run build-pokedex && npm run build-aquarium"
   },
   "prettier": {
     "printWidth": 100,
