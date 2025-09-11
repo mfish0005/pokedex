@@ -1,8 +1,8 @@
-# 🔥 Pokemon Full-Stack Application
+# Pokedex
 
 A modern, full-stack Pokemon management application built with .NET 9 Web API and Angular 20, featuring a custom component and style library
 
-## 🎯 Project Overview
+## Project Overview
 
 This project demonstrates enterprise-level full-stack development skills with:
 
@@ -14,18 +14,18 @@ This project demonstrates enterprise-level full-stack development skills with:
 - **Documentation**: Comprehensive docs via Aquarium demo application and Swagger
 - **Containerization**: Uses Docker to get up and running fast
 
-## 🏗️ Architecture
+## Architecture
 
 ### Backend (.NET 9 Web API)
 ```
 ┌─────────────────┐
-│   PokemonApi.Api │ ← Presentation Layer (Controllers, Swagger)
+│ PokemonApi.Api      ← Presentation Layer (Controllers, Swagger)
 ├─────────────────┤
-│ PokemonApi.Services │ ← Business Logic Layer (Services, DTOs)  
+│ PokemonApi.Services ← Business Logic Layer (Services, DTOs)  
 ├─────────────────┤
-│  PokemonApi.Data │ ← Data Access Layer (EF Core, Repositories)
+│ PokemonApi.Data     ← Data Access Layer (EF Core, Repositories)
 ├─────────────────┤
-│ PokemonApi.Shared │ ← Shared Models & Utilities
+│ PokemonApi.Shared   ← Shared Models & Utilities
 └─────────────────┘
 ```
 
@@ -39,11 +39,11 @@ This project demonstrates enterprise-level full-stack development skills with:
 ### Frontend (Angular 20)
 ```
 ┌─────────────────┐
-│   Pokedex App   │ ← Main Pokemon application
+│   Pokedex App     ← Main Pokemon application
 ├─────────────────┤
-│   Aquarium App  │ ← Component library showcase
+│   Aquarium App    ← Component library showcase
 ├─────────────────┤
-│    Fish UI      │ ← Custom component library
+│    Fish UI        ← Custom component library
 └─────────────────┘
 ```
 
@@ -54,7 +54,7 @@ This project demonstrates enterprise-level full-stack development skills with:
 - Custom Component Library
 - SCSS Theming System
 
-## 🚀 Features
+## Features
 
 ### Pokemon Management
 - **View Pokemon**: Paginated list with search functionality
@@ -78,7 +78,7 @@ This project demonstrates enterprise-level full-stack development skills with:
 - **CORS Support**: Cross-origin resource sharing
 - **Data Seeding**: Automated population from PokeAPI
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 ### Backend
 - **.NET 9**: Latest .NET framework
@@ -102,7 +102,7 @@ This project demonstrates enterprise-level full-stack development skills with:
 - **Docker Desktop**: Container management
 - **SQL Server Management Studio**: Database management
 
-## 📋 Prerequisites
+## Prerequisites
 
 - [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
 - [Node.js](https://nodejs.org/) (v18 or higher)
@@ -110,7 +110,7 @@ This project demonstrates enterprise-level full-stack development skills with:
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 - [SQL Server Management Studio](https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms) (optional)
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Clone the Repository
 ```bash
@@ -168,7 +168,7 @@ The applications will be available at:
 - **Pokedex App**: `http://localhost:4200`
 - **Aquarium (Component Library)**: `http://localhost:4201`
 
-## 📚 API Documentation
+## API Documentation
 
 Once the API is running, visit `https://localhost:44373/swagger` for comprehensive API documentation including:
 
@@ -177,7 +177,7 @@ Once the API is running, visit `https://localhost:44373/swagger` for comprehensi
 - Schema documentation
 - Validation rules
 
-## 🎨 Component Library
+## Component Library
 
 The Fish UI component library includes:
 
@@ -188,7 +188,7 @@ The Fish UI component library includes:
 
 View the component showcase at `http://localhost:4201` when running the Aquarium app.
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```
 pokemon-fullstack-app/
@@ -207,7 +207,7 @@ pokemon-fullstack-app/
 └── README.md                   # This file
 ```
 
-## 🔧 Development Commands
+## Development Commands
 
 ### Backend
 ```bash
