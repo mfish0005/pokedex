@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
-import { PokemonCardComponent } from '../../../../core/pokemon/components/pokemon-card/pokemon-card.component';
-import { PokemonListItem } from '../../../../core/pokemon/models/pokemon.model';
+import { PokemonCardComponent } from '../../../../core/components/pokemon-card/pokemon-card.component';
+import { PokemonListItem } from '../../../../core/models/pokemon.model';
 
 @Component({
   selector: 'app-pokemon-grid',

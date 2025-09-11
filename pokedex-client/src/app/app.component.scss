@@ -1,5 +1,4 @@
 @import '../styles/pokemon-theme.scss';
-@import '../../projects/fish-ui/src/styles/fish-styles/all';
 
 body {
   margin: 0;
@@ -8,7 +7,7 @@ body {
 
 .app-container {
   min-height: 100vh;
-  background: $red; // Pokemon red background
+  background: $red;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
@@ -19,7 +18,7 @@ body {
 .pokedex-container {
   flex: 1;
   padding: 2rem;
-  background: $red; // Pokemon red background
+  background: $red;
   background-attachment: fixed;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
@@ -114,7 +113,7 @@ body {
 .type-badge {
   font-size: $size-7;
   font-weight: $weight-normal;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.5rem;  
   border: 2px solid $gray-darkest;
   border-radius: 0;
   box-shadow: 2px 2px 0px $black;

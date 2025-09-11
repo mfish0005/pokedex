@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Pokemon, PokemonListResponse, POKEMON_TYPE_COLORS, CreatePokemonRequest, UpdatePokemonRequest, PokemonListItem } from '../models/pokemon.model';
@@ -9,11 +9,6 @@ import { Pokemon, PokemonListResponse, POKEMON_TYPE_COLORS, CreatePokemonRequest
 })
 export class PokemonService {
   private readonly baseUrl = 'https://localhost:44373/api';
-  private readonly noCacheHeaders = new HttpHeaders({
-    'Cache-Control': 'no-cache, no-store, must-revalidate',
-    'Pragma': 'no-cache',
-    'Expires': '0'
-  });
 
   constructor(private http: HttpClient) {}
 
@@ -31,7 +26,7 @@ export class PokemonService {
       url += `&search=${encodeURIComponent(search.trim())}`;
     }
     
-    return this.http.get<PokemonListResponse>(url, { headers: this.noCacheHeaders });
+    return this.http.get<PokemonListResponse>(url);
   }
 
   /**
@@ -41,7 +36,7 @@ export class PokemonService {
    * @returns An Observable of Pokemon
    */
   getPokemon(id: number): Observable<Pokemon> {
-    return this.http.get<Pokemon>(`${this.baseUrl}/pokemon/${id}`, { headers: this.noCacheHeaders });
+    return this.http.get<Pokemon>(`${this.baseUrl}/pokemon/${id}`);
   }
 
   /**
@@ -107,7 +102,7 @@ export class PokemonService {
 
     const searchTerm = name.trim().toLowerCase();
     
-    return this.http.get<Pokemon[]>(`${this.baseUrl}/pokemon/search?search=${encodeURIComponent(searchTerm)}`, { headers: this.noCacheHeaders }).pipe(
+    return this.http.get<Pokemon[]>(`${this.baseUrl}/pokemon/search?search=${encodeURIComponent(searchTerm)}`).pipe(
       map(results => results.length > 0 ? results[0] : null),
       catchError(() => of(null))
     );
@@ -128,7 +123,7 @@ export class PokemonService {
 
     const searchQuery = query.trim().toLowerCase();
     
-    return this.http.get<any[]>(`${this.baseUrl}/pokemon/search?search=${encodeURIComponent(searchQuery)}`, { headers: this.noCacheHeaders }).pipe(
+    return this.http.get<any[]>(`${this.baseUrl}/pokemon/search?search=${encodeURIComponent(searchQuery)}`).pipe(
       map(results => results.slice(0, limit).map(p => ({
         id: p.id,
         name: p.name,
@@ -150,7 +145,7 @@ export class PokemonService {
    * @returns An Observable of { id: number; name: string } | null
    */
   getPokemonBasicInfo(id: number): Observable<{ id: number; name: string } | null> {
-    return this.http.get<Pokemon>(`${this.baseUrl}/pokemon/${id}`, { headers: this.noCacheHeaders }).pipe(
+    return this.http.get<Pokemon>(`${this.baseUrl}/pokemon/${id}`).pipe(
       map(pokemon => ({
         id: pokemon.id,
         name: this.capitalizeName(pokemon.name)
@@ -166,7 +161,7 @@ export class PokemonService {
    * @returns An Observable of the created Pokemon
    */
   createPokemon(createData: CreatePokemonRequest): Observable<Pokemon> {
-    return this.http.post<Pokemon>(`${this.baseUrl}/pokemon`, createData, { headers: this.noCacheHeaders });
+    return this.http.post<Pokemon>(`${this.baseUrl}/pokemon`, createData);
   }
 
   /**
@@ -177,7 +172,7 @@ export class PokemonService {
    * @returns An Observable of the updated Pokemon
    */
   updatePokemon(id: number, updateData: UpdatePokemonRequest): Observable<Pokemon> {
-    return this.http.put<Pokemon>(`${this.baseUrl}/pokemon/${id}`, updateData, { headers: this.noCacheHeaders });
+    return this.http.put<Pokemon>(`${this.baseUrl}/pokemon/${id}`, updateData);
   }
 
   /**
@@ -187,6 +182,6 @@ export class PokemonService {
    * @returns An Observable of void
    */
   deletePokemon(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/pokemon/${id}`, { headers: this.noCacheHeaders });
+    return this.http.delete<void>(`${this.baseUrl}/pokemon/${id}`);
   }
 } 

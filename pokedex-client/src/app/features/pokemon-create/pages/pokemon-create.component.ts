@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { InputComponent, TextareaComponent, SelectComponent, SelectOption } from 'fish-ui';
-import { PokemonService } from '../../../core/pokemon/services/pokemon.service';
-import { CreatePokemonRequest, POKEMON_TYPE_COLORS } from '../../../core/pokemon/models/pokemon.model';
+import { PokemonService } from '../../../core/services/pokemon.service';
+import { CreatePokemonRequest, POKEMON_TYPE_COLORS } from '../../../core/models/pokemon.model';
 
 @Component({
   selector: 'app-pokemon-create',

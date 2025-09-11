@@ -1,11 +1,11 @@
 import { Component, OnInit, signal, inject, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { LoadingStateComponent } from '../../../core/pokemon/components/loading-state/loading-state.component';
+import { LoadingStateComponent } from '../../../core/components/loading-state/loading-state.component';
 import { PokemonGridComponent } from '../components/pokemon-grid/pokemon-grid.component';
-import { PokemonService } from '../../../core/pokemon/services/pokemon.service';
-import { Pokemon, PokemonListItem } from '../../../core/pokemon/models/pokemon.model';
-import { SearchComponent } from '../../../../../projects/fish-ui/src/public-api';
+import { PokemonService } from '../../../core/services/pokemon.service';
+import { PokemonListItem } from '../../../core/models/pokemon.model';
+import { SearchComponent } from '@fish-ui/components';
 
 @Component({
   selector: 'app-pokemon-list',

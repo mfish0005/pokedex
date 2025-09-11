@@ -1,0 +1,29 @@
+<div class="pokemon-basic-info">
+  <div class="pokemon-number has-text-gray is-size-6 has-text-weight-semibold has-margin-bottom-1">
+    {{ formatPokemonNumber(pokemon().id) }}
+  </div>
+  
+  <h1 class="pokemon-name is-size-1 has-text-weight-bold has-text-primary has-margin-bottom-2">
+    {{ capitalizeName(pokemon().name) }}
+  </h1>
+  
+  <div class="pokemon-image-container has-text-centered has-margin-bottom-3">
+    <img 
+      [src]="pokemon().imageUrl" 
+      [alt]="pokemon().name"
+      class="pokemon-image-large">
+  </div>
+  
+  <div class="pokemon-types has-text-centered has-margin-bottom-3">
+    @for (type of pokemon().types; track type.type.id) {
+      <fish-badge 
+        variant="custom"
+        size="medium"
+        [rounded]="true"
+        [customColor]="type.type.color"
+        class="type-badge">
+        {{ capitalizeName(type.type.name) }}
+      </fish-badge>
+    }
+  </div>
+</div>

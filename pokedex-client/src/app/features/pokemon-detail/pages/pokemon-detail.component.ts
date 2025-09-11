@@ -3,12 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { CardComponent, ButtonComponent, IconComponent } from '@fish-ui/components';
-import { LoadingStateComponent } from '../../../core/pokemon/components/loading-state/loading-state.component';
-import { PokemonBasicInfoComponent } from '../../../core/pokemon/components/pokemon-basic-info/pokemon-basic-info.component';
-import { PokemonStatsComponent } from '../../../core/pokemon/components/pokemon-stats/pokemon-stats.component';
-import { PokemonInfoComponent } from '../../../core/pokemon/components/pokemon-info/pokemon-info.component';
-import { PokemonService } from '../../../core/pokemon/services/pokemon.service';
-import { Pokemon } from '../../../core/pokemon/models/pokemon.model';
+import { LoadingStateComponent } from '../../../core/components/loading-state/loading-state.component';
+import { PokemonBasicInfoComponent } from '../../../core/components/pokemon-basic-info/pokemon-basic-info.component';
+import { PokemonStatsComponent } from '../../../core/components/pokemon-stats/pokemon-stats.component';
+import { PokemonInfoComponent } from '../../../core/components/pokemon-info/pokemon-info.component';
+import { PokemonService } from '../../../core/services/pokemon.service';
+import { Pokemon } from '../../../core/models/pokemon.model';
 
 @Component({
   selector: 'app-pokemon-detail',

@@ -1,5 +1,5 @@
 import { Component, input, inject } from '@angular/core';
-import { BadgeComponent } from '../../../../../../projects/fish-ui/src/public-api';
+import { BadgeComponent } from '@fish-ui/components';
 import { Pokemon } from '../../models/pokemon.model';
 import { PokemonService } from '../../services/pokemon.service';
 

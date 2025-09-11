@@ -1,4 +1,4 @@
-@import '../../../../../styles/pokemon-theme.scss';
+@import '../../../../styles/pokemon-theme.scss';
 
 .pokemon-card {
   transition: all 0.2s ease;
@@ -49,6 +49,8 @@
   font-weight: $weight-normal;
   text-transform: uppercase;
   letter-spacing: 0;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .pokemon-number {
