@@ -1,11 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using PokemonApi.Services.Interfaces;
 using PokemonApi.Services.DTOs;
+using System.ComponentModel.DataAnnotations;
 
 namespace PokemonApi.Api.Controllers;
 
+/// <summary>
+/// Pokemon API Controller - Provides CRUD operations for Pokemon
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
+[Produces("application/json")]
 public class PokemonController : ControllerBase
 {
     private readonly IPokemonService _pokemonService;
@@ -18,13 +23,19 @@ public class PokemonController : ControllerBase
     }
 
     /// <summary>
-    /// Get a paginated list of Pokemon
+    /// Retrieves a paginated list of Pokemon with optional search functionality
     /// </summary>
-    /// <param name="page">Page number (default: 1)</param>
-    /// <param name="pageSize">Number of items per page (default: 20)</param>
-    /// <param name="search">Optional search term to filter by name</param>
-    /// <returns>Paginated list of Pokemon</returns>
+    /// <param name="page">Page number (default: 1, minimum: 1)</param>
+    /// <param name="pageSize">Number of items per page (default: 20, range: 1-100)</param>
+    /// <param name="search">Optional search term to filter Pokemon by name (case-insensitive)</param>
+    /// <returns>A paginated list of Pokemon with metadata including total count and page information</returns>
+    /// <response code="200">Returns the paginated list of Pokemon</response>
+    /// <response code="400">If the page or pageSize parameters are invalid</response>
+    /// <response code="500">If there was an internal server error</response>
     [HttpGet]
+    [ProducesResponseType(typeof(PokemonListDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetPokemonList(
         [FromQuery] int page = 1, 
         [FromQuery] int pageSize = 20, 
@@ -123,11 +134,19 @@ public class PokemonController : ControllerBase
     }
 
     /// <summary>
-    /// Create a new Pokemon
+    /// Creates a new Pokemon in the database
     /// </summary>
-    /// <param name="createDto">Pokemon creation data</param>
-    /// <returns>Created Pokemon</returns>
+    /// <param name="createDto">Pokemon creation data including name, stats, types, and abilities</param>
+    /// <returns>The newly created Pokemon with generated ID and complete details</returns>
+    /// <response code="201">Returns the newly created Pokemon</response>
+    /// <response code="400">If the Pokemon data is invalid or validation fails</response>
+    /// <response code="409">If a Pokemon with the same name already exists</response>
+    /// <response code="500">If there was an internal server error during creation</response>
     [HttpPost]
+    [ProducesResponseType(typeof(PokemonDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> CreatePokemon([FromBody] CreatePokemonDto createDto)
     {
         try
