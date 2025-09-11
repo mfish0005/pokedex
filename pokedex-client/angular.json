@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "fish-ui-library": {
+    "pokedex": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -64,10 +64,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "fish-ui-library:build:production"
+              "buildTarget": "pokedex:build:production"
             },
             "development": {
-              "buildTarget": "fish-ui-library:build:development"
+              "buildTarget": "pokedex:build:development"
             }
           },
           "defaultConfiguration": "development"
