@@ -8,7 +8,7 @@ import { Pokemon, PokemonListResponse, POKEMON_TYPE_COLORS, CreatePokemonRequest
   providedIn: 'root'
 })
 export class PokemonService {
-  private readonly baseUrl = 'https://localhost:44373/api';
+  private readonly baseUrl = 'http://localhost:5150/api';
 
   constructor(private http: HttpClient) {}
 
