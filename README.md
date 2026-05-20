@@ -222,6 +222,9 @@ dotnet ef database update
 
 # Seed database
 dotnet run --seed
+
+# Run unit tests
+dotnet test PokemonApi.Tests/PokemonApi.Tests.csproj
 ```
 
 ### Frontend
@@ -237,4 +240,7 @@ npm run build-pokedex
 
 # Build component library
 npm run build-fish-ui
+
+# Run unit tests
+npm run test-pokedex
 ```

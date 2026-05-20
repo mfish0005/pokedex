@@ -13,6 +13,7 @@
     "build-aquarium": "ng build aquarium",
     "build-fish-ui": "ng build fish-ui",
     "build-all": "npm run build-fish-ui && npm run build-pokedex && npm run build-aquarium"
+    "test-pokedex": "ng test pokedex --watch=false --browsers=ChromeHeadless"
   },
   "prettier": {
     "printWidth": 100,
