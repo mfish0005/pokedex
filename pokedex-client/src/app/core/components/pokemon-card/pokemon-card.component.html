@@ -22,7 +22,7 @@
     {{ capitalizeName(pokemon().name) }}
   </h3>
 
-  <div class="pokemon-types has-text-centered">
+  <div class="pokemon-types is-flex-centered">
     @for (type of pokemon().types; track type.id) {
       <fish-badge 
         variant="custom"

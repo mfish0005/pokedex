@@ -137,7 +137,6 @@ export class PokemonListComponent implements OnInit {
     });
   }
 
-
   onSearchClear() {
     this.searchQuery.set('');
     this.isInSearchMode.set(false);

@@ -35,8 +35,12 @@
   line-height: 1.4;
 }
 
+.pokemon-types {
+  flex-wrap: wrap;
+  gap: $spacing-2;
+}
+
 .type-badge {
-  margin: 0 0.125rem 0.25rem 0;
   text-transform: uppercase;
 }
 
