@@ -1,298 +1,133 @@
-import { Component, signal, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { InputComponent, TextareaComponent, SelectComponent, SelectOption } from 'fish-ui';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ButtonComponent } from '@fish-ui/components';
+import { catchError, combineLatest, map, Observable, of, startWith, Subject, switchMap } from 'rxjs';
+import { LoadingStateComponent } from '../../../core/components/loading-state/loading-state.component';
+import { StatusMessageComponent } from '../../../core/components/status-message/status-message.component';
+import { FieldErrors } from '../../../core/forms/pokemon-form.model';
+import { ServerFailure, toServerFailure } from '../../../core/forms/server-failure';
+import { isNotFound, toProblemMessage } from '../../../core/http/problem-message';
+import { Pokemon, PokemonInput } from '../../../core/models/pokemon.model';
 import { PokemonService } from '../../../core/services/pokemon.service';
-import { UpdatePokemonRequest, POKEMON_TYPE_COLORS, Pokemon } from '../../../core/models/pokemon.model';
+import { PokemonEditFormComponent } from '../components/pokemon-edit-form/pokemon-edit-form.component';
+
+type LoadState =
+  | { status: 'loading' }
+  | { status: 'not-found' }
+  | { status: 'error'; message: string }
+  | { status: 'ready'; pokemon: Pokemon };
+
+type SaveState =
+  | { status: 'idle' }
+  | { status: 'saving' }
+  | { status: 'deleting' }
+  | { status: 'gone' }
+  | ({ status: 'failed' } & ServerFailure);
+
+const loading: LoadState = { status: 'loading' };
+const notFound: LoadState = { status: 'not-found' };
+const idle: SaveState = { status: 'idle' };
+const gone: SaveState = { status: 'gone' };
+
+const unexpectedLoadMessage = 'Something went wrong while loading this Pokemon. Please try again.';
+const unexpectedSaveMessage = 'Something went wrong while saving this Pokemon. Please try again.';
+const unexpectedDeleteMessage = 'Something went wrong while deleting this Pokemon. Please try again.';
 
 @Component({
   selector: 'app-pokemon-edit',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputComponent, TextareaComponent, SelectComponent],
+  imports: [ButtonComponent, LoadingStateComponent, PokemonEditFormComponent, StatusMessageComponent],
   templateUrl: './pokemon-edit.component.html',
-  styleUrls: ['./pokemon-edit.component.scss']
+  styleUrls: ['./pokemon-edit.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PokemonEditComponent implements OnInit {
-  pokemonForm: FormGroup;
-  isLoading = signal(false);
-  isLoadingData = signal(true);
-  error = signal<string | null>(null);
-  pokemonId = signal<number | null>(null);
-  pokemon = signal<Pokemon | null>(null);
+export class PokemonEditComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly pokemonService = inject(PokemonService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly refresh = new Subject<void>();
 
-  typeOptions: SelectOption[] = Object.keys(POKEMON_TYPE_COLORS).map(type => ({
-    value: type,
-    label: type.charAt(0).toUpperCase() + type.slice(1)
-  }));
+  private readonly id$ = this.route.paramMap.pipe(map(params => Number(params.get('id'))));
 
-  statOptions: SelectOption[] = [
-    { value: 'hp', label: 'HP' },
-    { value: 'attack', label: 'Attack' },
-    { value: 'defense', label: 'Defense' },
-    { value: 'special-attack', label: 'Special Attack' },
-    { value: 'special-defense', label: 'Special Defense' },
-    { value: 'speed', label: 'Speed' }
-  ];
+  protected readonly noFieldErrors: FieldErrors = {};
+  protected readonly saveState = signal<SaveState>(idle);
 
-  constructor(
-    private fb: FormBuilder,
-    private pokemonService: PokemonService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
-    this.pokemonForm = this.createForm();
+  protected readonly state = toSignal(
+    combineLatest([this.id$, this.refresh.pipe(startWith(undefined))]).pipe(
+      switchMap(([id]) => this.load(id))
+    ),
+    { initialValue: loading }
+  );
+
+  protected retry(): void {
+    this.refresh.next();
   }
 
-  ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.pokemonId.set(Number(id));
-      this.loadPokemon(Number(id));
-    } else {
-      this.router.navigate(['/pokemon']);
-    }
-  }
+  protected save(pokemon: Pokemon, input: PokemonInput): void {
+    this.saveState.set({ status: 'saving' });
 
-  private loadPokemon(id: number): void {
-    this.isLoadingData.set(true);
-    this.error.set(null);
-
-    this.pokemonService.getPokemon(id).subscribe({
-      next: (pokemon) => {
-        this.pokemon.set(pokemon);
-        this.populateForm(pokemon);
-        this.isLoadingData.set(false);
-      },
-      error: (error) => {
-        this.error.set('Failed to load Pokemon data. Please try again.');
-        this.isLoadingData.set(false);
-        console.error('Error loading Pokemon:', error);
-      }
-    });
-  }
-
-  private populateForm(pokemon: Pokemon): void {    
-    while (this.types.length !== 0) {
-      this.types.removeAt(0);
-    }
-    while (this.stats.length !== 0) {
-      this.stats.removeAt(0);
-    }
-    while (this.abilities.length !== 0) {
-      this.abilities.removeAt(0);
-    }
-            
-    this.pokemonForm.patchValue({
-      name: this.pokemonService.capitalizeName(pokemon.name),
-      height: pokemon.height,
-      weight: pokemon.weight,
-      baseExperience: pokemon.baseExperience,
-      imageUrl: pokemon.imageUrl || ''
-    });
-    
-    pokemon.types.forEach(type => {
-      this.types.push(this.fb.group({
-        name: [type.type.name, [Validators.required]],
-        color: [type.type.color, [Validators.required, Validators.pattern(/^#[0-9A-Fa-f]{6}$/)]]
-      }));
-    });
-
-    pokemon.stats.forEach(stat => {
-      this.stats.push(this.fb.group({
-        name: [stat.stat.name, [Validators.required]],
-        displayName: [stat.stat.displayName, [Validators.required]],
-        baseStat: [stat.baseStat, [Validators.required, Validators.min(0), Validators.max(255)]]
-      }));
-    });
-
-    pokemon.abilities.forEach(ability => {
-      this.abilities.push(this.fb.group({
-        name: [ability.ability.name, [Validators.required, Validators.maxLength(100)]],
-        isHidden: [ability.isHidden]
-      }));
-    });
-  }
-
-  private createForm(): FormGroup {
-    return this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
-      height: [1, [Validators.required, Validators.min(1), Validators.max(1000)]],
-      weight: [1, [Validators.required, Validators.min(1), Validators.max(10000)]],
-      baseExperience: [1, [Validators.required, Validators.min(1), Validators.max(1000)]],
-      imageUrl: ['', [Validators.pattern(/^https?:\/\/.+/)]],
-      types: this.fb.array([]),
-      stats: this.fb.array([]),
-      abilities: this.fb.array([])
-    });
-  }
-
-  private createTypeGroup(): FormGroup {
-    return this.fb.group({
-      name: ['', [Validators.required]],
-      color: ['', [Validators.required, Validators.pattern(/^#[0-9A-Fa-f]{6}$/)]]
-    });
-  }
-
-  private createStatGroup(): FormGroup {
-    return this.fb.group({
-      name: ['', [Validators.required]],
-      displayName: ['', [Validators.required]],
-      baseStat: [1, [Validators.required, Validators.min(0), Validators.max(255)]]
-    });
-  }
-
-  private createAbilityGroup(): FormGroup {
-    return this.fb.group({
-      name: ['', [Validators.required, Validators.maxLength(100)]],
-      isHidden: [false]
-    });
-  }
-
-  get types(): FormArray {
-    return this.pokemonForm.get('types') as FormArray;
-  }
-
-  get stats(): FormArray {
-    return this.pokemonForm.get('stats') as FormArray;
-  }
-
-  get abilities(): FormArray {
-    return this.pokemonForm.get('abilities') as FormArray;
-  }
-
-  addType(): void {
-    this.types.push(this.createTypeGroup());
-  }
-
-  removeType(index: number): void {
-    if (this.types.length > 1) {
-      this.types.removeAt(index);
-    }
-  }
-
-  addStat(): void {
-    this.stats.push(this.createStatGroup());
-  }
-
-  removeStat(index: number): void {
-    if (this.stats.length > 1) {
-      this.stats.removeAt(index);
-    }
-  }
-
-  addAbility(): void {
-    this.abilities.push(this.createAbilityGroup());
-  }
-
-  removeAbility(index: number): void {
-    if (this.abilities.length > 1) {
-      this.abilities.removeAt(index);
-    }
-  }
-
-  onTypeSelect(index: number, typeName: string): void {
-    const typeGroup = this.types.at(index) as FormGroup;
-    const color = POKEMON_TYPE_COLORS[typeName as keyof typeof POKEMON_TYPE_COLORS];
-    typeGroup.patchValue({
-      name: typeName,
-      color: color
-    });
-  }
-
-  onStatSelect(index: number, statName: string): void {
-    const statGroup = this.stats.at(index) as FormGroup;
-    const displayName = this.statOptions.find(opt => opt.value === statName)?.label || statName;
-    statGroup.patchValue({
-      name: statName,
-      displayName: displayName
-    });
-  }
-
-  onSubmit(): void {
-    if (this.pokemonForm.valid && !this.isLoading() && this.pokemonId()) {
-      this.isLoading.set(true);
-      this.error.set(null);
-
-      const formValue = this.pokemonForm.value;
-      const updateRequest: UpdatePokemonRequest = {
-        name: formValue.name,
-        height: parseInt(formValue.height, 10),
-        weight: parseInt(formValue.weight, 10),
-        baseExperience: parseInt(formValue.baseExperience, 10),
-        imageUrl: formValue.imageUrl || undefined,
-        types: formValue.types,
-        stats: formValue.stats.map((stat: any) => ({
-          ...stat,
-          baseStat: parseInt(stat.baseStat, 10)
-        })),
-        abilities: formValue.abilities
-      };
-
-      this.pokemonService.updatePokemon(this.pokemonId()!, updateRequest).subscribe({
-        next: (updatedPokemon) => {
-          this.isLoading.set(false);
-          this.router.navigate(['/pokemon', updatedPokemon.id]);
-        },
-        error: (error) => {
-          this.isLoading.set(false);
-          this.error.set('Failed to update Pokemon. Please try again.');
-          console.error('Error updating Pokemon:', error);
-        }
+    this.pokemonService
+      .updatePokemon(pokemon.id, input)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => this.router.navigate(['/pokemon', pokemon.id], { replaceUrl: true }),
+        error: error =>
+          this.saveState.set(isNotFound(error) ? gone : { status: 'failed', ...toServerFailure(error, unexpectedSaveMessage) })
       });
-    } else {
-      this.markFormGroupTouched(this.pokemonForm);
-    }
   }
 
-  private markFormGroupTouched(formGroup: FormGroup): void {
-    Object.keys(formGroup.controls).forEach(field => {
-      const control = formGroup.get(field);
-      if (control instanceof FormGroup) {
-        this.markFormGroupTouched(control);
-      } else if (control instanceof FormArray) {
-        control.controls.forEach(arrayControl => {
-          if (arrayControl instanceof FormGroup) {
-            this.markFormGroupTouched(arrayControl);
-          } else {
-            arrayControl.markAsTouched();
+  protected delete(pokemon: Pokemon): void {
+    if (!confirm(`Delete ${this.capitalizeName(pokemon.name)}? This cannot be undone.`)) {
+      return;
+    }
+
+    this.saveState.set({ status: 'deleting' });
+
+    this.pokemonService
+      .deletePokemon(pokemon.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => this.goHome(),
+        error: error => {
+          if (isNotFound(error)) {
+            this.goHome();
+            return;
           }
-        });
-      } else {
-        control?.markAsTouched();
-      }
-    });
-  }
 
-  onCancel(): void {
-    const id = this.pokemonId();
-    if (id) {
-      this.router.navigate(['/pokemon', id]);
-    } else {
-      this.router.navigate(['/pokemon']);
-    }
-  }
-
-  onDelete(): void {
-    if (this.pokemonId() && confirm('Are you sure you want to delete this Pokemon? This action cannot be undone.')) {
-      this.isLoading.set(true);
-      this.error.set(null);
-
-      this.pokemonService.deletePokemon(this.pokemonId()!).subscribe({
-        next: () => {
-          this.isLoading.set(false);
-          this.router.navigate(['/']);
-        },
-        error: (error) => {
-          this.isLoading.set(false);
-          this.error.set('Failed to delete Pokemon. Please try again.');
-          console.error('Error deleting Pokemon:', error);
+          this.saveState.set({
+            status: 'failed',
+            message: toProblemMessage(error, unexpectedDeleteMessage),
+            fieldErrors: {}
+          });
         }
       });
-    }
   }
 
-  capitalizeName(name: string): string {
+  protected cancel(pokemon: Pokemon): void {
+    this.router.navigate(['/pokemon', pokemon.id]);
+  }
+
+  protected goHome(): void {
+    this.router.navigate(['/'], { replaceUrl: true });
+  }
+
+  protected capitalizeName(name: string): string {
     return this.pokemonService.capitalizeName(name);
+  }
+
+  private load(id: number): Observable<LoadState> {
+    if (!Number.isInteger(id) || id <= 0) {
+      return of(notFound);
+    }
+
+    return this.pokemonService.getPokemon(id).pipe(
+      map((pokemon): LoadState => ({ status: 'ready', pokemon })),
+      catchError(error =>
+        of<LoadState>(isNotFound(error) ? notFound : { status: 'error', message: toProblemMessage(error, unexpectedLoadMessage) })
+      ),
+      startWith(loading)
+    );
   }
 }

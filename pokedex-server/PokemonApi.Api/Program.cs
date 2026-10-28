@@ -1,12 +1,10 @@
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using PokemonApi.Api.Infrastructure;
 using PokemonApi.Data.Context;
-using PokemonApi.Data.Repositories;
-using PokemonApi.Data.Repositories.Interfaces;
 using PokemonApi.Data.Seed;
-using PokemonApi.Services.Interfaces;
-using PokemonApi.Services.Services;
-using System.Reflection;
+using PokemonApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,30 +47,17 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
 builder.Services.AddDbContext<PokemonDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
-builder.Services.AddScoped<ITypeRepository, TypeRepository>();
-builder.Services.AddScoped<IStatRepository, StatRepository>();
-builder.Services.AddScoped<IAbilityRepository, AbilityRepository>();
-
-builder.Services.AddScoped<IPokemonService, PokemonService>();
-
+builder.Services.AddPokemonServices();
 builder.Services.AddHttpClient<PokemonDataSeeder>();
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(builder =>
-    {
-        builder.WithOrigins("http://localhost:4200")
-               .AllowAnyMethod()
-               .AllowAnyHeader();
-    });
-});
-
 var app = builder.Build();
+
+app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
@@ -91,7 +76,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors();
 app.UseAuthorization();
 app.MapControllers();
 

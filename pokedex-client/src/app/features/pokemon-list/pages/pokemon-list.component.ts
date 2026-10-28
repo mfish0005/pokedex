@@ -2,17 +2,21 @@ import { Component, OnInit, signal, inject, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { LoadingStateComponent } from '../../../core/components/loading-state/loading-state.component';
+import { StatusMessageComponent } from '../../../core/components/status-message/status-message.component';
+import { toProblemMessage } from '../../../core/http/problem-message';
 import { PokemonGridComponent } from '../components/pokemon-grid/pokemon-grid.component';
 import { PokemonService } from '../../../core/services/pokemon.service';
 import { PokemonListItem } from '../../../core/models/pokemon.model';
-import { SearchComponent } from '@fish-ui/components';
+import { ButtonComponent, SearchComponent } from '@fish-ui/components';
 
 @Component({
   selector: 'app-pokemon-list',
   imports: [
+    ButtonComponent,
     LoadingStateComponent,
     PokemonGridComponent,
-    SearchComponent
+    SearchComponent,
+    StatusMessageComponent
   ],
   templateUrl: './pokemon-list.component.html',
   styleUrl: './pokemon-list.component.scss',
@@ -46,14 +50,23 @@ export class PokemonListComponent implements OnInit {
         this.currentPage.set(2);
         this.hasMorePages.set(response.page < response.totalPages);
       },
-      error: (err: any) => {
-        console.error('Error loading Pokemon list:', err);
-        if (this.loading()) {
-          this.error.set('Failed to load Pokemon list');
-          this.loading.set(false);
-        }
+      error: (err: unknown) => {
+        this.error.set(toProblemMessage(err, 'Something went wrong while loading the Pokedex. Please try again.'));
+        this.loading.set(false);
       }
     });
+  }
+
+  retry() {
+    this.error.set(null);
+
+    if (this.isInSearchMode()) {
+      this.onSearch(this.searchQuery());
+      return;
+    }
+
+    this.loading.set(true);
+    this.loadInitialPokemon();
   }
 
   loadMorePokemon() {    
@@ -117,9 +130,8 @@ export class PokemonListComponent implements OnInit {
         this.pokemon.set(results);
         this.isSearching.set(false);
       },
-      error: (err) => {
-        console.error('Search error:', err);
-        this.error.set('Search failed. Please try again.');
+      error: (err: unknown) => {
+        this.error.set(toProblemMessage(err, 'Something went wrong while searching. Please try again.'));
         this.isSearching.set(false);
       }
     });

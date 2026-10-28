@@ -1,0 +1,46 @@
+@let list = types();
+
+<div class="section-header">
+  <h2>Types</h2>
+  <fish-button variant="success" size="small" (onClick)="add()" [disabled]="list.length >= maxTypes">Add Type</fish-button>
+</div>
+@if (errorOf(list); as message) {
+  <p class="is-size-7 has-text-danger">{{ message }}</p>
+}
+
+<div class="form-array">
+  @for (type of list.controls; track type) {
+    <div class="array-item">
+      <div class="form-row">
+        <div class="form-field">
+          <label>Type *</label>
+          <fish-select
+            [options]="typeOptions"
+            [formControl]="type.controls.name"
+            placeholder="Select type"
+            (selectionChange)="onTypeSelect(type, $event)">
+          </fish-select>
+          @if (errorOf(type.controls.name); as message) {
+            <span class="is-size-7 has-text-danger">{{ message }}</span>
+          }
+        </div>
+
+        <div class="form-field">
+          <label>Color *</label>
+          <fish-input
+            [formControl]="type.controls.color"
+            placeholder="#A8A878"
+            [variant]="errorOf(type.controls.color) ? 'danger' : 'default'">
+          </fish-input>
+          @if (errorOf(type.controls.color); as message) {
+            <span class="is-size-7 has-text-danger">{{ message }}</span>
+          }
+        </div>
+
+        @if (list.length > 1) {
+          <fish-button variant="danger" size="small" (onClick)="remove($index)" class="remove-button">Remove</fish-button>
+        }
+      </div>
+    </div>
+  }
+</div>

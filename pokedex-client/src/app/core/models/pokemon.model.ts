@@ -81,56 +81,29 @@ export const POKEMON_TYPE_COLORS: Record<string, string> = {
   fairy: '#EE99AC'
 };
 
-export interface CreatePokemonRequest {
+export interface PokemonInput {
   name: string;
   height: number;
   weight: number;
   baseExperience: number;
-  imageUrl?: string;
-  types: CreatePokemonTypeRequest[];
-  stats: CreatePokemonStatRequest[];
-  abilities: CreatePokemonAbilityRequest[];
+  imageUrl: string | null;
+  types: PokemonTypeInput[];
+  stats: PokemonStatInput[];
+  abilities: PokemonAbilityInput[];
 }
 
-export interface CreatePokemonTypeRequest {
+export interface PokemonTypeInput {
   name: string;
   color: string;
 }
 
-export interface CreatePokemonStatRequest {
+export interface PokemonStatInput {
   name: string;
   displayName: string;
   baseStat: number;
 }
 
-export interface CreatePokemonAbilityRequest {
-  name: string;
-  isHidden: boolean;
-}
-
-export interface UpdatePokemonRequest {
-  name: string;
-  height: number;
-  weight: number;
-  baseExperience: number;
-  imageUrl?: string;
-  types: UpdatePokemonTypeRequest[];
-  stats: UpdatePokemonStatRequest[];
-  abilities: UpdatePokemonAbilityRequest[];
-}
-
-export interface UpdatePokemonTypeRequest {
-  name: string;
-  color: string;
-}
-
-export interface UpdatePokemonStatRequest {
-  name: string;
-  displayName: string;
-  baseStat: number;
-}
-
-export interface UpdatePokemonAbilityRequest {
+export interface PokemonAbilityInput {
   name: string;
   isHidden: boolean;
 }

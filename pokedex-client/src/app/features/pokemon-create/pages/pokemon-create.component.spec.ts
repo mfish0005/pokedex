@@ -1,81 +1,80 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { provideRouter, Router } from '@angular/router';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import { PokemonCreateComponent } from './pokemon-create.component';
+import { PokemonCreateFormComponent } from '../components/pokemon-create-form/pokemon-create-form.component';
+import { Pokemon, PokemonInput } from '../../../core/models/pokemon.model';
 import { PokemonService } from '../../../core/services/pokemon.service';
 
+const input: PokemonInput = {
+  name: 'Mewtwo',
+  height: 20,
+  weight: 1220,
+  baseExperience: 306,
+  imageUrl: null,
+  types: [{ name: 'psychic', color: '#F85888' }],
+  stats: [{ name: 'hp', displayName: 'HP', baseStat: 106 }],
+  abilities: [{ name: 'pressure', isHidden: false }]
+};
+
 describe('PokemonCreateComponent', () => {
-  let component: PokemonCreateComponent;
   let fixture: ComponentFixture<PokemonCreateComponent>;
   let pokemonService: jasmine.SpyObj<PokemonService>;
   let router: Router;
 
   beforeEach(async () => {
     pokemonService = jasmine.createSpyObj('PokemonService', ['createPokemon']);
-    pokemonService.createPokemon.and.returnValue(of({ id: 152, name: 'mewtwo' } as any));
 
     await TestBed.configureTestingModule({
       imports: [PokemonCreateComponent],
-      providers: [
-        provideRouter([]),
-        { provide: PokemonService, useValue: pokemonService }
-      ]
+      providers: [provideRouter([]), { provide: PokemonService, useValue: pokemonService }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(PokemonCreateComponent);
-    component = fixture.componentInstance;
     router = TestBed.inject(Router);
     spyOn(router, 'navigate');
     fixture.detectChanges();
   });
 
-  it('should create with a valid form structure', () => {
-    expect(component).toBeTruthy();
-    expect(component.pokemonForm).toBeTruthy();
-    expect(component.types.length).toBe(1);
-    expect(component.stats.length).toBe(1);
-    expect(component.abilities.length).toBe(1);
+  function form(): PokemonCreateFormComponent {
+    return fixture.debugElement.query(By.directive(PokemonCreateFormComponent)).componentInstance;
+  }
+
+  it('renders the create form', () => {
+    expect(form()).toBeTruthy();
   });
 
-  it('should mark form invalid when name is empty', () => {
-    component.pokemonForm.patchValue({ name: '' });
-    expect(component.pokemonForm.valid).toBeFalse();
+  it('creates the Pokemon and opens it', () => {
+    pokemonService.createPokemon.and.returnValue(of({ id: 152, name: 'mewtwo' } as Pokemon));
+
+    form().create.emit(input);
+
+    expect(pokemonService.createPokemon).toHaveBeenCalledWith(input);
+    expect(router.navigate).toHaveBeenCalledWith(['/pokemon', 152], { replaceUrl: true });
   });
 
-  it('should add and remove type rows', () => {
-    component.addType();
-    expect(component.types.length).toBe(2);
-
-    component.removeType(1);
-    expect(component.types.length).toBe(1);
-  });
-
-  it('should not submit when form is invalid', () => {
-    component.onSubmit();
-    expect(pokemonService.createPokemon).not.toHaveBeenCalled();
-  });
-
-  it('should submit and navigate on valid form', () => {
-    component.pokemonForm.patchValue({
-      name: 'Mewtwo',
-      height: 20,
-      weight: 1220,
-      baseExperience: 306,
-      imageUrl: ''
+  it('shows the server message and passes field errors to the form', () => {
+    const conflict = new HttpErrorResponse({
+      status: 409,
+      error: { title: 'Pokemon already exists', detail: 'A Pokemon named Mewtwo already exists.', errors: { name: ['A Pokemon named Mewtwo already exists.'] } }
     });
-    component.types.at(0).patchValue({ name: 'psychic', color: '#F85888' });
-    component.stats.at(0).patchValue({
-      name: 'hp',
-      displayName: 'HP',
-      baseStat: 106
-    });
-    component.abilities.at(0).patchValue({ name: 'pressure', isHidden: false });
+    pokemonService.createPokemon.and.returnValue(throwError(() => conflict));
 
-    component.onSubmit();
+    form().create.emit(input);
+    fixture.detectChanges();
 
-    expect(pokemonService.createPokemon).toHaveBeenCalled();
-    expect(router.navigate).toHaveBeenCalledWith(['/pokemon', 152]);
-    expect(component.isLoading()).toBeFalse();
+    const alert = fixture.nativeElement.querySelector('[role="alert"]') as HTMLElement;
+    expect(alert.textContent).toContain('A Pokemon named Mewtwo already exists.');
+    expect(form().serverErrors()).toEqual({ name: ['A Pokemon named Mewtwo already exists.'] });
+    expect(router.navigate).not.toHaveBeenCalled();
+  });
+
+  it('returns to the Pokedex on cancel', () => {
+    form().cancel.emit();
+
+    expect(router.navigate).toHaveBeenCalledWith(['/']);
   });
 });

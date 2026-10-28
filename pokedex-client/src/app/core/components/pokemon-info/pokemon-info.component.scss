@@ -1,4 +1,4 @@
-@import '../../../../styles/pokemon-theme.scss';
+@import '../../../../styles/pokemon-theme';
 
 .info-grid {
   display: grid;
@@ -6,13 +6,8 @@
 }
 
 .info-item {
-  display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 0;
-  border-bottom: 1px solid $gray-lightest;
-}
-
-.info-label {
-  color: $gray-dark;
+  border-bottom: 1px solid fish-color("gray-lightest");
 }

@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { Pokemon, PokemonListResponse, POKEMON_TYPE_COLORS, CreatePokemonRequest, UpdatePokemonRequest, PokemonListItem } from '../models/pokemon.model';
+import { Pokemon, PokemonListResponse, POKEMON_TYPE_COLORS, PokemonInput, PokemonListItem } from '../models/pokemon.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PokemonService {
-  private readonly baseUrl = 'http://localhost:5150/api';
+  private readonly baseUrl = '/api';
 
   constructor(private http: HttpClient) {}
 
@@ -70,26 +70,6 @@ export class PokemonService {
   }
 
   /**
-   * Get the previous ID of a Pokemon
-   * 
-   * @param currentId - The current ID of the Pokemon
-   * @returns The previous ID of the Pokemon
-   */
-  getPreviousPokemonId(currentId: number): number {
-    return currentId <= 1 ? 1 : currentId - 1;
-  }
-
-  /**
-   * Get the next ID of a Pokemon
-   * 
-   * @param currentId - The current ID of the Pokemon
-   * @returns The next ID of the Pokemon
-   */
-  getNextPokemonId(currentId: number): number {
-    return currentId + 1;
-  }
-
-  /**
    * Search for Pokemon by name
    *
    * @param name - The search query (name)
@@ -139,40 +119,24 @@ export class PokemonService {
   }
 
   /**
-   * Get basic info for a specific Pokemon for navigation
-   *
-   * @param id - The ID of the Pokemon
-   * @returns An Observable of { id: number; name: string } | null
-   */
-  getPokemonBasicInfo(id: number): Observable<{ id: number; name: string } | null> {
-    return this.http.get<Pokemon>(`${this.baseUrl}/pokemon/${id}`).pipe(
-      map(pokemon => ({
-        id: pokemon.id,
-        name: this.capitalizeName(pokemon.name)
-      })),
-      catchError(() => of(null))
-    );
-  }
-
-  /**
    * Create a new Pokemon
    * 
-   * @param createData - The Pokemon data to create
+   * @param input - The Pokemon data to create
    * @returns An Observable of the created Pokemon
    */
-  createPokemon(createData: CreatePokemonRequest): Observable<Pokemon> {
-    return this.http.post<Pokemon>(`${this.baseUrl}/pokemon`, createData);
+  createPokemon(input: PokemonInput): Observable<Pokemon> {
+    return this.http.post<Pokemon>(`${this.baseUrl}/pokemon`, input);
   }
 
   /**
    * Update an existing Pokemon
    * 
    * @param id - The ID of the Pokemon to update
-   * @param updateData - The updated Pokemon data
+   * @param input - The updated Pokemon data
    * @returns An Observable of the updated Pokemon
    */
-  updatePokemon(id: number, updateData: UpdatePokemonRequest): Observable<Pokemon> {
-    return this.http.put<Pokemon>(`${this.baseUrl}/pokemon/${id}`, updateData);
+  updatePokemon(id: number, input: PokemonInput): Observable<Pokemon> {
+    return this.http.put<Pokemon>(`${this.baseUrl}/pokemon/${id}`, input);
   }
 
   /**

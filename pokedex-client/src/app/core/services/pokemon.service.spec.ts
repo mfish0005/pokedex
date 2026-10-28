@@ -3,7 +3,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { PokemonService } from './pokemon.service';
-import { CreatePokemonRequest, Pokemon, PokemonListResponse } from '../models/pokemon.model';
+import { Pokemon, PokemonInput, PokemonListResponse } from '../models/pokemon.model';
 
 describe('PokemonService', () => {
   let service: PokemonService;
@@ -36,15 +36,6 @@ describe('PokemonService', () => {
       expect(service.getTypeColor('fire')).toBe('#F08030');
       expect(service.getTypeColor('unknown-type')).toBe('#68A090');
     });
-
-    it('getPreviousPokemonId does not go below 1', () => {
-      expect(service.getPreviousPokemonId(1)).toBe(1);
-      expect(service.getPreviousPokemonId(5)).toBe(4);
-    });
-
-    it('getNextPokemonId increments id', () => {
-      expect(service.getNextPokemonId(151)).toBe(152);
-    });
   });
 
   describe('HTTP', () => {
@@ -61,7 +52,7 @@ describe('PokemonService', () => {
         expect(response).toEqual(mockResponse);
       });
 
-      const req = httpMock.expectOne('http://localhost:5150/api/pokemon?page=1&pageSize=12');
+      const req = httpMock.expectOne('/api/pokemon?page=1&pageSize=12');
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
     });
@@ -71,7 +62,7 @@ describe('PokemonService', () => {
       service.getPokemonList(12, 1, 'char').subscribe(() => (completed = true));
 
       const req = httpMock.expectOne(
-        'http://localhost:5150/api/pokemon?page=1&pageSize=12&search=char'
+        '/api/pokemon?page=1&pageSize=12&search=char'
       );
       expect(req.request.method).toBe('GET');
       req.flush({ count: 0, page: 1, pageSize: 12, totalPages: 0, results: [] });
@@ -82,7 +73,7 @@ describe('PokemonService', () => {
       let result: Pokemon | null | undefined;
       service.getPokemonByName('  ').subscribe(value => (result = value));
 
-      httpMock.expectNone('http://localhost:5150/api/pokemon/search?search=');
+      httpMock.expectNone('/api/pokemon/search?search=');
       expect(result).toBeNull();
     });
 
@@ -94,7 +85,7 @@ describe('PokemonService', () => {
       });
 
       const req = httpMock.expectOne(
-        'http://localhost:5150/api/pokemon/search?search=bulba'
+        '/api/pokemon/search?search=bulba'
       );
       req.flush([
         {
@@ -112,17 +103,18 @@ describe('PokemonService', () => {
       });
 
       const req = httpMock.expectOne(
-        'http://localhost:5150/api/pokemon/search?search=fail'
+        '/api/pokemon/search?search=fail'
       );
       req.error(new ProgressEvent('error'));
     });
 
     it('createPokemon posts to collection endpoint', () => {
-      const payload: CreatePokemonRequest = {
+      const payload: PokemonInput = {
         name: 'mewtwo',
         height: 20,
         weight: 1220,
         baseExperience: 306,
+        imageUrl: null,
         types: [],
         stats: [],
         abilities: []
@@ -133,7 +125,7 @@ describe('PokemonService', () => {
         expect(pokemon.id).toBe(152);
       });
 
-      const req = httpMock.expectOne('http://localhost:5150/api/pokemon');
+      const req = httpMock.expectOne('/api/pokemon');
       expect(req.request.method).toBe('POST');
       expect(req.request.body).toEqual(payload);
       req.flush(created);
@@ -142,7 +134,7 @@ describe('PokemonService', () => {
     it('deletePokemon sends DELETE request', () => {
       service.deletePokemon(7).subscribe();
 
-      const req = httpMock.expectOne('http://localhost:5150/api/pokemon/7');
+      const req = httpMock.expectOne('/api/pokemon/7');
       expect(req.request.method).toBe('DELETE');
       req.flush(null);
     });

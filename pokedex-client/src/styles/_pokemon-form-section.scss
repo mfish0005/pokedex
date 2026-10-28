@@ -1,0 +1,105 @@
+@import 'pokemon-theme';
+
+:host {
+  display: block;
+  margin-bottom: 2.5rem;
+}
+
+h2 {
+  font-size: $size-4;
+  margin: 0 0 1.5rem 0;
+  color: fish-color("gray-darkest");
+  font-weight: $weight-semibold;
+  border-bottom: 2px solid fish-color("gray-lightest");
+  padding-bottom: 0.5rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 1.5rem;
+  align-items: start;
+  margin-bottom: 1.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+
+    .remove-button {
+      justify-self: start;
+    }
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-size: $size-7;
+    font-weight: $weight-semibold;
+    color: fish-color("gray-darker");
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+
+  &.checkbox-field {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    align-self: center;
+
+    label {
+      font-weight: $weight-normal;
+      margin: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    input[type="checkbox"] {
+      margin: 0;
+      accent-color: fish-color("primary");
+    }
+  }
+}
+
+.form-array {
+  border: 1px solid fish-color("gray-lighter");
+  border-radius: 4px;
+  padding: 1rem;
+  background-color: fish-color("gray-lightest");
+}
+
+.array-item {
+  padding: 1rem;
+  border: 1px solid fish-color("gray-lighter");
+  border-radius: 4px;
+  background: fish-color("white");
+  margin-bottom: 1rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.remove-button {
+  align-self: center;
+}

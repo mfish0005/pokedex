@@ -1,6 +1,6 @@
 <div class="pokemon-list-container">
-  @if (!loading() && !error()) {
-    <div class="search-section">
+  @if (!loading()) {
+    <div class="search-section has-text-centered">
       <fish-search
         placeholder="Search Pokemon by name..."
         (search)="onSearch($event)"
@@ -15,6 +15,12 @@
       size="large"
       variant="primary">
     </app-loading-state>
+  }
+
+  @if (error(); as message) {
+    <app-status-message title="We couldn't load the Pokedex" [message]="message" tone="error">
+      <fish-button variant="secondary" (onClick)="retry()">Try again</fish-button>
+    </app-status-message>
   }
 
   @if (isSearching()) {

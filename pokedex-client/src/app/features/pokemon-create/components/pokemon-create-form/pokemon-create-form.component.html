@@ -1,0 +1,17 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="pokemon-form" novalidate>
+  <app-pokemon-basic-fields [form]="form" />
+  <app-pokemon-type-fields [types]="form.controls.types" />
+  <app-pokemon-stat-fields [stats]="form.controls.stats" />
+  <app-pokemon-ability-fields [abilities]="form.controls.abilities" />
+
+  @if (showSummary()) {
+    <p class="is-size-6 has-text-danger" role="alert">Fix the highlighted fields and try again.</p>
+  }
+
+  <div class="form-actions">
+    <fish-button variant="secondary" (onClick)="cancel.emit()" [disabled]="creating()">Cancel</fish-button>
+    <fish-button variant="info" type="submit" [disabled]="creating()" [loading]="creating()">
+      {{ creating() ? 'Creating...' : 'Create Pokemon' }}
+    </fish-button>
+  </div>
+</form>

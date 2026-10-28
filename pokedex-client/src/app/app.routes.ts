@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { PokemonDetailResolver } from './features/pokemon-detail/pokemon-detail.resolver';
 
 export const routes: Routes = [
   {
@@ -20,11 +19,7 @@ export const routes: Routes = [
   {
     path: 'pokemon/:id',
     loadComponent: () => import('./features/pokemon-detail/pages/pokemon-detail.component').then(m => m.PokemonDetailComponent),
-    resolve: {
-      pokemon: PokemonDetailResolver
-    },
-    data: { showHeader: false, hideViewAllButton: false },
-    runGuardsAndResolvers: 'paramsOrQueryParamsChange'
+    data: { showHeader: false, hideViewAllButton: false }
   },
   {
     path: '**',

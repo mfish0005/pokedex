@@ -1,52 +1,57 @@
+@let current = state();
+
 <div class="pokemon-detail-container">
 
-  @if (pokemon()) {
-    <div class="pokemon-navigation">
-      @if (previousPokemon()) {
-        <button 
-          (click)="navigateToPrevious()"
-          class="nav-button prev-button"
-          [disabled]="loading()">
-          <span class="nav-number">#{{ previousPokemon()!.id.toString().padStart(4, '0') }}</span>
-          <span class="nav-name">{{ previousPokemon()!.name }}</span>
-        </button>
+  @if (current.status === 'success') {
+    @let id = current.pokemon.id;
+
+    <div class="pokemon-navigation is-flex has-background-gray-lightest has-margin-bottom-2">
+      @if (id > 1) {
+        <fish-button variant="ghost" size="large" [fullWidth]="true" (onClick)="navigateTo(id - 1)" class="nav-button prev-button">
+          <span class="nav-number is-block is-size-7 has-text-gray-dark">{{ formatPokemonNumber(id - 1) }}</span>
+          <span class="is-block">Previous</span>
+        </fish-button>
       }
-      
-      @if (nextPokemon()) {
-        <button 
-          (click)="navigateToNext()"
-          class="nav-button next-button"
-          [disabled]="loading()">
-          <span class="nav-number">#{{ nextPokemon()!.id.toString().padStart(4, '0') }}</span>
-          <span class="nav-name">{{ nextPokemon()!.name }}</span>
-        </button>
-      }
+
+      <fish-button variant="ghost" size="large" [fullWidth]="true" (onClick)="navigateTo(id + 1)" class="nav-button next-button">
+        <span class="nav-number is-block is-size-7 has-text-gray-dark">{{ formatPokemonNumber(id + 1) }}</span>
+        <span class="is-block">Next</span>
+      </fish-button>
     </div>
   }
 
-  @if (loading()) {
-    <app-loading-state 
+  @if (current.status === 'loading') {
+    <app-loading-state
       message="Loading Pokemon details..."
       size="large"
       variant="primary">
     </app-loading-state>
-  }
+  } @else if (current.status === 'not-found') {
+    <app-status-message
+      title="We couldn't find that Pokemon"
+      message="It may have been deleted, or the link may be wrong.">
+    </app-status-message>
+  } @else if (current.status === 'error') {
+    <app-status-message title="We couldn't load this Pokemon" [message]="current.message" tone="error">
+      <fish-button variant="secondary" (onClick)="retry()">Try again</fish-button>
+    </app-status-message>
+  } @else {
+    @let pokemon = current.pokemon;
 
-  @if (!loading() && pokemon()) {
-    <div class="pokemon-detail-grid">      
-      <div class="detail-section">
-        <h2 class="section-title is-size-3">Basic Information</h2>
-        <app-pokemon-basic-info [pokemon]="pokemon()!"></app-pokemon-basic-info>
-      </div>
+    <div class="pokemon-detail-grid">
+      <fish-card elevation="small" padding="large">
+        <h2 class="section-title is-size-3 has-text-weight-normal">Basic Information</h2>
+        <app-pokemon-basic-info [pokemon]="pokemon"></app-pokemon-basic-info>
+      </fish-card>
 
-      <div class="detail-section">
-        <h2 class="section-title is-size-3">Abilities</h2>
+      <fish-card elevation="small" padding="large">
+        <h2 class="section-title is-size-3 has-text-weight-normal">Abilities</h2>
         <div class="abilities-list">
-          @for (ability of pokemon()!.abilities; track ability.ability.name) {
+          @for (ability of pokemon.abilities; track ability.ability.name) {
             <div class="ability-item" [class.hidden-ability]="ability.isHidden">
               <div class="ability-content">
-                <div class="ability-name">{{ capitalizeName(ability.ability.name) }}</div>
-                <div class="ability-type">
+                <div class="ability-name is-size-5 has-text-weight-bold is-uppercase">{{ capitalizeName(ability.ability.name) }}</div>
+                <div class="is-flex">
                   @if (ability.isHidden) {
                     <span class="ability-label hidden-label">Hidden Ability</span>
                   } @else {
@@ -55,20 +60,19 @@
                 </div>
               </div>
               @if (ability.isHidden) {
-                <div class="hidden-tag">Hidden</div>
+                <div class="hidden-tag is-size-7 has-text-weight-bold is-uppercase has-text-white">Hidden</div>
               }
             </div>
           }
-          
-          <!-- Add some spacing/info if there are only 1-2 abilities -->
-          @if (pokemon()!.abilities.length < 3) {
-            <div class="ability-info">
-              <div class="info-text">
-                <strong>{{ pokemon()!.abilities.length }}</strong> 
-                {{ pokemon()!.abilities.length === 1 ? 'Ability' : 'Abilities' }} Available
+
+          @if (pokemon.abilities.length < 3) {
+            <div class="ability-info has-text-centered">
+              <div class="info-text is-size-6 has-text-weight-bold is-uppercase has-text-gray-darkest">
+                <strong>{{ pokemon.abilities.length }}</strong>
+                {{ pokemon.abilities.length === 1 ? 'Ability' : 'Abilities' }} Available
               </div>
-              <div class="info-subtext">
-                @if (hasHiddenAbility()) {
+              <div class="info-subtext is-size-7 is-uppercase has-text-gray-dark">
+                @if (hasHiddenAbility(pokemon)) {
                   Includes hidden ability
                 } @else {
                   No hidden abilities
@@ -77,34 +81,32 @@
             </div>
           }
         </div>
-      </div>
+      </fish-card>
 
-      <div class="detail-section">
-        <h2 class="section-title is-size-3">Physical Details</h2>
-        <app-pokemon-info [pokemon]="pokemon()!"></app-pokemon-info>
-      </div>
+      <fish-card elevation="small" padding="large">
+        <h2 class="section-title is-size-3 has-text-weight-normal">Physical Details</h2>
+        <app-pokemon-info [pokemon]="pokemon"></app-pokemon-info>
+      </fish-card>
 
-      <div class="detail-section">
-        <h2 class="section-title is-size-3">Battle Stats</h2>
-        <app-pokemon-stats [pokemon]="pokemon()!"></app-pokemon-stats>
-      </div>
+      <fish-card elevation="small" padding="large">
+        <h2 class="section-title is-size-3 has-text-weight-normal">Battle Stats</h2>
+        <app-pokemon-stats [pokemon]="pokemon"></app-pokemon-stats>
+      </fish-card>
     </div>
   }
-  
-  <div class="explore-more-container">
+
+  <div class="explore-more-container is-flex">
     <fish-button
       variant="success"
-      (onClick)="goBack()"
-      class="explore-more-button">
+      (onClick)="goBack()">
       <fish-icon name="arrow-left" [size]="16"></fish-icon>
       Explore More Pokemon
     </fish-button>
-    
-    @if (pokemon()) {
+
+    @if (current.status === 'success') {
       <fish-button
         variant="primary"
-        (onClick)="editPokemon()"
-        class="edit-button">
+        (onClick)="editPokemon(current.pokemon)">
         <fish-icon name="edit" [size]="16"></fish-icon>
         Edit Pokemon
       </fish-button>

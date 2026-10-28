@@ -1,4 +1,4 @@
-@import '../../../../styles/pokemon-theme.scss';
+@import '../../../../styles/pokemon-theme';
 
 .stats-grid {
   display: grid;
@@ -19,19 +19,18 @@
 
 .stat-value {
   grid-column: 2;
-  text-align: right;
 }
 
 .stat-bar {
   grid-column: 1 / -1;
   height: 8px;
-  background-color: $gray-lighter;
+  background-color: fish-color("gray-lighter");
   border-radius: 4px;
   overflow: hidden;
 }
 
 .stat-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, $primary, $green-light);
+  background: linear-gradient(90deg, fish-color("primary"), fish-color("green-light"));
   transition: width 0.3s ease;
 }

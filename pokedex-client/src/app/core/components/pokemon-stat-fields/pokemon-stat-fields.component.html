@@ -1,0 +1,59 @@
+@let list = stats();
+
+<div class="section-header">
+  <h2>Stats</h2>
+  <fish-button variant="success" size="small" (onClick)="add()">Add Stat</fish-button>
+</div>
+@if (errorOf(list); as message) {
+  <p class="is-size-7 has-text-danger">{{ message }}</p>
+}
+
+<div class="form-array">
+  @for (stat of list.controls; track stat) {
+    <div class="array-item">
+      <div class="form-row">
+        <div class="form-field">
+          <label>Stat *</label>
+          <fish-select
+            [options]="statOptions"
+            [formControl]="stat.controls.name"
+            placeholder="Select stat"
+            (selectionChange)="onStatSelect(stat, $event)">
+          </fish-select>
+          @if (errorOf(stat.controls.name); as message) {
+            <span class="is-size-7 has-text-danger">{{ message }}</span>
+          }
+        </div>
+
+        <div class="form-field">
+          <label>Display Name *</label>
+          <fish-input
+            [formControl]="stat.controls.displayName"
+            placeholder="HP"
+            [variant]="errorOf(stat.controls.displayName) ? 'danger' : 'default'">
+          </fish-input>
+          @if (errorOf(stat.controls.displayName); as message) {
+            <span class="is-size-7 has-text-danger">{{ message }}</span>
+          }
+        </div>
+
+        <div class="form-field">
+          <label>Base Value *</label>
+          <fish-input
+            type="number"
+            [formControl]="stat.controls.baseStat"
+            placeholder="100"
+            [variant]="errorOf(stat.controls.baseStat) ? 'danger' : 'default'">
+          </fish-input>
+          @if (errorOf(stat.controls.baseStat); as message) {
+            <span class="is-size-7 has-text-danger">{{ message }}</span>
+          }
+        </div>
+
+        @if (list.length > 1) {
+          <fish-button variant="danger" size="small" (onClick)="remove($index)" class="remove-button">Remove</fish-button>
+        }
+      </div>
+    </div>
+  }
+</div>

@@ -133,5 +133,4 @@ $weight-semibold: 600;
 $weight-bold: 700;
 $weight-light: 300;
 
-// Import library last to override the defaults
-@import '../../projects/fish-ui/src/styles/fish-styles/all.scss';
+@import '../../projects/fish-ui/src/styles/fish-styles/tools';

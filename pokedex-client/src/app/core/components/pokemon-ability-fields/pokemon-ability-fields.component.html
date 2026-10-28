@@ -1,0 +1,40 @@
+@let list = abilities();
+
+<div class="section-header">
+  <h2>Abilities</h2>
+  <fish-button variant="success" size="small" (onClick)="add()">Add Ability</fish-button>
+</div>
+@if (errorOf(list); as message) {
+  <p class="is-size-7 has-text-danger">{{ message }}</p>
+}
+
+<div class="form-array">
+  @for (ability of list.controls; track ability) {
+    <div class="array-item">
+      <div class="form-row">
+        <div class="form-field">
+          <label>Ability Name *</label>
+          <fish-input
+            [formControl]="ability.controls.name"
+            placeholder="Overgrow"
+            [variant]="errorOf(ability.controls.name) ? 'danger' : 'default'">
+          </fish-input>
+          @if (errorOf(ability.controls.name); as message) {
+            <span class="is-size-7 has-text-danger">{{ message }}</span>
+          }
+        </div>
+
+        <div class="form-field checkbox-field">
+          <label>
+            <input type="checkbox" [formControl]="ability.controls.isHidden">
+            Hidden Ability
+          </label>
+        </div>
+
+        @if (list.length > 1) {
+          <fish-button variant="danger" size="small" (onClick)="remove($index)" class="remove-button">Remove</fish-button>
+        }
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,75 @@
+@let controls = form().controls;
+
+<h2>Basic Information</h2>
+
+<div class="form-row">
+  <div class="form-field">
+    <label for="name">Name *</label>
+    <fish-input
+      id="name"
+      [formControl]="controls.name"
+      placeholder="e.g. Pikachu"
+      [variant]="errorOf(controls.name) ? 'danger' : 'default'">
+    </fish-input>
+    @if (errorOf(controls.name); as message) {
+      <span class="is-size-7 has-text-danger">{{ message }}</span>
+    }
+  </div>
+
+  <div class="form-field">
+    <label for="imageUrl">Image URL</label>
+    <fish-input
+      id="imageUrl"
+      [formControl]="controls.imageUrl"
+      placeholder="https://..."
+      [variant]="errorOf(controls.imageUrl) ? 'danger' : 'default'">
+    </fish-input>
+    @if (errorOf(controls.imageUrl); as message) {
+      <span class="is-size-7 has-text-danger">{{ message }}</span>
+    }
+  </div>
+
+  <div class="form-field">
+    <label for="baseExperience">Base Experience *</label>
+    <fish-input
+      id="baseExperience"
+      type="number"
+      [formControl]="controls.baseExperience"
+      placeholder="100"
+      [variant]="errorOf(controls.baseExperience) ? 'danger' : 'default'">
+    </fish-input>
+    @if (errorOf(controls.baseExperience); as message) {
+      <span class="is-size-7 has-text-danger">{{ message }}</span>
+    }
+  </div>
+</div>
+
+<div class="form-row">
+  <div class="form-field">
+    <label for="height">Height *</label>
+    <fish-input
+      id="height"
+      type="number"
+      [formControl]="controls.height"
+      placeholder="10"
+      [variant]="errorOf(controls.height) ? 'danger' : 'default'">
+    </fish-input>
+    @if (errorOf(controls.height); as message) {
+      <span class="is-size-7 has-text-danger">{{ message }}</span>
+    }
+  </div>
+
+  <div class="form-field">
+    <label for="weight">Weight *</label>
+    <fish-input
+      id="weight"
+      type="number"
+      [formControl]="controls.weight"
+      placeholder="100"
+      [variant]="errorOf(controls.weight) ? 'danger' : 'default'">
+    </fish-input>
+    @if (errorOf(controls.weight); as message) {
+      <span class="is-size-7 has-text-danger">{{ message }}</span>
+    }
+  </div>
+</div>

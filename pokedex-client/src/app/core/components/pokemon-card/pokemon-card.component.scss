@@ -1,16 +1,16 @@
-@import '../../../../styles/pokemon-theme.scss';
+@import '../../../../styles/pokemon-theme';
 
 .pokemon-card {
   transition: all 0.2s ease;
   cursor: pointer;
   border-radius: 0;
   overflow: hidden;
-  background: $white;
+  background: fish-color("white");
 }
 
 .pokemon-card:hover {
   transform: translateY(-4px) translateX(-2px);
-  box-shadow: 6px 6px 0px $black;
+  box-shadow: 6px 6px 0px fish-color("black");
 }
 
 .pokemon-image {
@@ -18,9 +18,6 @@
   height: 7rem;
   object-fit: contain;
   padding: 0.5rem;
-  background-size: 8px 8px;
-  background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
-  border-radius: 0;  
   margin: 1rem auto;
   display: block;
   transition: transform 0.2s ease;
@@ -34,30 +31,16 @@
 }
 
 .pokemon-name {
-  color: $text;
-  font-size: $size-6;
-  text-align: center;
-  margin: 0.5rem 0;
+  margin-top: 0.5rem;
   line-height: 1.4;
 }
 
 .type-badge {
   margin: 0 0.125rem 0.25rem 0;
-  border-radius: 0;  
-  padding: 0.25rem 0.5rem;
-  font-size: $size-7;
-  font-weight: $weight-normal;
   text-transform: uppercase;
-  letter-spacing: 0;
-  flex-wrap: wrap;
-  gap: 20px;
 }
 
 .pokemon-number {
   text-align: right;
   margin-bottom: 0.5rem;
-  color: $text;
-  font-weight: $weight-normal;
-  font-size: $size-7;
-  font-family: $family-primary;
 }

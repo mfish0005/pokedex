@@ -1,0 +1,9 @@
+@import '../../../../styles/pokemon-theme';
+
+.status-message {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 3px solid fish-color("gray-darkest");
+  box-shadow: 4px 4px 0px fish-color("black");
+}

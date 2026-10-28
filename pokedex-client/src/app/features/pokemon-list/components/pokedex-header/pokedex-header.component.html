@@ -1,9 +1,9 @@
-<header class="pokedex-header">
-  <div class="pokedex-device">    
+<header class="pokedex-header is-flex-centered has-background-red">
+  <div class="pokedex-device">
     <div class="pokedex-screen">
-      <div class="screen-content">
-        <h1 class="pokedex-title">POKEDEX</h1>
-        <div class="pokeball-container">
+      <div class="screen-content has-text-centered">
+        <h1 class="pokedex-title is-uppercase has-text-yellow">POKEDEX</h1>
+        <div class="pokeball-container is-flex-centered has-margin-top-1 has-margin-bottom-1">
           <div class="pokeball">
             <div class="pokeball-top"></div>
             <div class="pokeball-center">
@@ -12,9 +12,9 @@
             <div class="pokeball-bottom"></div>
           </div>
         </div>
-        <p class="pokedex-subtitle">Pokemon Database</p>
+        <p class="pokedex-subtitle is-size-7 has-text-green-light is-marginless has-margin-bottom-1">Pokemon Database</p>
         
-        <div class="navigation-buttons">
+        <div class="navigation-buttons is-flex-centered">
           @if (!isOnPokemonListPage()) {
             <fish-button 
               [routerLink]="['/']" 
@@ -33,7 +33,7 @@
       </div>
     </div>
     
-    <div class="pokedex-controls">
+    <div class="pokedex-controls is-flex-centered has-margin-bottom-1">
       <div class="control-button red-button"></div>
       <div class="control-button yellow-button"></div>
       <div class="control-button green-button"></div>

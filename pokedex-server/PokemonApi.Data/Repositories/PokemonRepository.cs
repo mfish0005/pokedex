@@ -1,96 +1,104 @@
 using Microsoft.EntityFrameworkCore;
 using PokemonApi.Data.Context;
 using PokemonApi.Data.Entities;
-using PokemonApi.Data.Repositories.Interfaces;
 
 namespace PokemonApi.Data.Repositories;
 
-public class PokemonRepository : Repository<Pokemon>, IPokemonRepository
+public class PokemonRepository(PokemonDbContext context) : IPokemonRepository
 {
-    public PokemonRepository(PokemonDbContext context) : base(context)
+    public async Task<PokemonPage> ListAsync(int page, int pageSize, string? search, CancellationToken cancellationToken = default)
     {
-    }
+        var query = context.Pokemon.AsNoTracking();
 
-    public IQueryable<Pokemon> GetQueryable()
-    {
-        return _dbSet.AsQueryable();
-    }
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var term = search.Trim().ToLower();
+            query = query.Where(p => p.Name.ToLower().Contains(term));
+        }
 
-    public async Task<Pokemon?> GetPokemonWithDetailsAsync(int id)
-    {
-        return await _dbSet
-            .Include(p => p.PokemonTypes)
-                .ThenInclude(pt => pt.Type)
-            .Include(p => p.PokemonStats)
-                .ThenInclude(ps => ps.Stat)
-            .Include(p => p.PokemonAbilities)
-                .ThenInclude(pa => pa.Ability)
-            .FirstOrDefaultAsync(p => p.Id == id);
-    }
+        var totalCount = await query.CountAsync(cancellationToken);
 
-    public async Task<IEnumerable<Pokemon>> GetPokemonWithDetailsAsync()
-    {
-        return await _dbSet
-            .Include(p => p.PokemonTypes)
-                .ThenInclude(pt => pt.Type)
-            .Include(p => p.PokemonStats)
-                .ThenInclude(ps => ps.Stat)
-            .Include(p => p.PokemonAbilities)
-                .ThenInclude(pa => pa.Ability)
-            .OrderBy(p => p.Id)
-            .ToListAsync();
-    }
-
-    public async Task<IEnumerable<Pokemon>> GetPokemonPagedWithDetailsAsync(int page, int pageSize)
-    {
-        return await _dbSet
-            .Include(p => p.PokemonTypes)
-                .ThenInclude(pt => pt.Type)
-            .Include(p => p.PokemonStats)
-                .ThenInclude(ps => ps.Stat)
-            .Include(p => p.PokemonAbilities)
-                .ThenInclude(pa => pa.Ability)
+        var items = await query
+            .Include(p => p.PokemonTypes).ThenInclude(pt => pt.Type)
             .OrderBy(p => p.Id)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
+
+        return new PokemonPage(items, totalCount);
     }
 
-    public async Task<IEnumerable<Pokemon>> SearchPokemonByNameAsync(string name)
+    public Task<Pokemon?> GetAsync(int id, CancellationToken cancellationToken = default) =>
+        WithDetails().FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+
+    public Task<Pokemon?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
     {
-        return await _dbSet
-            .Include(p => p.PokemonTypes)
-                .ThenInclude(pt => pt.Type)
-            .Where(p => p.Name.ToLower().Contains(name.ToLower()))
-            .OrderBy(p => p.Id)
-            .ToListAsync();
+        var normalized = name.Trim().ToLower();
+
+        return WithDetails().AsNoTracking().FirstOrDefaultAsync(p => p.Name.ToLower() == normalized, cancellationToken);
     }
 
-    public async Task<Pokemon?> GetPokemonByNameAsync(string name)
+    public async Task<IReadOnlyList<Pokemon>> SearchAsync(string term, int limit, CancellationToken cancellationToken = default)
     {
-        return await _dbSet
-            .Include(p => p.PokemonTypes)
-                .ThenInclude(pt => pt.Type)
-            .Include(p => p.PokemonStats)
-                .ThenInclude(ps => ps.Stat)
-            .Include(p => p.PokemonAbilities)
-                .ThenInclude(pa => pa.Ability)
-            .FirstOrDefaultAsync(p => p.Name.ToLower() == name.ToLower());
+        var normalized = term.Trim().ToLower();
+
+        return await context.Pokemon
+            .AsNoTracking()
+            .Include(p => p.PokemonTypes).ThenInclude(pt => pt.Type)
+            .Where(p => p.Name.ToLower().Contains(normalized))
+            .OrderBy(p => p.Name)
+            .Take(limit)
+            .ToListAsync(cancellationToken);
     }
 
-    public async Task<Pokemon?> GetNextPokemonAsync(int currentId)
+    public Task<bool> NameExistsAsync(string name, int? excludingId, CancellationToken cancellationToken = default)
     {
-        return await _dbSet
-            .Where(p => p.Id > currentId)
-            .OrderBy(p => p.Id)
-            .FirstOrDefaultAsync();
+        var normalized = name.Trim().ToLower();
+
+        return context.Pokemon.AnyAsync(p => p.Name.ToLower() == normalized && p.Id != excludingId, cancellationToken);
     }
 
-    public async Task<Pokemon?> GetPreviousPokemonAsync(int currentId)
+    public async Task<int> NextIdAsync(CancellationToken cancellationToken = default) =>
+        (await context.Pokemon.MaxAsync(p => (int?)p.Id, cancellationToken) ?? 0) + 1;
+
+    public Task<Entities.Type?> FindTypeAsync(string name, CancellationToken cancellationToken = default) =>
+        context.Types.FirstOrDefaultAsync(t => t.Name.ToLower() == name.ToLower(), cancellationToken);
+
+    public Task<Stat?> FindStatAsync(string name, CancellationToken cancellationToken = default) =>
+        context.Stats.FirstOrDefaultAsync(s => s.Name.ToLower() == name.ToLower(), cancellationToken);
+
+    public Task<Ability?> FindAbilityAsync(string name, CancellationToken cancellationToken = default) =>
+        context.Abilities.FirstOrDefaultAsync(a => a.Name.ToLower() == name.ToLower(), cancellationToken);
+
+    public async Task AddAsync(Pokemon pokemon, CancellationToken cancellationToken = default)
     {
-        return await _dbSet
-            .Where(p => p.Id < currentId)
-            .OrderByDescending(p => p.Id)
-            .FirstOrDefaultAsync();
+        context.Pokemon.Add(pokemon);
+        await context.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task UpdateAsync(Pokemon pokemon, CancellationToken cancellationToken = default)
+    {
+        pokemon.UpdatedAt = DateTime.UtcNow;
+        await context.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
+    {
+        var pokemon = await context.Pokemon.FindAsync([id], cancellationToken);
+
+        if (pokemon is null)
+        {
+            return false;
+        }
+
+        context.Pokemon.Remove(pokemon);
+        await context.SaveChangesAsync(cancellationToken);
+
+        return true;
+    }
+
+    private IQueryable<Pokemon> WithDetails() => context.Pokemon
+        .Include(p => p.PokemonTypes).ThenInclude(pt => pt.Type)
+        .Include(p => p.PokemonStats).ThenInclude(ps => ps.Stat)
+        .Include(p => p.PokemonAbilities).ThenInclude(pa => pa.Ability);
 }

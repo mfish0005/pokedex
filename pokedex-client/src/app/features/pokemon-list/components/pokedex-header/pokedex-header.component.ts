@@ -1,6 +1,6 @@
 import { Component, signal, inject, OnInit, OnDestroy } from '@angular/core';
 import { RouterLink, Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { ButtonComponent } from 'fish-ui';
+import { ButtonComponent } from '@fish-ui/components';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 

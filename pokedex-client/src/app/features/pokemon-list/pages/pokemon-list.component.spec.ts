@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
@@ -16,6 +16,19 @@ class LoadingStateStub {}
 @Component({ selector: 'app-pokemon-grid', template: '', standalone: true })
 class PokemonGridStub {
   pokemon = input<PokemonListItem[]>([]);
+}
+
+@Component({ selector: 'fish-button', template: '', standalone: true })
+class FishButtonStub {
+  variant = input('');
+  onClick = output<void>();
+}
+
+@Component({ selector: 'app-status-message', template: '', standalone: true })
+class StatusMessageStub {
+  title = input('');
+  message = input('');
+  tone = input('info');
 }
 
 describe('PokemonListComponent', () => {
@@ -49,7 +62,7 @@ describe('PokemonListComponent', () => {
     })
       .overrideComponent(PokemonListComponent, {
         set: {
-          imports: [FishSearchStub, LoadingStateStub, PokemonGridStub],
+          imports: [FishSearchStub, FishButtonStub, LoadingStateStub, PokemonGridStub, StatusMessageStub],
           providers: [{ provide: PokemonService, useValue: pokemonService }]
         }
       })
@@ -81,7 +94,7 @@ describe('PokemonListComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(component['error']()).toBe('Failed to load Pokemon list');
+    expect(component['error']()).toBe('Something went wrong while loading the Pokedex. Please try again.');
     expect(component['loading']()).toBeFalse();
   });
 

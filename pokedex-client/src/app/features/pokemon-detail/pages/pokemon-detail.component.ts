@@ -1,118 +1,103 @@
-import { Component, signal, inject, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { catchError, combineLatest, map, Observable, of, startWith, Subject, switchMap } from 'rxjs';
 
-import { CardComponent, ButtonComponent, IconComponent } from '@fish-ui/components';
+import { ButtonComponent, CardComponent, IconComponent } from '@fish-ui/components';
 import { LoadingStateComponent } from '../../../core/components/loading-state/loading-state.component';
 import { PokemonBasicInfoComponent } from '../../../core/components/pokemon-basic-info/pokemon-basic-info.component';
 import { PokemonStatsComponent } from '../../../core/components/pokemon-stats/pokemon-stats.component';
 import { PokemonInfoComponent } from '../../../core/components/pokemon-info/pokemon-info.component';
+import { StatusMessageComponent } from '../../../core/components/status-message/status-message.component';
+import { isNotFound, toProblemMessage } from '../../../core/http/problem-message';
 import { PokemonService } from '../../../core/services/pokemon.service';
 import { Pokemon } from '../../../core/models/pokemon.model';
+
+type ViewState =
+  | { status: 'loading' }
+  | { status: 'not-found' }
+  | { status: 'error'; message: string }
+  | { status: 'success'; pokemon: Pokemon };
+
+const loading: ViewState = { status: 'loading' };
+const notFound: ViewState = { status: 'not-found' };
+
+const unexpectedMessage = 'Something went wrong while loading this Pokemon. Please try again.';
 
 @Component({
   selector: 'app-pokemon-detail',
   imports: [
-    CardComponent,
     ButtonComponent,
+    CardComponent,
     LoadingStateComponent,
     IconComponent,
     PokemonBasicInfoComponent,
     PokemonStatsComponent,
-    PokemonInfoComponent
+    PokemonInfoComponent,
+    StatusMessageComponent
   ],
   templateUrl: './pokemon-detail.component.html',
   styleUrl: './pokemon-detail.component.scss',
-  providers: [PokemonService]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PokemonDetailComponent implements OnInit, OnDestroy {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private pokemonService = inject(PokemonService);
-  private routeSubscription?: Subscription;
+export class PokemonDetailComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly pokemonService = inject(PokemonService);
+  private readonly refresh = new Subject<void>();
 
-  protected readonly pokemon = signal<Pokemon | null>(null);
-  protected readonly loading = signal(false);
-  protected readonly previousPokemon = signal<{ id: number; name: string } | null>(null);
-  protected readonly nextPokemon = signal<{ id: number; name: string } | null>(null);
+  private readonly id$ = this.route.paramMap.pipe(map(params => Number(params.get('id'))));
 
-  ngOnInit() {    
-    this.routeSubscription = this.route.data.subscribe(data => {
-      const resolvedPokemon = data['pokemon'] as Pokemon | null;
-      
-      if (resolvedPokemon) {
-        this.pokemon.set(resolvedPokemon);
-        this.loadNavigationData(resolvedPokemon.id);
-      } else {        
-        console.log('No Pokemon data received, redirecting to home');
-        this.router.navigate(['/']);
-      }
-    });
+  protected readonly state = toSignal(
+    combineLatest([this.id$, this.refresh.pipe(startWith(undefined))]).pipe(
+      switchMap(([id]) => this.load(id))
+    ),
+    { initialValue: loading }
+  );
+
+  protected retry(): void {
+    this.refresh.next();
   }
 
-  ngOnDestroy() {
-    this.routeSubscription?.unsubscribe();
-  }
-
-  private loadNavigationData(currentId: number) {
-    const previousId = this.pokemonService.getPreviousPokemonId(currentId);
-    if (previousId !== currentId) {
-      this.pokemonService.getPokemonBasicInfo(previousId).subscribe({
-        next: (pokemonInfo) => this.previousPokemon.set(pokemonInfo),
-        error: () => this.previousPokemon.set(null)
-      });
-    } else {
-      this.previousPokemon.set(null);
-    }
-    
-    const nextId = this.pokemonService.getNextPokemonId(currentId);
-        
-    if (currentId <= 151 || this.shouldCheckForNextPokemon(currentId)) {
-      this.pokemonService.getPokemonBasicInfo(nextId).subscribe({
-        next: (pokemonInfo) => this.nextPokemon.set(pokemonInfo),
-        error: () => this.nextPokemon.set(null)
-      });
-    } else {      
-      this.nextPokemon.set(null);
-    }
-  }
-
-  private shouldCheckForNextPokemon(currentId: number): boolean {         
-    const maxReasonableGap = 10;
-    return currentId < 151 + maxReasonableGap;
-  }
-
-  goBack() {
+  protected goBack(): void {
     this.router.navigate(['/']);
   }
 
-  navigateToPrevious() {
-    const previousPokemon = this.previousPokemon();
-    if (previousPokemon) {
-      this.router.navigate(['/pokemon', previousPokemon.id]);
-    }
+  protected navigateTo(id: number): void {
+    this.router.navigate(['/pokemon', id]);
   }
 
-  navigateToNext() {
-    const nextPokemon = this.nextPokemon();
-    if (nextPokemon) {
-      this.router.navigate(['/pokemon', nextPokemon.id]);
-    }
+  protected editPokemon(pokemon: Pokemon): void {
+    this.router.navigate(['/pokemon', pokemon.id, 'edit']);
   }
 
-  editPokemon() {
-    const currentPokemon = this.pokemon();
-    if (currentPokemon) {
-      this.router.navigate(['/pokemon', currentPokemon.id, 'edit']);
-    }
-  }
-
-  capitalizeName(name: string): string {
+  protected capitalizeName(name: string): string {
     return this.pokemonService.capitalizeName(name);
   }
 
-  hasHiddenAbility(): boolean {
-    const currentPokemon = this.pokemon();
-    return currentPokemon ? currentPokemon.abilities.some(ability => ability.isHidden) : false;
+  protected formatPokemonNumber(id: number): string {
+    return this.pokemonService.formatPokemonNumber(id);
   }
+
+  protected hasHiddenAbility(pokemon: Pokemon): boolean {
+    return pokemon.abilities.some(ability => ability.isHidden);
+  }
+
+  private load(id: number): Observable<ViewState> {
+    if (!isPokemonId(id)) {
+      return of(notFound);
+    }
+
+    return this.pokemonService.getPokemon(id).pipe(
+      map((pokemon): ViewState => ({ status: 'success', pokemon })),
+      catchError(error =>
+        of<ViewState>(isNotFound(error) ? notFound : { status: 'error', message: toProblemMessage(error, unexpectedMessage) })
+      ),
+      startWith(loading)
+    );
+  }
+}
+
+function isPokemonId(id: number): boolean {
+  return Number.isInteger(id) && id > 0;
 }

@@ -1,0 +1,11 @@
+<section class="status-message has-text-centered has-background-white" [attr.role]="tone() === 'error' ? 'alert' : null">
+  <h2 class="is-size-4 has-text-weight-semibold is-marginless" [class.has-text-danger]="tone() === 'error'">{{ title() }}</h2>
+  @if (message()) {
+    <div class="has-margin-top-1">
+      <p class="is-size-6 has-text-gray-dark is-marginless">{{ message() }}</p>
+    </div>
+  }
+  <div class="has-margin-top-2">
+    <ng-content />
+  </div>
+</section>

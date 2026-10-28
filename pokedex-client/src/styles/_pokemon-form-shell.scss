@@ -1,0 +1,21 @@
+@import 'pokemon-theme';
+
+.pokemon-form {
+  background: fish-color("white");
+  border-radius: 12px;
+  box-shadow: 0 8px 25px -5px fish-alpha("black", 10%), 0 4px 10px -3px fish-alpha("black", 5%);
+  padding: 1.5rem;
+
+  @media (min-width: 768px) {
+    padding: 2.5rem;
+  }
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid fish-color("gray-lighter");
+}

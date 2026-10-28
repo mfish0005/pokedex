@@ -1,12 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-@import './styles/pokemon-theme.scss';
+@import './styles/pokemon-theme';
+@import '../projects/fish-ui/src/styles/fish-styles/all';
+
+@include fish-theme-vars;
 
 html, body {
   margin: 0;
   padding: 0;
+  color: fish-color("text");
 }
 
 * {
-  font-family: $family-primary;
+  font-family: fish-font("family-primary");
   box-sizing: border-box;
 }
